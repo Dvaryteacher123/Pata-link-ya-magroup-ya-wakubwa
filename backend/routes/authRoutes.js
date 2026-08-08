@@ -6,23 +6,22 @@ const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/authController');
 const { verifyToken } = require('../middleware/auth');
-const { authLimiter } = require('../middleware/rateLimiter');
 
 // ==========================================
 // PUBLIC ROUTES
 // ==========================================
 
 // Sign up
-router.post('/signup', authLimiter, authController.signup);
+router.post('/signup', authController.signup);
 
 // Login
-router.post('/login', authLimiter, authController.login);
+router.post('/login', authController.login);
 
 // Google Login
-router.post('/google', authLimiter, authController.googleLogin);
+router.post('/google', authController.googleLogin);
 
 // Forgot password
-router.post('/forgot-password', authLimiter, authController.forgotPassword);
+router.post('/forgot-password', authController.forgotPassword);
 
 // Reset password
 router.post('/reset-password', authController.resetPassword);
