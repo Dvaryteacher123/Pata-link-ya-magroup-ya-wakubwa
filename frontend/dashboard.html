@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - Pata Link WhatsApp Groups</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body>
+
+    <!-- Loading Screen -->
+    <div id="loadingScreen">
+        <div class="loader-container">
+            <div class="loader-logo"><i class="fas fa-comments"></i></div>
+            <div class="loader-spinner"></div>
+            <p class="loader-text">Loading...</p>
+        </div>
+    </div>
+
+    <!-- Dashboard Wrapper -->
+    <div class="dashboard-wrapper">
+
+        <!-- Sidebar -->
+        <aside class="dashboard-sidebar" id="dashboardSidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo"><i class="fas fa-comments"></i><span>Pata Link</span></div>
+                <button class="sidebar-close" id="sidebarClose"><i class="fas fa-times"></i></button>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="sidebar-link active" data-section="overview"><i class="fas fa-th-large"></i><span>Overview</span></a>
+                <a href="#" class="sidebar-link" data-section="profile"><i class="fas fa-user"></i><span>Profile</span></a>
+                <a href="#" class="sidebar-link" data-section="orders"><i class="fas fa-shopping-bag"></i><span>Orders</span></a>
+                <a href="#" class="sidebar-link" data-section="payments"><i class="fas fa-credit-card"></i><span>Payments</span></a>
+                <a href="#" class="sidebar-link" data-section="links"><i class="fas fa-link"></i><span>My Links</span></a>
+                <a href="#" class="sidebar-link" data-section="notifications"><i class="fas fa-bell"></i><span>Notifications</span></a>
+                <a href="#" class="sidebar-link" data-section="settings"><i class="fas fa-cog"></i><span>Settings</span></a>
+                <a href="#" class="sidebar-link" data-section="support"><i class="fas fa-headset"></i><span>Support</span></a>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="sidebar-logout" id="logoutBtn"><i class="fas fa-sign-out-alt"></i><span>Logout</span></button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+
+            <header class="dashboard-header">
+                <button class="header-menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+                <div class="header-search">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search..." />
+                </div>
+                <div class="header-actions">
+                    <button class="header-notifications" id="headerNotifications">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-dot" id="notificationDot"></span>
+                    </button>
+                    <div class="header-user">
+                        <img src="assets/default-avatar.png" alt="User" id="userAvatar" />
+                        <span id="userName">User</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Overview -->
+            <section class="dashboard-section active" id="section-overview">
+                <h2 class="section-title">Dashboard Overview</h2>
+                <p class="section-subtitle">Welcome back, <span id="welcomeName">User</span>!</p>
+
+                <div class="stats-grid" id="dashboardStats">
+                    <div class="stat-card">
+                        <div class="stat-card-icon"><i class="fas fa-shopping-bag"></i></div>
+                        <div class="stat-card-content">
+                            <span class="stat-card-number" id="statOrders">0</span>
+                            <span class="stat-card-label">Total Orders</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-icon"><i class="fas fa-check-circle"></i></div>
+                        <div class="stat-card-content">
+                            <span class="stat-card-number" id="statCompleted">0</span>
+                            <span class="stat-card-label">Completed</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-icon"><i class="fas fa-money-bill-wave"></i></div>
+                        <div class="stat-card-content">
+                            <span class="stat-card-number" id="statSpent">TSh 0</span>
+                            <span class="stat-card-label">Total Spent</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-icon"><i class="fas fa-link"></i></div>
+                        <div class="stat-card-content">
+                            <span class="stat-card-number" id="statLinks">0</span>
+                            <span class="stat-card-label">Purchased Links</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-clock"></i> Recent Orders</h3>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="dashboard-table" id="recentOrdersTable">
+                            <thead><tr><th>Order ID</th><th>Product</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead>
+                            <tbody id="recentOrdersBody">
+                                <tr><td colspan="5" class="text-center">Hakuna taarifa kwa sasa.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Profile -->
+            <section class="dashboard-section" id="section-profile">
+                <h2 class="section-title"><i class="fas fa-user"></i> My Profile</h2>
+                <p class="section-subtitle">Manage your personal information</p>
+
+                <div class="profile-container">
+                    <div class="profile-avatar-section">
+                        <div class="profile-avatar">
+                            <img src="assets/default-avatar.png" alt="Profile" id="profileAvatar" />
+                            <button class="avatar-upload-btn" id="uploadAvatarBtn"><i class="fas fa-camera"></i></button>
+                        </div>
+                        <input type="file" id="avatarInput" accept="image/*" style="display:none;" />
+                    </div>
+
+                    <form id="profileForm" class="profile-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Full Name</label>
+                                <input type="text" id="profileFullName" placeholder="Your full name" />
+                            </div>
+                            <div class="form-group">
+                                <label>Display Name</label>
+                                <input type="text" id="profileDisplayName" placeholder="Your display name" />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" id="profileEmail" placeholder="Your email" disabled />
+                            </div>
+                            <div class="form-group">
+                                <label>Phone</label>
+                                <input type="tel" id="profilePhone" placeholder="Your phone number" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Bio</label>
+                            <textarea id="profileBio" placeholder="Tell us about yourself" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="profile-save-btn"><i class="fas fa-save"></i> Save Changes</button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Orders -->
+            <section class="dashboard-section" id="section-orders">
+                <h2 class="section-title"><i class="fas fa-shopping-bag"></i> My Orders</h2>
+                <p class="section-subtitle">View all your orders</p>
+
+                <div class="table-responsive">
+                    <table class="dashboard-table" id="ordersTable">
+                        <thead><tr><th>Order ID</th><th>Product</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead>
+                        <tbody id="ordersBody">
+                            <tr><td colspan="5" class="text-center">Hakuna taarifa kwa sasa.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Payments -->
+            <section class="dashboard-section" id="section-payments">
+                <h2 class="section-title"><i class="fas fa-credit-card"></i> Payment History</h2>
+                <p class="section-subtitle">View all your payments</p>
+
+                <div class="table-responsive">
+                    <table class="dashboard-table" id="paymentsTable">
+                        <thead><tr><th>Payment ID</th><th>Product</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead>
+                        <tbody id="paymentsBody">
+                            <tr><td colspan="5" class="text-center">Hakuna taarifa kwa sasa.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Links -->
+            <section class="dashboard-section" id="section-links">
+                <h2 class="section-title"><i class="fas fa-link"></i> My Purchased Links</h2>
+                <p class="section-subtitle">All WhatsApp groups you have purchased</p>
+
+                <div class="links-grid" id="linksGrid">
+                    <div class="empty-state">
+                        <i class="fas fa-link"></i>
+                        <h3>No Links Yet</h3>
+                        <p>You haven't purchased any WhatsApp group links yet.</p>
+                        <a href="index.html" class="empty-state-btn"><i class="fas fa-search"></i> Explore Groups</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Notifications -->
+            <section class="dashboard-section" id="section-notifications">
+                <h2 class="section-title"><i class="fas fa-bell"></i> Notifications</h2>
+                <p class="section-subtitle">Your recent notifications</p>
+
+                <button class="mark-all-read-btn" id="markAllRead"><i class="fas fa-check-double"></i> Mark All as Read</button>
+
+                <div class="notifications-list" id="notificationsList">
+                    <div class="empty-state">
+                        <i class="fas fa-bell"></i>
+                        <h3>No Notifications</h3>
+                        <p>You don't have any notifications yet.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings -->
+            <section class="dashboard-section" id="section-settings">
+                <h2 class="section-title"><i class="fas fa-cog"></i> Settings</h2>
+                <p class="section-subtitle">Manage your account settings</p>
+
+                <div class="settings-container">
+                    <div class="settings-card">
+                        <h3>Change Password</h3>
+                        <form id="changePasswordForm">
+                            <div class="form-group">
+                                <label>Current Password</label>
+                                <input type="password" id="currentPassword" placeholder="Enter current password" />
+                            </div>
+                            <div class="form-group">
+                                <label>New Password</label>
+                                <input type="password" id="newPassword" placeholder="Enter new password" />
+                            </div>
+                            <div class="form-group">
+                                <label>Confirm New Password</label>
+                                <input type="password" id="confirmNewPassword" placeholder="Confirm new password" />
+                            </div>
+                            <button type="submit" class="settings-btn"><i class="fas fa-key"></i> Change Password</button>
+                        </form>
+                    </div>
+
+                    <div class="settings-card danger">
+                        <h3>Delete Account</h3>
+                        <p>Once you delete your account, there is no going back. Please be certain.</p>
+                        <button class="settings-btn danger" id="deleteAccountBtn"><i class="fas fa-trash"></i> Delete Account</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Support -->
+            <section class="dashboard-section" id="section-support">
+                <h2 class="section-title"><i class="fas fa-headset"></i> Support</h2>
+                <p class="section-subtitle">How can we help you?</p>
+
+                <div class="support-container">
+                    <div class="support-card">
+                        <i class="fas fa-envelope"></i>
+                        <h3>Email Support</h3>
+                        <p>Send us an email</p>
+                        <a href="mailto:dullamanyama0@gmail.com" class="support-btn"><i class="fas fa-paper-plane"></i> Send Email</a>
+                    </div>
+                    <div class="support-card">
+                        <i class="fab fa-whatsapp"></i>
+                        <h3>WhatsApp Support</h3>
+                        <p>Chat with us on WhatsApp</p>
+                        <a href="https://wa.me/255724525910" target="_blank" class="support-btn"><i class="fab fa-whatsapp"></i> Chat Now</a>
+                    </div>
+                </div>
+
+                <div class="support-form-container">
+                    <h3>Send a Message</h3>
+                    <form id="supportForm">
+                        <div class="form-group">
+                            <label>Subject</label>
+                            <input type="text" id="supportSubject" placeholder="Enter subject" required />
+                        </div>
+                        <div class="form-group">
+                            <label>Message</label>
+                            <textarea id="supportMessage" placeholder="Describe your issue" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="support-submit-btn"><i class="fas fa-paper-plane"></i> Send Message</button>
+                    </form>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <div class="modal-icon success"><i class="fas fa-check-circle"></i></div>
+            <h3 id="successTitle">Success!</h3>
+            <p id="successMessage">Operation completed successfully.</p>
+            <button class="modal-btn" id="successModalClose">OK</button>
+        </div>
+    </div>
+
+    <div class="modal" id="errorModal">
+        <div class="modal-content">
+            <div class="modal-icon error"><i class="fas fa-times-circle"></i></div>
+            <h3 id="errorTitle">Error!</h3>
+            <p id="errorMessage">Something went wrong.</p>
+            <button class="modal-btn" id="errorModalClose">OK</button>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
