@@ -55,4 +55,3 @@ router.get('/me', verifyToken, authController.getCurrentUser);
 router.post('/resend-verification', verifyToken, authController.resendVerificationEmail);
 
 module.exports = router;
-
