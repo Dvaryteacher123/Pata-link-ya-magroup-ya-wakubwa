@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pata Link za WhatsApp Groups</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+    <!-- Loading Screen -->
+    <div id="loadingScreen">
+        <div class="loader-container">
+            <div class="loader-logo"><i class="fas fa-comments"></i></div>
+            <div class="loader-spinner"></div>
+            <p class="loader-text">Loading...</p>
+        </div>
+    </div>
+
+    <!-- GET STARTED PAGE -->
+    <section id="getStartedPage" class="get-started-page">
+        <div class="bg-animation">
+            <div class="orb orb-1"></div>
+            <div class="orb orb-2"></div>
+            <div class="orb orb-3"></div>
+            <div class="orb orb-4"></div>
+        </div>
+        <div class="get-started-container">
+            <div class="gs-logo"><i class="fas fa-comments"></i><span>Pata Link</span></div>
+            <div class="gs-content">
+                <h1 class="gs-title">Pata Link za <br /><span class="gradient-text">WhatsApp Groups</span></h1>
+                <p class="gs-subtitle">Jipatie link za WhatsApp Groups zilizo approved na verified.<br />Jiunge na jamii ya watu wanaofanana na wewe.</p>
+                <div class="gs-stats">
+                    <div class="stat-item"><span class="stat-number" data-count="0">0</span><span class="stat-label">Groups</span></div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item"><span class="stat-number" data-count="0">0</span><span class="stat-label">Members</span></div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item"><span class="stat-number" data-count="0">0</span><span class="stat-label">Categories</span></div>
+                </div>
+                <button id="getStartedBtn" class="gs-btn"><span>GET STARTED</span><i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOME PAGE -->
+    <div id="homePage" class="home-page" style="display:none;">
+
+        <!-- Navigation -->
+        <nav class="navbar" id="mainNav">
+            <div class="nav-container">
+                <div class="nav-logo"><i class="fas fa-comments"></i><span>Pata Link</span></div>
+                <div class="nav-links" id="navLinks">
+                    <a href="#" class="nav-link active" data-section="home"><i class="fas fa-home"></i> Home</a>
+                    <a href="#" class="nav-link" data-section="categories"><i class="fas fa-th-large"></i> Categories</a>
+                    <a href="#" class="nav-link" data-section="groups"><i class="fas fa-users"></i> Groups</a>
+                    <a href="#" class="nav-link" data-section="faq"><i class="fas fa-question-circle"></i> FAQ</a>
+                    <a href="#" class="nav-link" data-section="contact"><i class="fas fa-envelope"></i> Contact</a>
+                </div>
+                <div class="nav-actions">
+                    <button id="navLoginBtn" class="nav-btn-login"><i class="fas fa-sign-in-alt"></i> Login</button>
+                    <button id="navSignupBtn" class="nav-btn-signup"><i class="fas fa-user-plus"></i> Sign Up</button>
+                    <button id="navMenuToggle" class="nav-menu-toggle"><i class="fas fa-bars"></i></button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero -->
+        <section class="hero-section">
+            <div class="hero-bg-animation">
+                <div class="hero-orb hero-orb-1"></div>
+                <div class="hero-orb hero-orb-2"></div>
+            </div>
+            <div class="hero-container">
+                <div class="hero-content">
+                    <span class="hero-badge"><i class="fas fa-bolt"></i> WhatsApp Groups</span>
+                    <h1 class="hero-title">Discover Amazing<br /><span class="gradient-text">WhatsApp Groups</span></h1>
+                    <p class="hero-subtitle">Pata link za WhatsApp Groups katika categories mbalimbali. Jiunge na jamii, jifunze, biashara na kucheza na watu wanaofanana na wewe.</p>
+                    <div class="hero-buttons">
+                        <button class="hero-btn-primary" id="exploreBtn"><i class="fas fa-search"></i> Explore Groups</button>
+                        <button class="hero-btn-secondary" id="howItWorksBtn"><i class="fas fa-play-circle"></i> How It Works</button>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="hero-image-wrapper">
+                        <div class="hero-image-inner"><i class="fas fa-comments"></i></div>
+                        <div class="hero-image-pulse"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Search -->
+        <section class="search-section">
+            <div class="search-container">
+                <div class="search-box">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="searchInput" class="search-input" placeholder="Search WhatsApp groups..." />
+                    <button id="searchBtn" class="search-btn"><i class="fas fa-arrow-right"></i></button>
+                </div>
+                <div class="search-filters">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="free">Free</button>
+                    <button class="filter-btn" data-filter="premium">Premium</button>
+                    <button class="filter-btn" data-filter="featured">Featured</button>
+                    <button class="filter-btn" data-filter="trending">Trending</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Categories -->
+        <section class="categories-section" id="categoriesSection">
+            <div class="section-header">
+                <h2 class="section-title"><i class="fas fa-th-large"></i> Categories</h2>
+                <p class="section-subtitle">Browse WhatsApp groups by category</p>
+            </div>
+            <div class="categories-grid" id="categoriesGrid">
+                <div style="grid-column:1/-1;text-align:center;color:var(--text-secondary);padding:40px;">Loading categories...</div>
+            </div>
+        </section>
+
+        <!-- Groups -->
+        <section class="groups-section" id="groupsSection">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title"><i class="fas fa-users"></i> WhatsApp Groups</h2>
+                    <p class="section-subtitle">Discover the best WhatsApp groups</p>
+                </div>
+                <div class="section-tabs">
+                    <button class="tab-btn active" data-tab="all">All</button>
+                    <button class="tab-btn" data-tab="free">Free</button>
+                    <button class="tab-btn" data-tab="premium">Premium</button>
+                    <button class="tab-btn" data-tab="featured">Featured</button>
+                    <button class="tab-btn" data-tab="trending">Trending</button>
+                </div>
+            </div>
+            <div class="groups-grid" id="groupsGrid">
+                <div style="grid-column:1/-1;text-align:center;color:var(--text-secondary);padding:40px;">Loading groups...</div>
+            </div>
+        </section>
+
+        <!-- Statistics -->
+        <section class="stats-section">
+            <div class="stats-container">
+                <div class="stats-grid">
+                    <div class="stats-card">
+                        <div class="stats-card-icon"><i class="fas fa-users"></i></div>
+                        <div class="stats-card-content">
+                            <span class="stats-card-number" data-count="0" data-key="members">0</span>
+                            <span class="stats-card-label">Total Members</span>
+                        </div>
+                    </div>
+                    <div class="stats-card">
+                        <div class="stats-card-icon"><i class="fas fa-comments"></i></div>
+                        <div class="stats-card-content">
+                            <span class="stats-card-number" data-count="0" data-key="groups">0</span>
+                            <span class="stats-card-label">Active Groups</span>
+                        </div>
+                    </div>
+                    <div class="stats-card">
+                        <div class="stats-card-icon"><i class="fas fa-star"></i></div>
+                        <div class="stats-card-content">
+                            <span class="stats-card-number" data-count="0" data-key="premium">0</span>
+                            <span class="stats-card-label">Premium Groups</span>
+                        </div>
+                    </div>
+                    <div class="stats-card">
+                        <div class="stats-card-icon"><i class="fas fa-check-circle"></i></div>
+                        <div class="stats-card-content">
+                            <span class="stats-card-number" data-count="0" data-key="verified">0</span>
+                            <span class="stats-card-label">Verified Links</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials -->
+        <section class="testimonials-section">
+            <div class="section-header">
+                <h2 class="section-title"><i class="fas fa-quote-left"></i> Testimonials</h2>
+                <p class="section-subtitle">What our members say</p>
+            </div>
+            <div class="testimonials-grid" id="testimonialsGrid">
+                <div style="grid-column:1/-1;text-align:center;color:var(--text-secondary);padding:40px;">Loading testimonials...</div>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section class="faq-section" id="faqSection">
+            <div class="section-header">
+                <h2 class="section-title"><i class="fas fa-question-circle"></i> Frequently Asked Questions</h2>
+                <p class="section-subtitle">Find answers to common questions</p>
+            </div>
+            <div class="faq-container" id="faqContainer">
+                <div style="text-align:center;color:var(--text-secondary);padding:40px;">Loading FAQ...</div>
+            </div>
+        </section>
+
+        <!-- Contact -->
+        <section class="contact-section" id="contactSection">
+            <div class="section-header">
+                <h2 class="section-title"><i class="fas fa-envelope"></i> Contact Us</h2>
+                <p class="section-subtitle">Get in touch with us</p>
+            </div>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <div class="contact-info-item"><i class="fas fa-envelope"></i><div><h4>Email</h4><p>dullamanyama0@gmail.com</p></div></div>
+                    <div class="contact-info-item"><i class="fas fa-phone"></i><div><h4>Phone</h4><p>+255 724 525 910</p></div></div>
+                    <div class="contact-info-item"><i class="fas fa-map-marker-alt"></i><div><h4>Location</h4><p>Dar es Salaam, Tanzania</p></div></div>
+                </div>
+                <form class="contact-form" id="contactForm">
+                    <input type="text" placeholder="Your Name" required />
+                    <input type="email" placeholder="Your Email" required />
+                    <input type="text" placeholder="Subject" required />
+                    <textarea placeholder="Your Message" rows="5" required></textarea>
+                    <button type="submit" class="contact-submit-btn"><i class="fas fa-paper-plane"></i> Send Message</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Floating WhatsApp -->
+        <a href="https://wa.me/255724525910" target="_blank" class="floating-whatsapp" id="floatingWhatsapp">
+            <i class="fab fa-whatsapp"></i>
+            <span class="whatsapp-tooltip">Chat with us</span>
+        </a>
+
+        <!-- Scroll to Top -->
+        <button id="scrollToTopBtn" class="scroll-to-top"><i class="fas fa-chevron-up"></i></button>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-container">
+                <div class="footer-grid">
+                    <div class="footer-brand">
+                        <div class="footer-logo"><i class="fas fa-comments"></i><span>Pata Link</span></div>
+                        <p>Pata link za WhatsApp Groups zilizo approved na verified. Jiunge na jamii yako leo.</p>
+                        <div class="footer-social">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-youtube"></i></a>
+                        </div>
+                    </div>
+                    <div class="footer-links">
+                        <h4>Quick Links</h4>
+                        <a href="#">Home</a>
+                        <a href="#">Categories</a>
+                        <a href="#">Premium Groups</a>
+                        <a href="#">Free Groups</a>
+                    </div>
+                    <div class="footer-links">
+                        <h4>Support</h4>
+                        <a href="#">FAQ</a>
+                        <a href="#">Contact</a>
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
+                    </div>
+                    <div class="footer-newsletter">
+                        <h4>Newsletter</h4>
+                        <p>Subscribe for new groups updates</p>
+                        <form id="newsletterForm">
+                            <input type="email" placeholder="Your email" required />
+                            <button type="submit"><i class="fas fa-arrow-right"></i></button>
+                        </form>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2024 Pata Link WhatsApp Groups. All rights reserved.</p>
+                    <p><i class="fas fa-envelope"></i> <a href="mailto:dullamanyama0@gmail.com">dullamanyama0@gmail.com</a></p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+  </html>
