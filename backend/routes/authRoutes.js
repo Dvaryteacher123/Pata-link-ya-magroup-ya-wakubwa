@@ -4,7 +4,19 @@
 
 const express = require('express');
 const router = express.Router();
-const authController = require('../controllers/authController');
+const { 
+  signup, 
+  login, 
+  googleLogin, 
+  forgotPassword, 
+  resetPassword, 
+  changePassword, 
+  verifyEmail, 
+  resendVerificationEmail, 
+  logout, 
+  getCurrentUser 
+} = require('../controllers/authController');
+
 const { 
   validateSignup, 
   validateLogin, 
@@ -20,37 +32,37 @@ const { authLimiter } = require('../middleware/rateLimiter');
 // ==========================================
 
 // Sign up
-router.post('/signup', authLimiter, validateSignup, authController.signup);
+router.post('/signup', authLimiter, validateSignup, signup);
 
 // Login
-router.post('/login', authLimiter, validateLogin, authController.login);
+router.post('/login', authLimiter, validateLogin, login);
 
 // Google Login
-router.post('/google', authLimiter, authController.googleLogin);
+router.post('/google', authLimiter, googleLogin);
 
 // Forgot password
-router.post('/forgot-password', authLimiter, validateForgotPassword, authController.forgotPassword);
+router.post('/forgot-password', authLimiter, validateForgotPassword, forgotPassword);
 
 // Reset password
-router.post('/reset-password', authLimiter, validateResetPassword, authController.resetPassword);
+router.post('/reset-password', authLimiter, validateResetPassword, resetPassword);
 
 // Verify email
-router.put('/verify/:uid', authController.verifyEmail);
+router.put('/verify/:uid', verifyEmail);
 
 // ==========================================
 // PROTECTED ROUTES
 // ==========================================
 
 // Change password
-router.put('/change-password', verifyToken, authController.changePassword);
+router.put('/change-password', verifyToken, changePassword);
 
 // Logout
-router.post('/logout', verifyToken, authController.logout);
+router.post('/logout', verifyToken, logout);
 
 // Get current user
-router.get('/me', verifyToken, authController.getCurrentUser);
+router.get('/me', verifyToken, getCurrentUser);
 
 // Resend verification email
-router.post('/resend-verification', verifyToken, authController.resendVerificationEmail);
+router.post('/resend-verification', verifyToken, resendVerificationEmail);
 
 module.exports = router;
