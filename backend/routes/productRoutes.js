@@ -37,3 +37,4 @@ router.delete('/:id', verifyToken, isAdmin, productController.deleteProduct);
 router.put('/:id/toggle', verifyToken, isAdmin, productController.toggleVisibility);
 
 module.exports = router;
+
