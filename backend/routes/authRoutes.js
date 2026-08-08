@@ -1,26 +1,49 @@
+// ==========================================
+// AUTH ROUTES
+// ==========================================
+
 const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/authController');
-
-const { 
-  validateSignup, 
-  validateLogin, 
-  validateForgotPassword, 
-  validateResetPassword 
-} = require('../middleware/validation');
 const { verifyToken } = require('../middleware/auth');
 const { authLimiter } = require('../middleware/rateLimiter');
 
-router.post('/signup', authLimiter, validateSignup, authController.signup);
-router.post('/login', authLimiter, validateLogin, authController.login);
+// ==========================================
+// PUBLIC ROUTES
+// ==========================================
+
+// Sign up
+router.post('/signup', authLimiter, authController.signup);
+
+// Login
+router.post('/login', authLimiter, authController.login);
+
+// Google Login
 router.post('/google', authLimiter, authController.googleLogin);
-router.post('/forgot-password', authLimiter, validateForgotPassword, authController.forgotPassword);
-router.post('/reset-password', authLimiter, validateResetPassword, authController.resetPassword);
+
+// Forgot password
+router.post('/forgot-password', authLimiter, authController.forgotPassword);
+
+// Reset password
+router.post('/reset-password', authController.resetPassword);
+
+// Verify email
 router.put('/verify/:uid', authController.verifyEmail);
 
+// ==========================================
+// PROTECTED ROUTES
+// ==========================================
+
+// Change password
 router.put('/change-password', verifyToken, authController.changePassword);
+
+// Logout
 router.post('/logout', verifyToken, authController.logout);
+
+// Get current user
 router.get('/me', verifyToken, authController.getCurrentUser);
+
+// Resend verification email
 router.post('/resend-verification', verifyToken, authController.resendVerificationEmail);
 
 module.exports = router;
