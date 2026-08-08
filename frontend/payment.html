@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Payment - Pata Link WhatsApp Groups</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+    <!-- Loading Screen -->
+    <div id="loadingScreen">
+        <div class="loader-container">
+            <div class="loader-logo"><i class="fas fa-comments"></i></div>
+            <div class="loader-spinner"></div>
+            <p class="loader-text">Loading...</p>
+        </div>
+    </div>
+
+    <!-- Payment Page -->
+    <div class="auth-page">
+        <div class="auth-bg">
+            <div class="auth-orb auth-orb-1"></div>
+            <div class="auth-orb auth-orb-2"></div>
+            <div class="auth-orb auth-orb-3"></div>
+        </div>
+
+        <div class="auth-container" style="max-width:500px;">
+            <a href="index.html" class="auth-back"><i class="fas fa-arrow-left"></i> Back</a>
+
+            <div class="auth-card">
+                <div class="auth-logo"><i class="fas fa-credit-card"></i><span>Payment</span></div>
+                <h1 class="auth-title">Complete Payment</h1>
+                <p class="auth-subtitle">Secure payment via HarakaPay</p>
+
+                <!-- Product Details -->
+                <div class="product-details" id="productDetails" style="background:var(--glass-bg);border-radius:var(--radius-md);padding:var(--spacing-md);margin-bottom:var(--spacing-lg);display:flex;gap:var(--spacing-md);align-items:center;">
+                    <div class="product-image" id="productImage" style="width:60px;height:60px;background:var(--gradient-primary);border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;font-size:24px;color:white;flex-shrink:0;">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <div class="product-info" style="flex:1;">
+                        <h3 id="productTitle" style="font-size:16px;font-weight:600;margin-bottom:2px;">Loading...</h3>
+                        <p id="productDescription" style="font-size:13px;color:var(--text-secondary);margin-bottom:4px;">Please wait</p>
+                        <div class="product-price">
+                            <span class="price-label" style="font-size:13px;color:var(--text-muted);">Price:</span>
+                            <span class="price-amount" id="productPrice" style="font-size:18px;font-weight:700;color:var(--primary-green);">TSh 0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <form id="paymentForm" class="auth-form">
+                    <div class="form-group">
+                        <label for="paymentPhone"><i class="fas fa-phone"></i> Phone Number <span style="color:#EF4444;">*</span></label>
+                        <input type="tel" id="paymentPhone" placeholder="e.g., 0712345678" required autocomplete="tel" />
+                        <small style="color:var(--text-muted);font-size:12px;">Enter your mobile money phone number</small>
+                        <div class="form-error" id="phoneError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="paymentEmail"><i class="fas fa-envelope"></i> Email (for receipt) <span style="color:#EF4444;">*</span></label>
+                        <input type="email" id="paymentEmail" placeholder="Enter your email" required autocomplete="email" />
+                        <div class="form-error" id="emailError"></div>
+                    </div>
+
+                    <div class="payment-summary" style="background:var(--glass-bg);border-radius:var(--radius-md);padding:var(--spacing-md);margin:var(--spacing-sm) 0;">
+                        <div class="summary-row" style="display:flex;justify-content:space-between;padding:4px 0;color:var(--text-secondary);font-size:14px;">
+                            <span>Subtotal</span><span id="subtotal">TSh 0</span>
+                        </div>
+                        <div class="summary-row" style="display:flex;justify-content:space-between;padding:4px 0;color:var(--text-secondary);font-size:14px;">
+                            <span>Fee</span><span id="fee">TSh 0</span>
+                        </div>
+                        <div class="summary-row total" style="display:flex;justify-content:space-between;padding:8px 0;border-top:1px solid var(--glass-border);margin-top:4px;font-weight:700;font-size:16px;">
+                            <span>Total</span><span id="totalAmount">TSh 0</span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="auth-btn" id="paymentBtn">
+                        <span id="paymentBtnText">Pay Now</span>
+                        <div class="spinner" id="paymentSpinner" style="display:none;"></div>
+                    </button>
+
+                    <div class="payment-secure" style="text-align:center;color:var(--text-muted);font-size:13px;display:flex;align-items:center;justify-content:center;gap:6px;">
+                        <i class="fas fa-lock" style="color:var(--primary-green);"></i>
+                        <span>Secured by HarakaPay. Your payment is safe.</span>
+                    </div>
+
+                    <div class="form-error" id="paymentError" style="display:none;"></div>
+                </form>
+
+                <p class="auth-footer" style="font-size:12px;">By clicking "Pay Now" you agree to our <a href="#">Terms of Service</a></p>
+
+                <div class="auth-support">
+                    <i class="fas fa-headset"></i>
+                    <span>Need help? </span>
+                    <a href="mailto:dullamanyama0@gmail.com">Contact Support</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Status Modal -->
+    <div class="modal" id="paymentModal" style="display:none;">
+        <div class="modal-content">
+            <div class="modal-icon" id="modalIcon"><i class="fas fa-spinner fa-spin"></i></div>
+            <h3 id="modalTitle">Processing Payment</h3>
+            <p id="modalMessage">Please wait while we process your payment...</p>
+            <div style="width:100%;height:4px;background:var(--glass-border);border-radius:2px;margin:var(--spacing-md) 0;overflow:hidden;">
+                <div id="progressBar" style="width:0%;height:100%;background:var(--gradient-primary);transition:width 0.5s ease;"></div>
+            </div>
+            <button class="modal-btn" id="modalBtn" style="display:none;">OK</button>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/payment.js"></script>
+</body>
+</html>
