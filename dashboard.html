@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard - HarakaPay</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #6C3CE1;
+            --primary-gradient: linear-gradient(135deg, #6C3CE1, #9B6BFF);
+            --success: #00C853;
+            --warning: #FFD600;
+            --danger: #FF1744;
+            --info: #2979FF;
+            --bg-primary: #0A0A1A;
+            --bg-secondary: #14142E;
+            --bg-card: #14142E;
+            --text-primary: #FFFFFF;
+            --text-secondary: #A0A0C0;
+            --text-muted: #6A6A8A;
+            --border-color: #2A2A4A;
+            --radius: 16px;
+            --radius-sm: 8px;
+            --shadow: 0 8px 32px rgba(108, 60, 225, 0.15);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .header .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+        .header .logo i { font-size: 28px; color: var(--primary); }
+        .header .logo h1 {
+            font-size: 22px;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .header .logo span { font-size: 12px; color: var(--text-muted); -webkit-text-fill-color: var(--text-muted); }
+        .header .admin-info { display: flex; align-items: center; gap: 12px; }
+        .header .admin-info .avatar {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+        .header .admin-info .name { font-weight: 600; }
+        .header .admin-info .email { font-size: 12px; color: var(--text-muted); }
+        .btn-logout {
+            background: rgba(255, 23, 68, 0.15);
+            color: var(--danger);
+            border: 1px solid rgba(255, 23, 68, 0.2);
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        .btn-logout:hover { background: rgba(255, 23, 68, 0.25); }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 18px 20px;
+            transition: var(--transition);
+        }
+        .stat-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+        .stat-card .stat-icon {
+            width: 40px; height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+        .stat-card .stat-icon.purple { background: rgba(108, 60, 225, 0.15); color: var(--primary); }
+        .stat-card .stat-icon.green { background: rgba(0, 200, 83, 0.15); color: var(--success); }
+        .stat-card .stat-icon.orange { background: rgba(255, 214, 0, 0.15); color: var(--warning); }
+        .stat-card .stat-icon.red { background: rgba(255, 23, 68, 0.15); color: var(--danger); }
+        .stat-card .stat-icon.blue { background: rgba(41, 121, 255, 0.15); color: var(--info); }
+        .stat-card .stat-value { font-size: 24px; font-weight: 800; display: block; }
+        .stat-card .stat-label { color: var(--text-secondary); font-size: 12px; font-weight: 500; }
+
+        .btn {
+            padding: 8px 18px;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+        .btn-primary { background: var(--primary-gradient); color: white; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+        .btn-success { background: var(--success); color: white; }
+        .btn-danger { background: var(--danger); color: white; }
+        .btn-warning { background: var(--warning); color: #000; }
+        .btn-outline { background: transparent; border: 1px solid var(--border-color); color: var(--text-secondary); }
+        .btn-outline:hover { border-color: var(--primary); color: var(--text-primary); }
+        .btn-sm { padding: 4px 12px; font-size: 11px; }
+
+        .table-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            overflow: hidden;
+            overflow-x: auto;
+        }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        thead { background: rgba(108, 60, 225, 0.08); }
+        th { padding: 12px 16px; text-align: left; font-weight: 600; color: var(--text-secondary); font-size: 11px; text-transform: uppercase; }
+        td { padding: 12px 16px; border-top: 1px solid var(--border-color); color: var(--text-primary); }
+        tr:hover td { background: rgba(108, 60, 225, 0.03); }
+
+        .status-badge {
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            display: inline-block;
+        }
+        .status-badge.completed { background: rgba(0, 200, 83, 0.15); color: var(--success); }
+        .status-badge.pending { background: rgba(255, 214, 0, 0.15); color: var(--warning); }
+        .status-badge.failed { background: rgba(255, 23, 68, 0.15); color: var(--danger); }
+        .status-badge.active { background: rgba(0, 200, 83, 0.15); color: var(--success); }
+        .status-badge.inactive { background: rgba(255, 23, 68, 0.15); color: var(--danger); }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .section-header h3 { font-size: 18px; font-weight: 700; }
+        .section-header .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+        .welcome {
+            background: var(--primary-gradient);
+            border-radius: var(--radius);
+            padding: 24px 32px;
+            margin-bottom: 24px;
+        }
+        .welcome h2 { font-size: 24px; font-weight: 800; }
+        .welcome p { opacity: 0.9; margin-top: 4px; }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-secondary);
+        }
+        .empty-state i { font-size: 36px; color: var(--text-muted); margin-bottom: 12px; }
+        .empty-state h4 { font-size: 16px; color: var(--text-primary); margin-bottom: 4px; }
+
+        /* Error Box */
+        .error-box {
+            background: rgba(255, 23, 68, 0.1);
+            border: 1px solid var(--danger);
+            border-radius: var(--radius);
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            color: var(--danger);
+        }
+        .error-box h4 { margin-bottom: 4px; }
+        .error-box pre {
+            background: var(--bg-primary);
+            padding: 12px;
+            border-radius: var(--radius-sm);
+            margin-top: 8px;
+            color: var(--text-primary);
+            font-size: 12px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 3000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 380px;
+            width: 100%;
+        }
+        .toast {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: slideIn 0.4s ease;
+            box-shadow: var(--shadow);
+        }
+        .toast.success { border-left: 4px solid var(--success); }
+        .toast.error { border-left: 4px solid var(--danger); }
+        .toast.warning { border-left: 4px solid var(--warning); }
+        .toast.info { border-left: 4px solid var(--info); }
+        .toast .toast-icon { font-size: 18px; }
+        .toast .toast-content { flex: 1; }
+        .toast .toast-title { font-weight: 600; font-size: 13px; }
+        .toast .toast-message { font-size: 12px; color: var(--text-secondary); }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .welcome { padding: 20px; }
+            .welcome h2 { font-size: 20px; }
+        }
+        @media (max-width: 480px) {
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <a href="/" class="logo">
+                <i class="fas fa-bolt"></i>
+                <div><h1>HarakaPay <span>Admin</span></h1></div>
+            </a>
+            <div class="admin-info">
+                <div>
+                    <div class="name" id="adminName">Admin</div>
+                    <div class="email" id="adminEmail">admin@example.com</div>
+                </div>
+                <div class="avatar" id="adminAvatar">A</div>
+                <button class="btn-logout" onclick="handleLogout()">
+                    <i class="fas fa-sign-out-alt"></i> Toka
+                </button>
+            </div>
+        </header>
+
+        <!-- Welcome -->
+        <div class="welcome">
+            <h2>👋 Karibu Admin!</h2>
+            <p>Unaweza kudhibiti bidhaa, maagizo, watumiaji na arifa kutoka hapa.</p>
+        </div>
+
+        <!-- Error Display -->
+        <div id="errorContainer" style="display:none;" class="error-box">
+            <h4><i class="fas fa-exclamation-circle"></i> Error Occurred</h4>
+            <p id="errorMessage">Loading...</p>
+            <pre id="errorDetails"></pre>
+            <button class="btn btn-primary btn-sm" onclick="refreshAll()" style="margin-top:8px;">
+                <i class="fas fa-sync"></i> Jaribu Tena
+            </button>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid" id="statsGrid">
+            <div class="stat-card">
+                <div class="stat-icon purple"><i class="fas fa-users"></i></div>
+                <span class="stat-value" id="statUsers">0</span>
+                <span class="stat-label">Total Users</span>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon blue"><i class="fas fa-shopping-bag"></i></div>
+                <span class="stat-value" id="statOrders">0</span>
+                <span class="stat-label">Total Orders</span>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon orange"><i class="fas fa-clock"></i></div>
+                <span class="stat-value" id="statPending">0</span>
+                <span class="stat-label">Pending</span>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon green"><i class="fas fa-check-circle"></i></div>
+                <span class="stat-value" id="statCompleted">0</span>
+                <span class="stat-label">Completed</span>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon red"><i class="fas fa-times-circle"></i></div>
+                <span class="stat-value" id="statFailed">0</span>
+                <span class="stat-label">Failed</span>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon purple"><i class="fas fa-tag"></i></div>
+                <span class="stat-value" id="statSales">TZS 0</span>
+                <span class="stat-label">Total Sales</span>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:20px;">
+            <button class="btn btn-primary" onclick="refreshAll()">
+                <i class="fas fa-sync"></i> Refresh
+            </button>
+            <button class="btn btn-outline" onclick="window.location.href='/admin.html'">
+                <i class="fas fa-arrow-left"></i> Rudi Login
+            </button>
+        </div>
+
+        <!-- Recent Orders -->
+        <div class="section-header">
+            <h3>📦 Recent Orders</h3>
+        </div>
+        <div class="table-container">
+            <table>
+                <thead><tr><th>Order</th><th>User</th><th>Product</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead>
+                <tbody id="recentOrdersBody">
+                    <tr><td colspan="6" style="text-align:center; padding:30px; color:var(--text-muted);">
+                        <i class="fas fa-spinner fa-spin"></i> Loading...
+                    </td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        // ============================================================
+        // CONFIG
+        // ============================================================
+        const API_BASE = window.location.origin + '/api';
+        const token = localStorage.getItem('authToken');
+
+        console.log('🔐 Token:', token ? 'Present' : 'Missing');
+
+        if (!token) {
+            console.log('❌ No token found, redirecting to login...');
+            window.location.href = '/admin.html';
+        }
+
+        // ============================================================
+        // TOAST
+        // ============================================================
+        function showToast(type, title, message) {
+            const container = document.getElementById('toastContainer');
+            const icons = { success: '✅', error: '❌', warning: '⚠️', info: 'ℹ️' };
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <span class="toast-icon">${icons[type] || 'ℹ️'}</span>
+                <div class="toast-content">
+                    <div class="toast-title">${title}</div>
+                    <div class="toast-message">${message}</div>
+                </div>
+            `;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(100%)';
+                setTimeout(() => toast.remove(), 400);
+            }, 4000);
+        }
+
+        // ============================================================
+        // SHOW ERROR
+        // ============================================================
+        function showError(message, details) {
+            const container = document.getElementById('errorContainer');
+            container.style.display = 'block';
+            document.getElementById('errorMessage').textContent = message;
+            document.getElementById('errorDetails').textContent = details || 'No additional details';
+        }
+
+        function hideError() {
+            document.getElementById('errorContainer').style.display = 'none';
+        }
+
+        // ============================================================
+        // LOGOUT
+        // ============================================================
+        function handleLogout() {
+            if (confirm('Je, unataka kutoka?')) {
+                localStorage.removeItem('authToken');
+                window.location.href = '/admin.html';
+            }
+        }
+
+        // ============================================================
+        // REFRESH
+        // ============================================================
+        function refreshAll() {
+            hideError();
+            loadAdminProfile();
+            loadDashboard();
+            showToast('info', 'Refreshed', 'Data refreshed successfully');
+        }
+
+        // ============================================================
+        // LOAD ADMIN PROFILE
+        // ============================================================
+        async function loadAdminProfile() {
+            try {
+                console.log('📡 Fetching profile...');
+                const res = await fetch(`${API_BASE}/user/profile`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                console.log('📡 Profile response status:', res.status);
+
+                if (!res.ok) {
+                    if (res.status === 401 || res.status === 403) {
+                        showError('Authentication failed', 'Token expired or invalid. Please login again.');
+                        setTimeout(() => {
+                            localStorage.removeItem('authToken');
+                            window.location.href = '/admin.html';
+                        }, 3000);
+                    }
+                    throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+                }
+
+                const data = await res.json();
+                console.log('📡 Profile data:', data);
+
+                if (data.success && data.user) {
+                    const u = data.user;
+                    document.getElementById('adminName').textContent = u.name || 'Admin';
+                    document.getElementById('adminEmail').textContent = u.email || 'admin@example.com';
+                    document.getElementById('adminAvatar').textContent = (u.name || 'A').charAt(0).toUpperCase();
+
+                    // Check if user is admin
+                    if (u.role !== 'admin') {
+                        showError('Access Denied', 'You do not have admin privileges. Please contact the administrator.');
+                    }
+                }
+            } catch (error) {
+                console.error('❌ Profile error:', error);
+                showError('Failed to load profile', error.message);
+            }
+        }
+
+        // ============================================================
+        // LOAD DASHBOARD
+        // ============================================================
+        async function loadDashboard() {
+            try {
+                console.log('📡 Fetching stats...');
+                const res = await fetch(`${API_BASE}/admin/stats`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                console.log('📡 Stats response status:', res.status);
+
+                if (!res.ok) {
+                    if (res.status === 401 || res.status === 403) {
+                        showError('Authentication failed', 'Token expired or invalid. Please login again.');
+                        setTimeout(() => {
+                            localStorage.removeItem('authToken');
+                            window.location.href = '/admin.html';
+                        }, 3000);
+                    }
+                    const errData = await res.json().catch(() => ({}));
+                    throw new Error(errData.error || `HTTP ${res.status}: ${res.statusText}`);
+                }
+
+                const data = await res.json();
+                console.log('📡 Stats data:', data);
+
+                if (data.success && data.stats) {
+                    const s = data.stats;
+                    document.getElementById('statUsers').textContent = s.totalUsers || 0;
+                    document.getElementById('statOrders').textContent = s.totalOrders || 0;
+                    document.getElementById('statPending').textContent = s.pendingOrders || 0;
+                    document.getElementById('statCompleted').textContent = s.completedOrders || 0;
+                    document.getElementById('statFailed').textContent = s.failedOrders || 0;
+                    document.getElementById('statSales').textContent = `TZS ${(s.totalSales || 0).toLocaleString()}`;
+                    hideError();
+                }
+
+                // Load recent orders
+                await loadRecentOrders();
+
+            } catch (error) {
+                console.error('❌ Dashboard error:', error);
+                showError('Failed to load dashboard data', error.message);
+            }
+        }
+
+        // ============================================================
+        // LOAD RECENT ORDERS
+        // ============================================================
+        async function loadRecentOrders() {
+            try {
+                const res = await fetch(`${API_BASE}/admin/orders?limit=5`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (!res.ok) {
+                    throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+                }
+
+                const data = await res.json();
+                const tbody = document.getElementById('recentOrdersBody');
+
+                if (data.success && data.orders?.length) {
+                    tbody.innerHTML = data.orders.map(o => {
+                        const cls = o.status === 'completed' ? 'completed' : 
+                                   o.status === 'pending' ? 'pending' : 'failed';
+                        return `<tr>
+                            <td><code style="background:var(--bg-primary);padding:2px 6px;border-radius:4px;font-size:11px;">${o.id?.substring(0,10) || 'N/A'}</code></td>
+                            <td>${o.user?.name || 'Unknown'}</td>
+                            <td>${o.productName || 'N/A'}</td>
+                            <td>${o.type === 'free' ? 'FREE' : `TZS ${(o.amount||0).toLocaleString()}`}</td>
+                            <td><span class="status-badge ${cls}">${o.status||'N/A'}</span></td>
+                            <td>${o.createdAt ? new Date(o.createdAt).toLocaleDateString('sw-TZ') : 'N/A'}</td>
+                        </tr>`;
+                    }).join('');
+                } else {
+                    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:30px;color:var(--text-muted);">
+                        <i class="fas fa-shopping-bag" style="font-size:28px;display:block;margin-bottom:8px;"></i> No orders yet
+                    </td></tr>`;
+                }
+            } catch (error) {
+                console.error('❌ Recent orders error:', error);
+                document.getElementById('recentOrdersBody').innerHTML = `
+                    <tr><td colspan="6" style="text-align:center;padding:30px;color:var(--danger);">
+                        <i class="fas fa-exclamation-circle"></i> Failed to load orders
+                    </td></tr>
+                `;
+            }
+        }
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Admin Dashboard Initializing...');
+            console.log('📡 API Base:', API_BASE);
+            console.log('🔑 Token:', token ? '✅ Present' : '❌ Missing');
+
+            if (token) {
+                loadAdminProfile();
+                loadDashboard();
+            } else {
+                showError('No Token Found', 'Please login again.');
+                setTimeout(() => {
+                    window.location.href = '/admin.html';
+                }, 2000);
+            }
+        });
+
+        // Auto refresh every 30s
+        setInterval(() => {
+            if (!document.getElementById('errorContainer').style.display === 'block') {
+                loadDashboard();
+            }
+        }, 30000);
+
+        console.log('%c🔐 Admin Dashboard', 'font-size:20px; font-weight:bold; color:#6C3CE1;');
+        console.log('%c✅ If you see errors, check the console (F12) for details', 'color:#FFD600;');
+    </script>
+</body>
+  </html>
