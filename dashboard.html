@@ -1,0 +1,1453 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard - HarakaPay</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6C3CE1;
+            --primary-dark: #5A2FC7;
+            --primary-light: #8B6AE8;
+            --primary-gradient: linear-gradient(135deg, #6C3CE1, #9B6BFF);
+            --success: #00C853;
+            --warning: #FFD600;
+            --danger: #FF1744;
+            --info: #2979FF;
+
+            --bg-primary: #0A0A1A;
+            --bg-secondary: #14142E;
+            --bg-card: #14142E;
+            --bg-card-hover: #1A1A3A;
+            --bg-sidebar: #0D0D24;
+
+            --text-primary: #FFFFFF;
+            --text-secondary: #A0A0C0;
+            --text-muted: #6A6A8A;
+
+            --border-color: #2A2A4A;
+            --shadow: 0 8px 32px rgba(108, 60, 225, 0.15);
+
+            --radius: 16px;
+            --radius-sm: 8px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            width: 260px;
+            background: var(--bg-sidebar);
+            border-right: 1px solid var(--border-color);
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            overflow-y: auto;
+            padding: 20px 16px;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+
+        .sidebar-brand i {
+            font-size: 28px;
+            color: var(--primary);
+        }
+
+        .sidebar-brand h1 {
+            font-size: 20px;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .sidebar-brand span {
+            font-size: 11px;
+            color: var(--text-muted);
+            -webkit-text-fill-color: var(--text-muted);
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 4px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .sidebar-menu a:hover {
+            background: rgba(108, 60, 225, 0.1);
+            color: var(--text-primary);
+        }
+
+        .sidebar-menu a.active {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: var(--shadow);
+        }
+
+        .sidebar-menu a i {
+            width: 20px;
+        }
+
+        /* ===== MAIN ===== */
+        .main-content {
+            margin-left: 260px;
+            flex: 1;
+            padding: 24px 32px 32px;
+            min-height: 100vh;
+        }
+
+        /* ===== TOP BAR ===== */
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .topbar-left h2 {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .topbar-left p {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .topbar-right .date {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 10px 14px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        /* ===== SECTIONS ===== */
+        .section {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== STATS ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 18px 20px;
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .stat-card .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .stat-card .stat-icon.purple {
+            background: rgba(108, 60, 225, 0.15);
+            color: var(--primary);
+        }
+        .stat-card .stat-icon.green {
+            background: rgba(0, 200, 83, 0.15);
+            color: var(--success);
+        }
+        .stat-card .stat-icon.orange {
+            background: rgba(255, 214, 0, 0.15);
+            color: var(--warning);
+        }
+        .stat-card .stat-icon.red {
+            background: rgba(255, 23, 68, 0.15);
+            color: var(--danger);
+        }
+        .stat-card .stat-icon.blue {
+            background: rgba(41, 121, 255, 0.15);
+            color: var(--info);
+        }
+
+        .stat-card .stat-value {
+            font-size: 24px;
+            font-weight: 800;
+            display: block;
+        }
+
+        .stat-card .stat-label {
+            color: var(--text-secondary);
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            padding: 8px 18px;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+        .btn-warning {
+            background: var(--warning);
+            color: #000;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+        .btn-outline:hover {
+            border-color: var(--primary);
+            color: var(--text-primary);
+        }
+        .btn-sm {
+            padding: 4px 12px;
+            font-size: 11px;
+        }
+
+        /* ===== TABLES ===== */
+        .table-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            overflow: hidden;
+            overflow-x: auto;
+            margin-bottom: 16px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        thead {
+            background: rgba(108, 60, 225, 0.08);
+        }
+
+        th {
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 12px 16px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        tr:hover td {
+            background: rgba(108, 60, 225, 0.03);
+        }
+
+        .status-badge {
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status-badge.completed {
+            background: rgba(0, 200, 83, 0.15);
+            color: var(--success);
+        }
+        .status-badge.pending {
+            background: rgba(255, 214, 0, 0.15);
+            color: var(--warning);
+        }
+        .status-badge.failed {
+            background: rgba(255, 23, 68, 0.15);
+            color: var(--danger);
+        }
+        .status-badge.active {
+            background: rgba(0, 200, 83, 0.15);
+            color: var(--success);
+        }
+        .status-badge.inactive {
+            background: rgba(255, 23, 68, 0.15);
+            color: var(--danger);
+        }
+        .status-badge.free {
+            background: rgba(41, 121, 255, 0.15);
+            color: var(--info);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .section-header h3 {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .section-header .actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        /* ===== MODAL ===== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal.open {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 28px;
+            max-width: 520px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-content .close {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .modal-content .close:hover {
+            color: var(--text-primary);
+        }
+
+        .modal-content h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            font-size: 13px;
+            margin-bottom: 4px;
+            color: var(--text-secondary);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 14px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 14px;
+            font-family: inherit;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(108, 60, 225, 0.15);
+        }
+
+        .form-group textarea {
+            min-height: 60px;
+            resize: vertical;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .form-actions .btn {
+            flex: 1;
+            justify-content: center;
+        }
+
+        /* ===== TOAST ===== */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 3000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 380px;
+            width: 100%;
+        }
+
+        .toast {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: slideIn 0.4s ease;
+            box-shadow: var(--shadow);
+        }
+
+        .toast.success {
+            border-left: 4px solid var(--success);
+        }
+        .toast.error {
+            border-left: 4px solid var(--danger);
+        }
+        .toast.warning {
+            border-left: 4px solid var(--warning);
+        }
+        .toast.info {
+            border-left: 4px solid var(--info);
+        }
+
+        .toast .toast-icon {
+            font-size: 18px;
+        }
+        .toast .toast-content {
+            flex: 1;
+        }
+        .toast .toast-title {
+            font-weight: 600;
+            font-size: 13px;
+        }
+        .toast .toast-message {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-secondary);
+        }
+        .empty-state i {
+            font-size: 36px;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+        .empty-state h4 {
+            font-size: 16px;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .stats-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                width: 280px;
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 16px;
+            }
+            .menu-toggle {
+                display: block;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .topbar-left h2 {
+                font-size: 18px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .modal-content {
+                padding: 20px 16px;
+            }
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== SIDEBAR ===== -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <i class="fas fa-bolt"></i>
+            <div>
+                <h1>HarakaPay</h1>
+                <span>Admin Panel</span>
+            </div>
+        </div>
+
+        <ul class="sidebar-menu">
+            <li><a class="active" data-section="dashboard" onclick="showSection('dashboard')">
+                    <i class="fas fa-chart-pie"></i> Dashboard
+                </a></li>
+            <li><a data-section="products" onclick="showSection('products')">
+                    <i class="fas fa-box"></i> Products
+                </a></li>
+            <li><a data-section="orders" onclick="showSection('orders')">
+                    <i class="fas fa-shopping-cart"></i> Orders
+                </a></li>
+            <li><a data-section="users" onclick="showSection('users')">
+                    <i class="fas fa-users"></i> Users
+                </a></li>
+            <li><a data-section="offers" onclick="showSection('offers')">
+                    <i class="fas fa-gift"></i> Free Offers
+                </a></li>
+            <li><a data-section="notifications" onclick="showSection('notifications')">
+                    <i class="fas fa-bell"></i> Notifications
+                </a></li>
+        </ul>
+    </nav>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main class="main-content">
+        <!-- TOP BAR -->
+        <div class="topbar">
+            <div class="topbar-left">
+                <button class="menu-toggle" onclick="toggleSidebar()">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h2 id="sectionTitle">Dashboard</h2>
+                <p id="sectionSubtitle">Welcome to Admin Panel</p>
+            </div>
+            <div class="topbar-right">
+                <span class="date" id="currentDate"></span>
+                <button class="btn btn-outline btn-sm" onclick="refreshAll()">
+                    <i class="fas fa-sync"></i> Refresh
+                </button>
+            </div>
+        </div>
+
+        <!-- ===== DASHBOARD ===== -->
+        <div class="section active" id="section-dashboard">
+            <div class="stats-grid" id="statsGrid">
+                <div class="stat-card">
+                    <div class="stat-icon purple"><i class="fas fa-users"></i></div>
+                    <span class="stat-value" id="statUsers">0</span>
+                    <span class="stat-label">Total Users</span>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon blue"><i class="fas fa-shopping-bag"></i></div>
+                    <span class="stat-value" id="statOrders">0</span>
+                    <span class="stat-label">Total Orders</span>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon orange"><i class="fas fa-clock"></i></div>
+                    <span class="stat-value" id="statPending">0</span>
+                    <span class="stat-label">Pending</span>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon green"><i class="fas fa-check-circle"></i></div>
+                    <span class="stat-value" id="statCompleted">0</span>
+                    <span class="stat-label">Completed</span>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon red"><i class="fas fa-times-circle"></i></div>
+                    <span class="stat-value" id="statFailed">0</span>
+                    <span class="stat-label">Failed</span>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon purple"><i class="fas fa-tag"></i></div>
+                    <span class="stat-value" id="statSales">TZS 0</span>
+                    <span class="stat-label">Total Sales</span>
+                </div>
+            </div>
+
+            <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:20px;">
+                <button class="btn btn-primary" onclick="showSection('products'); openProductModal()">
+                    <i class="fas fa-plus"></i> Add Product
+                </button>
+                <button class="btn btn-success" onclick="showSection('offers'); openOfferModal()">
+                    <i class="fas fa-gift"></i> Create Offer
+                </button>
+                <button class="btn btn-warning" onclick="showSection('notifications'); openNotificationModal()">
+                    <i class="fas fa-bell"></i> Send Notification
+                </button>
+                <button class="btn btn-danger" onclick="clearAllData()">
+                    <i class="fas fa-trash"></i> Clear Data
+                </button>
+            </div>
+
+            <div class="section-header">
+                <h3>📦 Recent Orders</h3>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead><tr><th>Order</th><th>User</th><th>Product</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead>
+                    <tbody id="recentOrdersBody">
+                        <tr><td colspan="6" style="text-align:center; padding:30px; color:var(--text-muted);">
+                            <i class="fas fa-spinner fa-spin"></i> Loading...
+                        </td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ===== PRODUCTS ===== -->
+        <div class="section" id="section-products">
+            <div class="section-header">
+                <h3><i class="fas fa-box"></i> Products</h3>
+                <div class="actions">
+                    <button class="btn btn-primary" onclick="openProductModal()"><i class="fas fa-plus"></i> Add</button>
+                    <button class="btn btn-outline" onclick="loadProducts()"><i class="fas fa-sync"></i></button>
+                </div>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead><tr><th>Name</th><th>Price</th><th>Category</th><th>Status</th><th>Actions</th></tr></thead>
+                    <tbody id="productsBody"><tr><td colspan="5" style="text-align:center; padding:30px; color:var(--text-muted);">
+                        <i class="fas fa-spinner fa-spin"></i> Loading...
+                    </td></tr></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ===== ORDERS ===== -->
+        <div class="section" id="section-orders">
+            <div class="section-header">
+                <h3><i class="fas fa-shopping-cart"></i> Orders</h3>
+                <div class="actions">
+                    <select id="orderFilter" onchange="loadOrders()" style="background:var(--bg-primary); border:1px solid var(--border-color); color:var(--text-primary); padding:6px 12px; border-radius:var(--radius-sm);">
+                        <option value="all">All</option>
+                        <option value="pending">Pending</option>
+                        <option value="completed">Completed</option>
+                        <option value="failed">Failed</option>
+                        <option value="free">Free</option>
+                    </select>
+                    <button class="btn btn-outline" onclick="loadOrders()"><i class="fas fa-sync"></i></button>
+                </div>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead><tr><th>Order ID</th><th>User</th><th>Product</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead>
+                    <tbody id="ordersBody"><tr><td colspan="6" style="text-align:center; padding:30px; color:var(--text-muted);">
+                        <i class="fas fa-spinner fa-spin"></i> Loading...
+                    </td></tr></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ===== USERS ===== -->
+        <div class="section" id="section-users">
+            <div class="section-header">
+                <h3><i class="fas fa-users"></i> Users</h3>
+                <div class="actions">
+                    <button class="btn btn-outline" onclick="loadUsers()"><i class="fas fa-sync"></i></button>
+                </div>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Orders</th><th>Spent</th><th>Joined</th></tr></thead>
+                    <tbody id="usersBody"><tr><td colspan="6" style="text-align:center; padding:30px; color:var(--text-muted);">
+                        <i class="fas fa-spinner fa-spin"></i> Loading...
+                    </td></tr></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ===== OFFERS ===== -->
+        <div class="section" id="section-offers">
+            <div class="section-header">
+                <h3><i class="fas fa-gift"></i> Free Offers</h3>
+                <div class="actions">
+                    <button class="btn btn-success" onclick="openOfferModal()"><i class="fas fa-plus"></i> Create</button>
+                    <button class="btn btn-outline" onclick="loadOffers()"><i class="fas fa-sync"></i></button>
+                </div>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead><tr><th>User</th><th>Product</th><th>Message</th><th>Status</th><th>Expires</th></tr></thead>
+                    <tbody id="offersBody"><tr><td colspan="5" style="text-align:center; padding:30px; color:var(--text-muted);">
+                        <i class="fas fa-spinner fa-spin"></i> Loading...
+                    </td></tr></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ===== NOTIFICATIONS ===== -->
+        <div class="section" id="section-notifications">
+            <div class="section-header">
+                <h3><i class="fas fa-bell"></i> Notifications</h3>
+                <div class="actions">
+                    <button class="btn btn-warning" onclick="openNotificationModal()"><i class="fas fa-paper-plane"></i> Send</button>
+                    <button class="btn btn-outline" onclick="loadNotifications()"><i class="fas fa-sync"></i></button>
+                </div>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead><tr><th>User</th><th>Title</th><th>Type</th><th>Read</th><th>Date</th></tr></thead>
+                    <tbody id="notificationsBody"><tr><td colspan="5" style="text-align:center; padding:30px; color:var(--text-muted);">
+                        <i class="fas fa-spinner fa-spin"></i> Loading...
+                    </td></tr></tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- ===== PRODUCT MODAL ===== -->
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <button class="close" onclick="closeModal('productModal')">&times;</button>
+            <h3 id="productModalTitle">Add Product</h3>
+            <form id="productForm" onsubmit="saveProduct(event)">
+                <input type="hidden" id="productId" />
+                <div class="form-group"><label>Product Name *</label><input type="text" id="pTitle" required /></div>
+                <div class="form-group"><label>Description</label><textarea id="pDesc"></textarea></div>
+                <div class="form-group"><label>Price (TZS) *</label><input type="number" id="pPrice" required min="0" /></div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select id="pCategory"><option>General</option><option>Streaming</option><option>Gaming</option><option>Education</option><option>Utilities</option></select>
+                </div>
+                <div class="form-group"><label>Image URL</label><input type="url" id="pImage" placeholder="https://..." /></div>
+                <div class="form-group"><label>Download Link *</label><input type="url" id="pLink" required /></div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <select id="pActive"><option value="true">Active</option><option value="false">Inactive</option></select>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary" id="productSubmitBtn">Save</button>
+                    <button type="button" class="btn btn-outline" onclick="closeModal('productModal')">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===== OFFER MODAL ===== -->
+    <div class="modal" id="offerModal">
+        <div class="modal-content">
+            <button class="close" onclick="closeModal('offerModal')">&times;</button>
+            <h3>Create Free Offer</h3>
+            <form id="offerForm" onsubmit="saveOffer(event)">
+                <div class="form-group"><label>User ID *</label><input type="text" id="oUserId" required placeholder="Firebase UID" /></div>
+                <div class="form-group"><label>Product ID *</label><input type="text" id="oProductId" required placeholder="Product ID" /></div>
+                <div class="form-group"><label>Message</label><textarea id="oMessage">You have received a free offer!</textarea></div>
+                <div class="form-group"><label>Expiry</label><input type="datetime-local" id="oExpiry" /></div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-success">Create</button>
+                    <button type="button" class="btn btn-outline" onclick="closeModal('offerModal')">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===== NOTIFICATION MODAL ===== -->
+    <div class="modal" id="notificationModal">
+        <div class="modal-content">
+            <button class="close" onclick="closeModal('notificationModal')">&times;</button>
+            <h3>Send Notification</h3>
+            <form id="notificationForm" onsubmit="sendNotification(event)">
+                <div class="form-group">
+                    <label>User IDs *</label>
+                    <textarea id="nUserIds" required placeholder="uid1, uid2, uid3 or 'all'" rows="2"></textarea>
+                </div>
+                <div class="form-group"><label>Title *</label><input type="text" id="nTitle" required /></div>
+                <div class="form-group"><label>Message *</label><textarea id="nMessage" required rows="3"></textarea></div>
+                <div class="form-group">
+                    <label>Type</label>
+                    <select id="nType"><option value="info">Info</option><option value="success">Success</option><option value="error">Error</option><option value="warning">Warning</option></select>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-warning">Send</button>
+                    <button type="button" class="btn btn-outline" onclick="closeModal('notificationModal')">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===== TOAST ===== -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        // ============================================================
+        // CONFIG - NO TOKEN REQUIRED!
+        // ============================================================
+        const API_BASE = window.location.origin + '/api';
+
+        // ============================================================
+        // TOAST
+        // ============================================================
+        function showToast(type, title, message) {
+            const container = document.getElementById('toastContainer');
+            const icons = { success: '✅', error: '❌', warning: '⚠️', info: 'ℹ️' };
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <span class="toast-icon">${icons[type] || 'ℹ️'}</span>
+                <div class="toast-content">
+                    <div class="toast-title">${title}</div>
+                    <div class="toast-message">${message}</div>
+                </div>
+            `;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(100%)';
+                setTimeout(() => toast.remove(), 400);
+            }, 4000);
+        }
+
+        // ============================================================
+        // SIDEBAR
+        // ============================================================
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+
+        function showSection(section) {
+            document.querySelectorAll('.sidebar-menu a').forEach(el => el.classList.remove('active'));
+            document.querySelector(`.sidebar-menu a[data-section="${section}"]`)?.classList.add('active');
+            document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
+            document.getElementById(`section-${section}`)?.classList.add('active');
+
+            const titles = {
+                dashboard: 'Dashboard',
+                products: 'Products',
+                orders: 'Orders',
+                users: 'Users',
+                offers: 'Free Offers',
+                notifications: 'Notifications'
+            };
+            document.getElementById('sectionTitle').textContent = titles[section] || section;
+            document.getElementById('sectionSubtitle').textContent = 'Admin Panel';
+
+            if (window.innerWidth <= 768) document.getElementById('sidebar').classList.remove('open');
+
+            if (section === 'dashboard') loadDashboard();
+            if (section === 'products') loadProducts();
+            if (section === 'orders') loadOrders();
+            if (section === 'users') loadUsers();
+            if (section === 'offers') loadOffers();
+            if (section === 'notifications') loadNotifications();
+        }
+
+        // ============================================================
+        // MODALS
+        // ============================================================
+        function openModal(id) { document.getElementById(id).classList.add('open'); }
+        function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+        document.querySelectorAll('.modal').forEach(m => m.addEventListener('click', function(e) {
+            if (e.target === this) this.classList.remove('open');
+        }));
+
+        // ============================================================
+        // DATE
+        // ============================================================
+        document.getElementById('currentDate').textContent = new Date().toLocaleDateString('sw-TZ', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+
+        // ============================================================
+        // REFRESH ALL
+        // ============================================================
+        function refreshAll() {
+            loadDashboard();
+            showToast('info', 'Refreshed', 'Data refreshed successfully');
+        }
+
+        // ============================================================
+        // CLEAR ALL DATA (Demo only)
+        // ============================================================
+        function clearAllData() {
+            if (confirm('⚠️ This will clear all demo data. Are you sure?')) {
+                // Clear stats display
+                document.getElementById('statUsers').textContent = '0';
+                document.getElementById('statOrders').textContent = '0';
+                document.getElementById('statPending').textContent = '0';
+                document.getElementById('statCompleted').textContent = '0';
+                document.getElementById('statFailed').textContent = '0';
+                document.getElementById('statSales').textContent = 'TZS 0';
+                
+                // Clear tables
+                document.getElementById('recentOrdersBody').innerHTML = `
+                    <tr><td colspan="6" style="text-align:center;padding:30px;color:var(--text-muted);">
+                        <i class="fas fa-database" style="font-size:28px;display:block;margin-bottom:8px;"></i> Data cleared
+                    </td></tr>
+                `;
+                document.getElementById('productsBody').innerHTML = `
+                    <tr><td colspan="5" style="text-align:center;padding:30px;color:var(--text-muted);">
+                        <i class="fas fa-database" style="font-size:28px;display:block;margin-bottom:8px;"></i> Data cleared
+                    </td></tr>
+                `;
+                document.getElementById('ordersBody').innerHTML = `
+                    <tr><td colspan="6" style="text-align:center;padding:30px;color:var(--text-muted);">
+                        <i class="fas fa-database" style="font-size:28px;display:block;margin-bottom:8px;"></i> Data cleared
+                    </td></tr>
+                `;
+                document.getElementById('usersBody').innerHTML = `
+                    <tr><td colspan="6" style="text-align:center;padding:30px;color:var(--text-muted);">
+                        <i class="fas fa-database" style="font-size:28px;display:block;margin-bottom:8px;"></i> Data cleared
+                    </td></tr>
+                `;
+                document.getElementById('offersBody').innerHTML = `
+                    <tr><td colspan="5" style="text-align:center;padding:30px;color:var(--text-muted);">
+                        <i class="fas fa-database" style="font-size:28px;display:block;margin-bottom:8px;"></i> Data cleared
+                    </td></tr>
+                `;
+                document.getElementById('notificationsBody').innerHTML = `
+                    <tr><td colspan="5" style="text-align:center;padding:30px;color:var(--text-muted);">
+                        <i class="fas fa-database" style="font-size:28px;display:block;margin-bottom:8px;"></i> Data cleared
+                    </td></tr>
+                `;
+                
+                showToast('success', 'Cleared', 'All demo data cleared');
+            }
+        }
+
+        // ============================================================
+        // LOAD DASHBOARD
+        // ============================================================
+        async function loadDashboard() {
+            try {
+                const res = await fetch(`${API_BASE}/admin/stats`);
+                if (!res.ok) throw new Error('Failed');
+                const data = await res.json();
+                if (data.success && data.stats) {
+                    const s = data.stats;
+                    document.getElementById('statUsers').textContent = s.totalUsers || 0;
+                    document.getElementById('statOrders').textContent = s.totalOrders || 0;
+                    document.getElementById('statPending').textContent = s.pendingOrders || 0;
+                    document.getElementById('statCompleted').textContent = s.completedOrders || 0;
+                    document.getElementById('statFailed').textContent = s.failedOrders || 0;
+                    document.getElementById('statSales').textContent = `TZS ${(s.totalSales || 0).toLocaleString()}`;
+                }
+                // Load recent orders
+                const ordersRes = await fetch(`${API_BASE}/admin/orders?limit=5`);
+                const ordersData = await ordersRes.json();
+                const tbody = document.getElementById('recentOrdersBody');
+                if (ordersData.success && ordersData.orders?.length) {
+                    tbody.innerHTML = ordersData.orders.map(o => {
+                        const cls = o.status === 'completed' ? 'completed' : o.status === 'pending' ? 'pending' : 'failed';
+                        return `<tr>
+                            <td><code style="background:var(--bg-primary);padding:2px 6px;border-radius:4px;font-size:11px;">${o.id?.substring(0,10)}</code></td>
+                            <td>${o.user?.name || 'Unknown'}</td>
+                            <td>${o.productName || 'N/A'}</td>
+                            <td>${o.type === 'free' ? 'FREE' : `TZS ${(o.amount||0).toLocaleString()}`}</td>
+                            <td><span class="status-badge ${cls}">${o.status||'N/A'}</span></td>
+                            <td>${o.createdAt ? new Date(o.createdAt).toLocaleDateString('sw-TZ') : 'N/A'}</td>
+                        </tr>`;
+                    }).join('');
+                } else {
+                    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:30px;color:var(--text-muted);">
+                        <i class="fas fa-shopping-bag" style="font-size:28px;display:block;margin-bottom:8px;"></i> No orders yet
+                    </td></tr>`;
+                }
+            } catch (e) {
+                console.error('Dashboard error:', e);
+                document.getElementById('recentOrdersBody').innerHTML = `
+                    <tr><td colspan="6" style="text-align:center;padding:30px;color:var(--danger);">
+                        <i class="fas fa-exclamation-circle"></i> Failed to load data
+                    </td></tr>
+                `;
+            }
+        }
+
+        // ============================================================
+        // LOAD PRODUCTS
+        // ============================================================
+        async function loadProducts() {
+            try {
+                const res = await fetch(`${API_BASE}/admin/products`);
+                const data = await res.json();
+                const tbody = document.getElementById('productsBody');
+                if (data.success && data.products?.length) {
+                    tbody.innerHTML = data.products.map(p => `
+                        <tr>
+                            <td><strong>${p.title||'Untitled'}</strong></td>
+                            <td>TZS ${(p.price||0).toLocaleString()}</td>
+                            <td>${p.category||'General'}</td>
+                            <td><span class="status-badge ${p.active ? 'active' : 'inactive'}">${p.active ? 'Active' : 'Inactive'}</span></td>
+                            <td>
+                                <button class="btn btn-primary btn-sm" onclick="editProduct('${p.id}')"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-danger btn-sm" onclick="deleteProduct('${p.id}')"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    `).join('');
+                } else {
+                    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;padding:30px;color:var(--text-muted);">
+                        <i class="fas fa-box-open" style="font-size:28px;display:block;margin-bottom:8px;"></i> No products
+                    </td></tr>`;
+                }
+            } catch (e) { console.error('Products error:', e); }
+        }
+
+        function openProductModal() {
+            document.getElementById('productId').value = '';
+            document.getElementById('pTitle').value = '';
+            document.getElementById('pDesc').value = '';
+            document.getElementById('pPrice').value = '';
+            document.getElementById('pCategory').value = 'General';
+            document.getElementById('pImage').value = '';
+            document.getElementById('pLink').value = '';
+            document.getElementById('pActive').value = 'true';
+            document.getElementById('productModalTitle').textContent = 'Add Product';
+            document.getElementById('productSubmitBtn').textContent = 'Save';
+            openModal('productModal');
+        }
+
+        async function editProduct(id) {
+            try {
+                const res = await fetch(`${API_BASE}/products/${id}`);
+                const data = await res.json();
+                if (data.success && data.product) {
+                    const p = data.product;
+                    document.getElementById('productId').value = id;
+                    document.getElementById('pTitle').value = p.title || '';
+                    document.getElementById('pDesc').value = p.description || '';
+                    document.getElementById('pPrice').value = p.price || '';
+                    document.getElementById('pCategory').value = p.category || 'General';
+                    document.getElementById('pImage').value = p.imageUrl || '';
+                    document.getElementById('pLink').value = p.link || '';
+                    document.getElementById('pActive').value = p.active ? 'true' : 'false';
+                    document.getElementById('productModalTitle').textContent = 'Edit Product';
+                    document.getElementById('productSubmitBtn').textContent = 'Update';
+                    openModal('productModal');
+                }
+            } catch (e) { showToast('error', 'Error', 'Failed to load product'); }
+        }
+
+        async function saveProduct(e) {
+            e.preventDefault();
+            const id = document.getElementById('productId').value;
+            const data = {
+                title: document.getElementById('pTitle').value,
+                description: document.getElementById('pDesc').value,
+                price: parseFloat(document.getElementById('pPrice').value) || 0,
+                category: document.getElementById('pCategory').value,
+                imageUrl: document.getElementById('pImage').value,
+                link: document.getElementById('pLink').value,
+                active: document.getElementById('pActive').value === 'true'
+            };
+            try {
+                const url = id ? `${API_BASE}/admin/products/${id}` : `${API_BASE}/admin/products`;
+                const method = id ? 'PUT' : 'POST';
+                const res = await fetch(url, {
+                    method,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                if (!res.ok) throw new Error('Failed');
+                showToast('success', 'Success', id ? 'Product updated' : 'Product created');
+                closeModal('productModal');
+                loadProducts();
+                loadDashboard();
+            } catch (e) { showToast('error', 'Error', 'Failed to save'); }
+        }
+
+        async function deleteProduct(id) {
+            if (!confirm('Delete this product?')) return;
+            try {
+                const res = await fetch(`${API_BASE}/admin/products/${id}`, { method: 'DELETE' });
+                if (!res.ok) throw new Error('Failed');
+                showToast('success', 'Deleted', 'Product deactivated');
+                loadProducts();
+                loadDashboard();
+            } catch (e) { showToast('error', 'Error', 'Failed to delete'); }
+        }
+
+        // ============================================================
+        // LOAD ORDERS
+        // ============================================================
+        async function loadOrders() {
+            try {
+                const filter = document.getElementById('orderFilter')?.value || 'all';
+                const url = filter === 'all' ? `${API_BASE}/admin/orders` : `${API_BASE}/admin/orders?status=${filter}`;
+                const res = await fetch(url);
+                const data = await res.json();
+                const tbody = document.getElementById('ordersBody');
+                if (data.success && data.orders?.length) {
+                    tbody.innerHTML = data.orders.map(o => {
+                        const cls = o.status === 'completed' ? 'completed' : o.status === 'pending' ? 'pending' : 'failed';
+                        return `<tr>
+                            <td><code style="background:var(--bg-primary);padding:2px 6px;border-radius:4px;font-size:11px;">${o.id?.substring(0,12)}</code></td>
+                            <td>${o.user?.name || 'Unknown'}</td>
+                            <td>${o.productName || 'N/A'}</td>
+                            <td>${o.type === 'free' ? 'FREE' : `TZS ${(o.amount||0).toLocaleString()}`}</td>
+                            <td><span class="status-badge ${cls}">${o.status||'N/A'}</span></td>
+                            <td>${o.createdAt ? new Date(o.createdAt).toLocaleDateString('sw-TZ') : 'N/A'}</td>
+                        </tr>`;
+                    }).join('');
+                } else {
+                    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:30px;color:var(--text-muted);">
+                        <i class="fas fa-shopping-bag" style="font-size:28px;display:block;margin-bottom:8px;"></i> No orders
+                    </td></tr>`;
+                }
+            } catch (e) { console.error('Orders error:', e); }
+        }
+
+        // ============================================================
+        // LOAD USERS
+        // ============================================================
+        async function loadUsers() {
+            try {
+                const res = await fetch(`${API_BASE}/admin/users`);
+                const data = await res.json();
+                const tbody = document.getElementById('usersBody');
+                if (data.success && data.users?.length) {
+                    tbody.innerHTML = data.users.map(u => `
+                        <tr>
+                            <td><strong>${u.name||'N/A'}</strong></td>
+                            <td>${u.email||'N/A'}</td>
+                            <td>${u.phone||'N/A'}</td>
+                            <td>${u.orderCount||0}</td>
+                            <td>TZS ${(u.totalSpent||0).toLocaleString()}</td>
+                            <td>${u.createdAt ? new Date(u.createdAt).toLocaleDateString('sw-TZ') : 'N/A'}</td>
+                        </tr>
+                    `).join('');
+                } else {
+                    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:30px;color:var(--text-muted);">
+                        <i class="fas fa-users" style="font-size:28px;display:block;margin-bottom:8px;"></i> No users
+                    </td></tr>`;
+                }
+            } catch (e) { console.error('Users error:', e); }
+        }
+
+        // ============================================================
+        // LOAD OFFERS
+        // ============================================================
+        async function loadOffers() {
+            try {
+                const res = await fetch(`${API_BASE}/offers`);
+                const data = await res.json();
+                const tbody = document.getElementById('offersBody');
+                if (data.success && data.offers?.length) {
+                    tbody.innerHTML = data.offers.map(o => `
+                        <tr>
+                            <td>${o.userId?.substring(0,16)||'N/A'}...</td>
+                            <td>${o.productId?.substring(0,16)||'N/A'}...</td>
+                            <td>${o.message||'No message'}</td>
+                            <td><span class="status-badge ${o.claimed ? 'completed' : 'pending'}">${o.claimed ? 'Claimed' : 'Active'}</span></td>
+                            <td>${o.expiresAt ? new Date(o.expiresAt).toLocaleDateString('sw-TZ') : 'Never'}</td>
+                        </tr>
+                    `).join('');
+                } else {
+                    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;padding:30px;color:var(--text-muted);">
+                        <i class="fas fa-gift" style="font-size:28px;display:block;margin-bottom:8px;"></i> No offers
+                    </td></tr>`;
+                }
+            } catch (e) { console.error('Offers error:', e); }
+        }
+
+        function openOfferModal() {
+            document.getElementById('oUserId').value = '';
+            document.getElementById('oProductId').value = '';
+            document.getElementById('oMessage').value = 'You have received a free offer!';
+            document.getElementById('oExpiry').value = '';
+            openModal('offerModal');
+        }
+
+        async function saveOffer(e) {
+            e.preventDefault();
+            const data = {
+                userId: document.getElementById('oUserId').value,
+                productId: document.getElementById('oProductId').value,
+                message: document.getElementById('oMessage').value,
+                expiresAt: document.getElementById('oExpiry').value || null
+            };
+            try {
+                const res = await fetch(`${API_BASE}/admin/offers`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                if (!res.ok) throw new Error('Failed');
+                showToast('success', 'Success', 'Offer created');
+                closeModal('offerModal');
+                loadOffers();
+            } catch (e) { showToast('error', 'Error', 'Failed to create offer'); }
+        }
+
+        // ============================================================
+        // NOTIFICATIONS
+        // ============================================================
+        async function loadNotifications() {
+            try {
+                const res = await fetch(`${API_BASE}/notifications`);
+                const data = await res.json();
+                const tbody = document.getElementById('notificationsBody');
+                if (data.success && data.notifications?.length) {
+                    tbody.innerHTML = data.notifications.map(n => `
+                        <tr>
+                            <td>${n.userId?.substring(0,16)||'N/A'}...</td>
+                            <td><strong>${n.title||'N/A'}</strong></td>
+                            <td><span class="status-badge ${n.type === 'success' ? 'completed' : n.type === 'error' ? 'failed' : 'pending'}">${n.type||'info'}</span></td>
+                            <td>${n.read ? '✅ Read' : '🕐 Unread'}</td>
+                            <td>${n.createdAt ? new Date(n.createdAt).toLocaleDateString('sw-TZ') : 'N/A'}</td>
+                        </tr>
+                    `).join('');
+                } else {
+                    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;padding:30px;color:var(--text-muted);">
+                        <i class="fas fa-bell-slash" style="font-size:28px;display:block;margin-bottom:8px;"></i> No notifications
+                    </td></tr>`;
+                }
+            } catch (e) { console.error('Notifications error:', e); }
+        }
+
+        function openNotificationModal() {
+            document.getElementById('nUserIds').value = '';
+            document.getElementById('nTitle').value = '';
+            document.getElementById('nMessage').value = '';
+            document.getElementById('nType').value = 'info';
+            openModal('notificationModal');
+        }
+
+        async function sendNotification(e) {
+            e.preventDefault();
+            const userIdsInput = document.getElementById('nUserIds').value.trim();
+            let userIds = [];
+            if (userIdsInput.toLowerCase() === 'all') {
+                try {
+                    const res = await fetch(`${API_BASE}/admin/users`);
+                    const data = await res.json();
+                    if (data.success && data.users) userIds = data.users.map(u => u.uid).filter(Boolean);
+                } catch (err) {
+                    showToast('error', 'Error', 'Failed to fetch users');
+                    return;
+                }
+            } else {
+                userIds = userIdsInput.split(',').map(id => id.trim()).filter(Boolean);
+            }
+            if (!userIds.length) { showToast('error', 'Error', 'No users specified'); return; }
+            const data = {
+                userIds,
+                title: document.getElementById('nTitle').value,
+                message: document.getElementById('nMessage').value,
+                type: document.getElementById('nType').value
+            };
+            try {
+                const res = await fetch(`${API_BASE}/admin/notifications`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                if (!res.ok) throw new Error('Failed');
+                showToast('success', 'Success', `Sent to ${userIds.length} users`);
+                closeModal('notificationModal');
+                loadNotifications();
+            } catch (e) { showToast('error', 'Error', 'Failed to send'); }
+        }
+
+        // ============================================================
+        // KEYBOARD SHORTCUTS
+        // ============================================================
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal.open').forEach(m => m.classList.remove('open'));
+            }
+            if (e.ctrlKey && e.key >= '1' && e.key <= '6') {
+                e.preventDefault();
+                const sections = ['dashboard', 'products', 'orders', 'users', 'offers', 'notifications'];
+                showSection(sections[parseInt(e.key) - 1]);
+            }
+        });
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDashboard();
+        });
+
+        // Auto refresh every 60s
+        setInterval(() => {
+            if (document.getElementById('section-dashboard').classList.contains('active')) {
+                loadDashboard();
+            }
+        }, 60000);
+
+        console.log('%c🔐 Admin Dashboard', 'font-size:20px; font-weight:bold; color:#6C3CE1;');
+        console.log('%c✅ NO Login Required - Opens directly!', 'color:#00C853;');
+        console.log('%c📌 Use Ctrl+1..6 to switch sections', 'color:#A0A0C0;');
+        console.log('%c⚠️ This is for demo/testing only!', 'color:#FFD600;');
+    </script>
+</body>
+          </html>
