@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ingia - HarakaPay Digital Links</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+    <style>
+        /* ============================================================
+           ROOT VARIABLES
+           ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6C3CE1;
+            --primary-dark: #5A2FC7;
+            --primary-light: #8B6AE8;
+            --primary-gradient: linear-gradient(135deg, #6C3CE1, #9B6BFF);
+            --success: #00C853;
+            --danger: #FF1744;
+            --warning: #FFD600;
+
+            --bg-primary: #0A0A1A;
+            --bg-secondary: #14142E;
+            --bg-card: #14142E;
+            --bg-input: #0A0A1A;
+
+            --text-primary: #FFFFFF;
+            --text-secondary: #A0A0C0;
+            --text-muted: #6A6A8A;
+
+            --border-color: #2A2A4A;
+            --shadow: 0 8px 32px rgba(108, 60, 225, 0.15);
+            --shadow-lg: 0 16px 48px rgba(108, 60, 225, 0.25);
+
+            --radius: 16px;
+            --radius-sm: 8px;
+            --radius-lg: 24px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* ============================================================
+           BACKGROUND EFFECTS
+           ============================================================ */
+        .bg-effects {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .bg-effects .circle {
+            position: absolute;
+            border-radius: 50%;
+            background: var(--primary);
+            opacity: 0.05;
+            filter: blur(80px);
+        }
+
+        .bg-effects .circle:nth-child(1) {
+            width: 600px;
+            height: 600px;
+            top: -200px;
+            right: -200px;
+        }
+
+        .bg-effects .circle:nth-child(2) {
+            width: 400px;
+            height: 400px;
+            bottom: -100px;
+            left: -100px;
+            background: #9B6BFF;
+        }
+
+        /* ============================================================
+           LOGIN CONTAINER
+           ============================================================ */
+        .login-container {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 440px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 40px 32px;
+            box-shadow: var(--shadow-lg);
+            animation: fadeInUp 0.6s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* ============================================================
+           LOGIN HEADER
+           ============================================================ */
+        .login-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .login-header .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            margin-bottom: 8px;
+        }
+
+        .login-header .logo i {
+            font-size: 32px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .login-header .logo h1 {
+            font-size: 26px;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .login-header p {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        /* ============================================================
+           FORM
+           ============================================================ */
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            font-size: 14px;
+            margin-bottom: 6px;
+            color: var(--text-secondary);
+        }
+
+        .form-group .input-wrapper {
+            position: relative;
+        }
+
+        .form-group .input-wrapper i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 16px;
+        }
+
+        .form-group .input-wrapper input {
+            width: 100%;
+            padding: 12px 16px 12px 44px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 16px;
+            font-family: inherit;
+            transition: var(--transition);
+        }
+
+        .form-group .input-wrapper input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(108, 60, 225, 0.15);
+        }
+
+        .form-group .input-wrapper input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .form-group .input-wrapper input.error {
+            border-color: var(--danger);
+        }
+
+        .form-group .input-wrapper input.success {
+            border-color: var(--success);
+        }
+
+        .form-group .toggle-password {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 16px;
+            transition: var(--transition);
+        }
+
+        .form-group .toggle-password:hover {
+            color: var(--text-primary);
+        }
+
+        .form-group .field-error {
+            color: var(--danger);
+            font-size: 12px;
+            margin-top: 4px;
+            display: none;
+        }
+
+        .form-group .field-error.show {
+            display: block;
+        }
+
+        /* ============================================================
+           FORM OPTIONS
+           ============================================================ */
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .form-options .remember {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            cursor: pointer;
+        }
+
+        .form-options .remember input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
+        .form-options .forgot-link {
+            color: var(--primary-light);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .form-options .forgot-link:hover {
+            color: var(--text-primary);
+        }
+
+        /* ============================================================
+           BUTTONS
+           ============================================================ */
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-login:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-login .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ============================================================
+           DIVIDER
+           ============================================================ */
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 24px 0;
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border-color);
+        }
+
+        /* ============================================================
+           SIGNUP LINK
+           ============================================================ */
+        .signup-link {
+            text-align: center;
+            margin-top: 20px;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .signup-link a {
+            color: var(--primary-light);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .signup-link a:hover {
+            color: var(--text-primary);
+        }
+
+        /* ============================================================
+           TOAST
+           ============================================================ */
+        .toast-container {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            z-index: 3000;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .toast {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: slideIn 0.4s ease;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .toast.success {
+            border-left: 4px solid var(--success);
+        }
+        .toast.error {
+            border-left: 4px solid var(--danger);
+        }
+        .toast.warning {
+            border-left: 4px solid var(--warning);
+        }
+        .toast.info {
+            border-left: 4px solid var(--primary);
+        }
+
+        .toast .toast-icon {
+            font-size: 20px;
+        }
+
+        .toast .toast-content {
+            flex: 1;
+        }
+
+        .toast .toast-title {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .toast .toast-message {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 28px 20px;
+            }
+
+            .login-header .logo h1 {
+                font-size: 22px;
+            }
+
+            .form-options {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .toast-container {
+                left: 16px;
+                right: 16px;
+                top: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+    BACKGROUND EFFECTS
+    ============================================================ -->
+    <div class="bg-effects">
+        <div class="circle"></div>
+        <div class="circle"></div>
+    </div>
+
+    <!-- ============================================================
+    LOGIN CONTAINER
+    ============================================================ -->
+    <div class="login-container">
+        <!-- Header -->
+        <div class="login-header">
+            <a href="/" class="logo">
+                <i class="fas fa-bolt"></i>
+                <h1>HarakaPay</h1>
+            </a>
+            <p>Ingia kwenye akaunti yako</p>
+        </div>
+
+        <!-- Login Form -->
+        <form id="loginForm" onsubmit="handleLogin(event)" novalidate>
+            <!-- Email -->
+            <div class="form-group">
+                <label>Barua Pepe</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-envelope"></i>
+                    <input
+                        type="email"
+                        id="loginEmail"
+                        required
+                        placeholder="mfan@example.com"
+                        autocomplete="email"
+                    />
+                </div>
+                <div class="field-error" id="emailError">Tafadhali ingiza barua pepe sahihi.</div>
+            </div>
+
+            <!-- Password -->
+            <div class="form-group">
+                <label>Nenosiri</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-lock"></i>
+                    <input
+                        type="password"
+                        id="loginPassword"
+                        required
+                        placeholder="••••••••"
+                        autocomplete="current-password"
+                    />
+                    <button
+                        type="button"
+                        class="toggle-password"
+                        onclick="togglePasswordVisibility()"
+                        aria-label="Toggle password visibility"
+                    >
+                        <i class="fas fa-eye" id="passwordToggleIcon"></i>
+                    </button>
+                </div>
+                <div class="field-error" id="passwordError">Tafadhali ingiza nenosiri lako.</div>
+            </div>
+
+            <!-- Options -->
+            <div class="form-options">
+                <label class="remember">
+                    <input type="checkbox" id="rememberMe" checked />
+                    Nikumbuke
+                </label>
+                <a href="#" class="forgot-link" onclick="showToast('info', 'Msaada', 'Tafadhali wasiliana na admin ili kuweka upya nenosiri lako.')">
+                    Umesahau nenosiri?
+                </a>
+            </div>
+
+            <!-- Submit -->
+            <button type="submit" class="btn-login" id="loginBtn">
+                <i class="fas fa-sign-in-alt"></i>
+                Ingia
+            </button>
+        </form>
+
+        <!-- Divider -->
+        <div class="divider">au</div>
+
+        <!-- Signup Link -->
+        <div class="signup-link">
+            Huna akaunti? <a href="/signup.html">Jisajili Sasa</a>
+        </div>
+    </div>
+
+    <!-- ============================================================
+    TOAST CONTAINER
+    ============================================================ -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- ============================================================
+    JAVASCRIPT
+    ============================================================ -->
+    <script>
+        // ============================================================
+        // CONFIGURATION
+        // ============================================================
+        const API_BASE = window.location.origin + '/api';
+
+        // Firebase Web API Key - Get from Firebase Console
+        // Go to: Firebase Console → Project Settings → General → Web API Key
+        const FIREBASE_WEB_API_KEY = 'AIzaSyDummyKeyReplaceWithReal'; // <-- REPLACE THIS
+
+        // Firebase Auth REST API endpoints
+        const FIREBASE_AUTH_URL = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + FIREBASE_WEB_API_KEY;
+
+        // Check if already logged in
+        const existingToken = localStorage.getItem('authToken');
+        if (existingToken) {
+            verifyToken(existingToken);
+        }
+
+        // ============================================================
+        // TOAST NOTIFICATIONS
+        // ============================================================
+        function showToast(type, title, message) {
+            const container = document.getElementById('toastContainer');
+            const icons = {
+                success: '✅',
+                error: '❌',
+                warning: '⚠️',
+                info: 'ℹ️'
+            };
+
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <span class="toast-icon">${icons[type] || 'ℹ️'}</span>
+                <div class="toast-content">
+                    <div class="toast-title">${title}</div>
+                    <div class="toast-message">${message}</div>
+                </div>
+            `;
+
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(100%)';
+                toast.style.transition = 'all 0.4s ease';
+                setTimeout(() => {
+                    toast.remove();
+                }, 400);
+            }, 5000);
+        }
+
+        // ============================================================
+        // TOGGLE PASSWORD VISIBILITY
+        // ============================================================
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('loginPassword');
+            const icon = document.getElementById('passwordToggleIcon');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.className = 'fas fa-eye-slash';
+            } else {
+                passwordInput.type = 'password';
+                icon.className = 'fas fa-eye';
+            }
+        }
+
+        // ============================================================
+        // VERIFY TOKEN
+        // ============================================================
+        async function verifyToken(token) {
+            try {
+                const res = await fetch(`${API_BASE}/user/profile`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (res.ok) {
+                    // Token is valid, redirect based on role
+                    const data = await res.json();
+                    if (data.success && data.user) {
+                        if (data.user.role === 'admin') {
+                            window.location.href = '/admin.html';
+                        } else {
+                            window.location.href = '/';
+                        }
+                    }
+                } else {
+                    // Token is invalid, clear it
+                    localStorage.removeItem('authToken');
+                }
+            } catch (error) {
+                console.error('Token verification error:', error);
+                localStorage.removeItem('authToken');
+            }
+        }
+
+        // ============================================================
+        // REAL-TIME VALIDATION
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            // Email validation
+            document.getElementById('loginEmail').addEventListener('input', function() {
+                const email = this.value;
+                const error = document.getElementById('emailError');
+                const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+                if (email && !isValid) {
+                    error.classList.add('show');
+                    this.classList.add('error');
+                    this.classList.remove('success');
+                } else if (!email) {
+                    error.classList.remove('show');
+                    this.classList.remove('error');
+                    this.classList.remove('success');
+                } else {
+                    error.classList.remove('show');
+                    this.classList.remove('error');
+                    this.classList.add('success');
+                }
+            });
+
+            // Password validation
+            document.getElementById('loginPassword').addEventListener('input', function() {
+                const password = this.value;
+                const error = document.getElementById('passwordError');
+
+                if (password && password.length < 6) {
+                    error.classList.add('show');
+                    this.classList.add('error');
+                    this.classList.remove('success');
+                } else if (!password) {
+                    error.classList.remove('show');
+                    this.classList.remove('error');
+                    this.classList.remove('success');
+                } else {
+                    error.classList.remove('show');
+                    this.classList.remove('error');
+                    this.classList.add('success');
+                }
+            });
+        });
+
+        // ============================================================
+        // LOGIN HANDLER
+        // ============================================================
+        async function handleLogin(event) {
+            event.preventDefault();
+
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+
+            // Validate
+            let hasError = false;
+
+            if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                document.getElementById('emailError').classList.add('show');
+                document.getElementById('loginEmail').classList.add('error');
+                hasError = true;
+            }
+
+            if (!password || password.length < 6) {
+                document.getElementById('passwordError').classList.add('show');
+                document.getElementById('loginPassword').classList.add('error');
+                hasError = true;
+            }
+
+            if (hasError) {
+                return;
+            }
+
+            // Disable button
+            const btn = document.getElementById('loginBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span> Inaingia...';
+
+            try {
+                // Step 1: Authenticate with Firebase Auth
+                const authResponse = await fetch(FIREBASE_AUTH_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password,
+                        returnSecureToken: true
+                    })
+                });
+
+                const authData = await authResponse.json();
+
+                if (!authResponse.ok) {
+                    let errorMessage = 'Authentication failed';
+
+                    if (authData.error) {
+                        switch (authData.error.message) {
+                            case 'EMAIL_NOT_FOUND':
+                                errorMessage = 'Barua pepe haipatikani. Tafadhali jisajili kwanza.';
+                                break;
+                            case 'INVALID_PASSWORD':
+                                errorMessage = 'Nenosiri si sahihi. Tafadhali jaribu tena.';
+                                break;
+                            case 'USER_DISABLED':
+                                errorMessage = 'Akaunti imezimwa. Tafadhali wasiliana na msaada.';
+                                break;
+                            case 'TOO_MANY_ATTEMPTS_TRY_LATER':
+                                errorMessage = 'Majaribio mengi sana. Tafadhali jaribu baadaye.';
+                                break;
+                            default:
+                                errorMessage = authData.error.message || 'Authentication failed';
+                        }
+                    }
+
+                    showToast('error', 'Kuingia Imeshindwa', errorMessage);
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Ingia';
+                    return;
+                }
+
+                const idToken = authData.idToken;
+                const localId = authData.localId;
+
+                // Step 2: Get user profile from Firestore
+                const profileResponse = await fetch(`${API_BASE}/user/profile`, {
+                    headers: {
+                        'Authorization': `Bearer ${idToken}`
+                    }
+                });
+
+                let userData = null;
+                let isAdmin = false;
+
+                if (profileResponse.ok) {
+                    const profileData = await profileResponse.json();
+                    if (profileData.success && profileData.user) {
+                        userData = profileData.user;
+                        isAdmin = userData.role === 'admin';
+                    }
+                } else {
+                    // User exists in Firebase Auth but not in Firestore
+                    showToast('warning', 'Akaunti Haijakamilika',
+                        'Akaunti yako haijakamilika. Tafadhali wasiliana na msaada au jisajili tena.');
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Ingia';
+                    return;
+                }
+
+                // Step 3: Save token
+                if (rememberMe) {
+                    localStorage.setItem('authToken', idToken);
+                } else {
+                    sessionStorage.setItem('authToken', idToken);
+                    localStorage.setItem('authToken', idToken); // Fallback
+                }
+
+                // Step 4: Show success
+                showToast('success', 'Karibu Sana! 👋',
+                    isAdmin ? 'Karibu Admin! Unaelekezwa kwenye panel yako.' : 'Kuingia kumefanikiwa!');
+
+                // Step 5: Redirect based on role
+                setTimeout(() => {
+                    if (isAdmin) {
+                        window.location.href = '/admin.html';
+                    } else {
+                        window.location.href = '/';
+                    }
+                }, 1000);
+
+            } catch (error) {
+                console.error('Login error:', error);
+                showToast('error', 'Error', error.message || 'Failed to login. Please try again.');
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Ingia';
+            }
+        }
+
+        // ============================================================
+        // ENTER KEY SUPPORT
+        // ============================================================
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                const form = document.getElementById('loginForm');
+                if (form && document.activeElement?.closest('form') === form) {
+                    e.preventDefault();
+                    handleLogin(e);
+                }
+            }
+        });
+
+        // ============================================================
+        // CONSOLE HELP
+        // ============================================================
+        console.log('%c🔐 HarakaPay Login', 'font-size:20px; font-weight:bold; color:#6C3CE1;');
+        console.log('%cFirebase Auth + Firestore Integration', 'font-size:14px;');
+        console.log('%c⚠️ IMPORTANT: Replace FIREBASE_WEB_API_KEY with your actual Firebase Web API Key', 'color:#FFD600;');
+        console.log('%c📌 Get it from: Firebase Console → Project Settings → General → Web API Key', 'color:#00C853;');
+
+        // ============================================================
+        // HANDLE REDIRECTS
+        // ============================================================
+        const params = new URLSearchParams(window.location.search);
+        const redirectReason = params.get('reason');
+
+        if (redirectReason === 'session_expired') {
+            showToast('warning', 'Muda Umeisha', 'Muda wako wa kuingia umeisha. Tafadhali ingia tena.');
+        } else if (redirectReason === 'unauthorized') {
+            showToast('warning', 'Hakuna Ruhusa', 'Tafadhali ingia ili kuendelea.');
+        }
+
+        // Pre-fill email if provided
+        const prefilledEmail = params.get('email');
+        if (prefilledEmail) {
+            document.getElementById('loginEmail').value = prefilledEmail;
+        }
+    </script>
+</body>
+</html>
