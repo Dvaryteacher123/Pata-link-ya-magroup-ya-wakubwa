@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Login - HarakaPay Digital Links</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6C3CE1;
+            --primary-dark: #5A2FC7;
+            --primary-light: #8B6AE8;
+            --primary-gradient: linear-gradient(135deg, #6C3CE1, #9B6BFF);
+            --success: #00C853;
+            --danger: #FF1744;
+            --warning: #FFD600;
+            --bg-primary: #0A0A1A;
+            --bg-secondary: #14142E;
+            --bg-card: #14142E;
+            --bg-input: #0A0A1A;
+            --text-primary: #FFFFFF;
+            --text-secondary: #A0A0C0;
+            --text-muted: #6A6A8A;
+            --border-color: #2A2A4A;
+            --shadow: 0 8px 32px rgba(108, 60, 225, 0.15);
+            --shadow-lg: 0 16px 48px rgba(108, 60, 225, 0.25);
+            --radius: 16px;
+            --radius-sm: 8px;
+            --radius-lg: 24px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .bg-effects {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .bg-effects .circle {
+            position: absolute;
+            border-radius: 50%;
+            background: var(--primary);
+            opacity: 0.05;
+            filter: blur(80px);
+        }
+
+        .bg-effects .circle:nth-child(1) {
+            width: 600px;
+            height: 600px;
+            top: -200px;
+            right: -200px;
+        }
+
+        .bg-effects .circle:nth-child(2) {
+            width: 400px;
+            height: 400px;
+            bottom: -100px;
+            left: -100px;
+            background: #9B6BFF;
+        }
+
+        .login-container {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 440px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 40px 32px;
+            box-shadow: var(--shadow-lg);
+            animation: fadeInUp 0.6s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .login-header .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            margin-bottom: 8px;
+        }
+
+        .login-header .logo i {
+            font-size: 32px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .login-header .logo h1 {
+            font-size: 26px;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .login-header .subtitle {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        .login-header .admin-badge {
+            display: inline-block;
+            background: rgba(108, 60, 225, 0.15);
+            color: var(--primary-light);
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 8px;
+            border: 1px solid rgba(108, 60, 225, 0.2);
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            font-size: 14px;
+            margin-bottom: 6px;
+            color: var(--text-secondary);
+        }
+
+        .form-group .input-wrapper {
+            position: relative;
+        }
+
+        .form-group .input-wrapper i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 16px;
+        }
+
+        .form-group .input-wrapper input {
+            width: 100%;
+            padding: 12px 16px 12px 44px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 16px;
+            font-family: inherit;
+            transition: var(--transition);
+        }
+
+        .form-group .input-wrapper input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(108, 60, 225, 0.15);
+        }
+
+        .form-group .input-wrapper input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .form-group .input-wrapper input.error {
+            border-color: var(--danger);
+        }
+
+        .form-group .input-wrapper input.success {
+            border-color: var(--success);
+        }
+
+        .form-group .toggle-password {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 16px;
+            transition: var(--transition);
+        }
+
+        .form-group .toggle-password:hover {
+            color: var(--text-primary);
+        }
+
+        .form-group .field-error {
+            color: var(--danger);
+            font-size: 12px;
+            margin-top: 4px;
+            display: none;
+        }
+
+        .form-group .field-error.show {
+            display: block;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-login:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-login .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 24px 0;
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border-color);
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .back-link a {
+            color: var(--primary-light);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .back-link a:hover {
+            color: var(--text-primary);
+        }
+
+        .toast-container {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            z-index: 3000;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .toast {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: slideIn 0.4s ease;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .toast.success {
+            border-left: 4px solid var(--success);
+        }
+        .toast.error {
+            border-left: 4px solid var(--danger);
+        }
+        .toast.warning {
+            border-left: 4px solid var(--warning);
+        }
+        .toast.info {
+            border-left: 4px solid var(--primary);
+        }
+
+        .toast .toast-icon {
+            font-size: 20px;
+        }
+
+        .toast .toast-content {
+            flex: 1;
+        }
+
+        .toast .toast-title {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .toast .toast-message {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 28px 20px;
+            }
+
+            .login-header .logo h1 {
+                font-size: 22px;
+            }
+
+            .toast-container {
+                left: 16px;
+                right: 16px;
+                top: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-effects">
+        <div class="circle"></div>
+        <div class="circle"></div>
+    </div>
+
+    <div class="login-container">
+        <div class="login-header">
+            <a href="/" class="logo">
+                <i class="fas fa-bolt"></i>
+                <h1>HarakaPay</h1>
+            </a>
+            <p class="subtitle">Ingia kwenye Admin Panel</p>
+            <span class="admin-badge"><i class="fas fa-shield-alt"></i> Admin Access</span>
+        </div>
+
+        <form id="adminLoginForm" onsubmit="handleAdminLogin(event)" novalidate>
+            <div class="form-group">
+                <label>Barua Pepe</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-envelope"></i>
+                    <input
+                        type="email"
+                        id="adminEmail"
+                        required
+                        placeholder="admin@example.com"
+                        autocomplete="email"
+                    />
+                </div>
+                <div class="field-error" id="emailError">Tafadhali ingiza barua pepe sahihi.</div>
+            </div>
+
+            <div class="form-group">
+                <label>Nenosiri</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-lock"></i>
+                    <input
+                        type="password"
+                        id="adminPassword"
+                        required
+                        placeholder="••••••••"
+                        autocomplete="current-password"
+                    />
+                    <button
+                        type="button"
+                        class="toggle-password"
+                        onclick="togglePasswordVisibility()"
+                        aria-label="Toggle password visibility"
+                    >
+                        <i class="fas fa-eye" id="passwordToggleIcon"></i>
+                    </button>
+                </div>
+                <div class="field-error" id="passwordError">Tafadhali ingiza nenosiri lako.</div>
+            </div>
+
+            <button type="submit" class="btn-login" id="adminLoginBtn">
+                <i class="fas fa-sign-in-alt"></i>
+                Ingia kama Admin
+            </button>
+        </form>
+
+        <div class="divider">au</div>
+
+        <div class="back-link">
+            <a href="/login.html"><i class="fas fa-arrow-left"></i> Nenda kwenye Login ya Kawaida</a>
+        </div>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        // ============================================================
+        // CONFIGURATION
+        // ============================================================
+        const API_BASE = window.location.origin + '/api';
+
+        // Check if already logged in as admin
+        const existingToken = localStorage.getItem('authToken');
+        if (existingToken) {
+            verifyAdminToken(existingToken);
+        }
+
+        // ============================================================
+        // TOAST
+        // ============================================================
+        function showToast(type, title, message) {
+            const container = document.getElementById('toastContainer');
+            const icons = {
+                success: '✅',
+                error: '❌',
+                warning: '⚠️',
+                info: 'ℹ️'
+            };
+
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <span class="toast-icon">${icons[type] || 'ℹ️'}</span>
+                <div class="toast-content">
+                    <div class="toast-title">${title}</div>
+                    <div class="toast-message">${message}</div>
+                </div>
+            `;
+
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(100%)';
+                toast.style.transition = 'all 0.4s ease';
+                setTimeout(() => {
+                    toast.remove();
+                }, 400);
+            }, 5000);
+        }
+
+        // ============================================================
+        // TOGGLE PASSWORD
+        // ============================================================
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('adminPassword');
+            const icon = document.getElementById('passwordToggleIcon');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.className = 'fas fa-eye-slash';
+            } else {
+                passwordInput.type = 'password';
+                icon.className = 'fas fa-eye';
+            }
+        }
+
+        // ============================================================
+        // VERIFY ADMIN TOKEN
+        // ============================================================
+        async function verifyAdminToken(token) {
+            try {
+                const response = await fetch(`${API_BASE}/auth/verify`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ token })
+                });
+
+                const data = await response.json();
+
+                if (data.success && data.valid && data.user && data.user.role === 'admin') {
+                    // Already logged in as admin - redirect to admin dashboard
+                    window.location.href = '/admin-dashboard.html';
+                } else if (data.success && data.valid) {
+                    // Logged in but not admin
+                    showToast('warning', 'Access Denied', 'You do not have admin privileges.');
+                    localStorage.removeItem('authToken');
+                } else {
+                    localStorage.removeItem('authToken');
+                }
+            } catch (error) {
+                console.error('Token verification error:', error);
+                localStorage.removeItem('authToken');
+            }
+        }
+
+        // ============================================================
+        // REAL-TIME VALIDATION
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('adminEmail').addEventListener('input', function() {
+                const email = this.value;
+                const error = document.getElementById('emailError');
+                const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+                if (email && !isValid) {
+                    error.classList.add('show');
+                    this.classList.add('error');
+                    this.classList.remove('success');
+                } else if (!email) {
+                    error.classList.remove('show');
+                    this.classList.remove('error');
+                    this.classList.remove('success');
+                } else {
+                    error.classList.remove('show');
+                    this.classList.remove('error');
+                    this.classList.add('success');
+                }
+            });
+
+            document.getElementById('adminPassword').addEventListener('input', function() {
+                const password = this.value;
+                const error = document.getElementById('passwordError');
+
+                if (password && password.length < 6) {
+                    error.classList.add('show');
+                    this.classList.add('error');
+                    this.classList.remove('success');
+                } else if (!password) {
+                    error.classList.remove('show');
+                    this.classList.remove('error');
+                    this.classList.remove('success');
+                } else {
+                    error.classList.remove('show');
+                    this.classList.remove('error');
+                    this.classList.add('success');
+                }
+            });
+        });
+
+        // ============================================================
+        // ADMIN LOGIN HANDLER
+        // ============================================================
+        async function handleAdminLogin(event) {
+            event.preventDefault();
+
+            const email = document.getElementById('adminEmail').value.trim();
+            const password = document.getElementById('adminPassword').value;
+
+            // Validate
+            let hasError = false;
+
+            if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                document.getElementById('emailError').classList.add('show');
+                document.getElementById('adminEmail').classList.add('error');
+                hasError = true;
+            }
+
+            if (!password || password.length < 6) {
+                document.getElementById('passwordError').classList.add('show');
+                document.getElementById('adminPassword').classList.add('error');
+                hasError = true;
+            }
+
+            if (hasError) {
+                return;
+            }
+
+            // Disable button
+            const btn = document.getElementById('adminLoginBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span> Inaingia...';
+
+            try {
+                // Login via backend
+                const response = await fetch(`${API_BASE}/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password
+                    })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'Login failed');
+                }
+
+                if (!data.success) {
+                    throw new Error(data.error || 'Login failed');
+                }
+
+                // Check if user is admin
+                if (data.user && data.user.role === 'admin') {
+                    // Save token
+                    localStorage.setItem('authToken', data.token);
+
+                    showToast('success', 'Karibu Admin! 👋', 'Kuingia kumefanikiwa!');
+
+                    // Redirect to admin dashboard
+                    setTimeout(() => {
+                        window.location.href = '/admin-dashboard.html';
+                    }, 1000);
+
+                } else {
+                    // Logged in but not admin
+                    showToast('warning', 'Access Denied', 'You do not have admin privileges. Please use the regular login.');
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Ingia kama Admin';
+                }
+
+            } catch (error) {
+                console.error('Admin login error:', error);
+                showToast('error', 'Kuingia Imeshindwa', error.message || 'Failed to login. Please check your credentials.');
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Ingia kama Admin';
+            }
+        }
+
+        // ============================================================
+        // ENTER KEY SUPPORT
+        // ============================================================
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                const form = document.getElementById('adminLoginForm');
+                if (form && document.activeElement?.closest('form') === form) {
+                    e.preventDefault();
+                    handleAdminLogin(e);
+                }
+            }
+        });
+
+        console.log('%c🔐 Admin Login', 'font-size:20px; font-weight:bold; color:#6C3CE1;');
+        console.log('%c⚠️ Only users with admin role can access this panel', 'color:#FFD600;');
+        console.log('%c📌 Use the same email and password from signup', 'color:#A0A0C0;');
+    </script>
+</body>
+  </html>
