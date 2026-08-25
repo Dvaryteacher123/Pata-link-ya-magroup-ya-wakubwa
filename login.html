@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ingia - Dvary Groups</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f9; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .container { background: white; padding: 25px; border-radius: 8px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); width: 100%; max-width: 350px; }
+        h2 { text-align: center; color: #333; }
+        input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        button { width: 100%; padding: 10px; background-color: #25D366; color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; }
+        button:hover { background-color: #128C7E; }
+        p { text-align: center; margin-top: 15px; }
+        a { color: #25D366; text-decoration: none; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Ingia kwenye Akaunti</h2>
+        <form id="loginForm">
+            <input type="email" id="loginEmail" placeholder="Barua pepe" required>
+            <input type="password" id="loginPassword" placeholder="Nenosiri" required>
+            <button type="submit">Ingia</button>
+        </form>
+        <p>Huna akaunti? <a href="/signup">Jisajili hapa</a></p>
+    </div>
+
+    <!-- Firebase SDK na Skrini ya Kuingia -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        
+        // Weka taarifa zako za Firebase hapa
+        const firebaseConfig = {
+            apiKey: "API_KEY_YAKO_YA_FIREBASE",
+            authDomain: "auth_domain_yako.firebaseapp.com",
+            projectId: "project_id_yako"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                alert("Umeingia kwa mafanikio!");
+                window.location.href = "/dashboard"; // Inakupeleka moja kwa moja kwenye dashboard
+            } catch (error) {
+                alert("Imeshindikana kuingia: " + error.message);
+            }
+        });
+    </script>
+
+</body>
+</html>
+
