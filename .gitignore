@@ -1,0 +1,13 @@
+# Mafaili ya Siri na Mazingira
+.env
+
+# Node.js modules na dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Mafaili ya ziada ya Mfumo wa Uendeshaji (OS)
+.DS_Store
+Thumbs.db
+
