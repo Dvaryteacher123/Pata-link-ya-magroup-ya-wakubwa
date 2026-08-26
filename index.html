@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes" />
+    <title>Dvary Groups – Nunua Link za WhatsApp</title>
+
+    <!-- Font Awesome 6 (Free) kwa icons nzuri -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+    <style>
+        /* ----- RESET & ROOT VARIABLES ----- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #e91e8c;
+            /* pink main */
+            --primary-dark: #c2187b;
+            --primary-light: #f8e1f0;
+            --gradient: linear-gradient(145deg, #f06292, #ba68c8);
+            --bg-light: #fceef5;
+            --white: #ffffff;
+            --shadow: 0 10px 30px rgba(233, 30, 140, 0.15);
+            --radius: 20px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg-light);
+            color: #2d2d2d;
+            padding: 16px 12px 40px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+        }
+
+        .app-wrapper {
+            max-width: 480px;
+            width: 100%;
+        }
+
+        /* ----- TOP NAVIGATION (premium) ----- */
+        .top-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--white);
+            padding: 12px 18px;
+            border-radius: 50px;
+            box-shadow: var(--shadow);
+            margin-bottom: 24px;
+            position: sticky;
+            top: 8px;
+            z-index: 30;
+            backdrop-filter: blur(6px);
+            background: rgba(255, 255, 255, 0.92);
+            border: 1px solid rgba(233, 30, 140, 0.08);
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.3rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+        .logo i {
+            -webkit-text-fill-color: initial;
+            color: var(--primary);
+            margin-right: 4px;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-icon {
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            color: #444;
+            cursor: pointer;
+            position: relative;
+            transition: var(--transition);
+            padding: 4px;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(233, 30, 140, 0.04);
+        }
+        .nav-icon:hover {
+            background: rgba(233, 30, 140, 0.12);
+            transform: scale(1.05);
+        }
+
+        /* badge ya notification */
+        .badge {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            background: #e91e8c;
+            color: white;
+            font-size: 0.6rem;
+            font-weight: 700;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid white;
+            box-shadow: 0 2px 8px rgba(233, 30, 140, 0.4);
+        }
+
+        /* mobile menu (dropdown) */
+        .mobile-menu {
+            display: none;
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 16px 12px;
+            margin-top: 8px;
+            box-shadow: var(--shadow);
+            flex-direction: column;
+            gap: 4px;
+            border: 1px solid rgba(233, 30, 140, 0.06);
+        }
+        .mobile-menu.open {
+            display: flex;
+        }
+        .mobile-menu a {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 16px;
+            border-radius: 14px;
+            color: #2d2d2d;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        .mobile-menu a i {
+            width: 24px;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+        .mobile-menu a:hover {
+            background: var(--primary-light);
+        }
+
+        /* ----- HERO / WELCOME ----- */
+        .hero {
+            background: var(--gradient);
+            padding: 28px 22px;
+            border-radius: var(--radius);
+            color: white;
+            margin-bottom: 28px;
+            box-shadow: 0 12px 30px rgba(233, 30, 140, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: -40%;
+            right: -20%;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+        }
+        .hero h1 {
+            font-size: 1.7rem;
+            font-weight: 700;
+            position: relative;
+            z-index: 2;
+        }
+        .hero p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+            margin-top: 6px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ----- SECTION TITLES ----- */
+        .section-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 28px 0 16px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1e1e2a;
+        }
+        .section-title i {
+            color: var(--primary);
+            margin-right: 8px;
+        }
+        .section-title .see-all {
+            font-size: 0.8rem;
+            font-weight: 400;
+            color: var(--primary);
+            cursor: pointer;
+        }
+
+        /* ----- PRODUCT CARDS (premium) ----- */
+        .groups-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .group-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(233, 30, 140, 0.06);
+            transition: var(--transition);
+            animation: fadeUp 0.4s ease;
+        }
+        .group-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px rgba(233, 30, 140, 0.10);
+        }
+
+        .group-img {
+            width: 100%;
+            height: 170px;
+            object-fit: cover;
+            background: #f0e6ea;
+        }
+
+        .group-body {
+            padding: 16px 18px 18px;
+        }
+        .group-body h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1e1e2a;
+            margin-bottom: 2px;
+        }
+        .group-desc {
+            font-size: 0.85rem;
+            color: #777;
+            margin-bottom: 10px;
+        }
+        .group-price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 14px;
+        }
+        .group-price small {
+            font-weight: 400;
+            font-size: 0.75rem;
+            color: #999;
+        }
+
+        .buy-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: 60px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 14px rgba(233, 30, 140, 0.25);
+        }
+        .buy-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 20px rgba(233, 30, 140, 0.35);
+        }
+        .buy-btn i {
+            font-size: 1rem;
+        }
+
+        /* ----- ORDERS SECTION (My Orders) ----- */
+        .orders-section {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 18px 16px;
+            margin-top: 28px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(233, 30, 140, 0.05);
+        }
+        .orders-section h3 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+        .orders-section h3 i {
+            color: var(--primary);
+        }
+
+        .order-item {
+            padding: 14px 0;
+            border-bottom: 1px solid #f0eef3;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: fadeUp 0.3s ease;
+        }
+        .order-item:last-child {
+            border-bottom: none;
+        }
+        .order-info strong {
+            display: block;
+            font-size: 0.95rem;
+        }
+        .order-meta {
+            font-size: 0.75rem;
+            color: #999;
+        }
+        .order-status {
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 30px;
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        .order-status.pending {
+            background: #fff3e0;
+            color: #e65100;
+        }
+        .order-link-btn {
+            background: var(--gradient);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+        .order-link-btn:hover {
+            transform: scale(1.03);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 28px 10px;
+            color: #999;
+        }
+        .empty-state i {
+            font-size: 2.4rem;
+            color: #ddd;
+            margin-bottom: 8px;
+        }
+
+        /* ----- DASHBOARD (stats) ----- */
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+            margin: 20px 0 6px;
+        }
+        .stat-card {
+            background: var(--white);
+            padding: 16px 8px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(233, 30, 140, 0.05);
+        }
+        .stat-card .number {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        .stat-card .label {
+            font-size: 0.7rem;
+            color: #888;
+            margin-top: 2px;
+        }
+
+        /* ----- MODALS (premium) ----- */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(6px);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            animation: fadeIn 0.25s ease;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-box {
+            background: var(--white);
+            border-radius: 28px;
+            max-width: 400px;
+            width: 100%;
+            padding: 28px 24px 24px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+            animation: slideUp 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-box h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .modal-box .sub {
+            color: #777;
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+        }
+        .modal-box .price-display {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 6px 0 16px;
+        }
+        .modal-box input,
+        .modal-box select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1.5px solid #eee;
+            border-radius: 60px;
+            font-size: 1rem;
+            margin: 8px 0 16px;
+            background: #f9f7fa;
+            transition: var(--transition);
+            outline: none;
+        }
+        .modal-box input:focus {
+            border-color: var(--primary);
+            background: white;
+        }
+        .modal-box .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 8px;
+        }
+        .modal-box .btn-group button {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .modal-box .btn-primary {
+            background: var(--gradient);
+            color: white;
+            box-shadow: 0 4px 14px rgba(233, 30, 140, 0.25);
+        }
+        .modal-box .btn-primary:hover {
+            transform: scale(1.02);
+        }
+        .modal-box .btn-secondary {
+            background: #f0edf3;
+            color: #444;
+        }
+        .modal-box .btn-secondary:hover {
+            background: #e5e0e8;
+        }
+
+        /* order details inside modal */
+        .order-detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0eef3;
+            font-size: 0.9rem;
+        }
+        .order-detail-row .label {
+            color: #888;
+        }
+        .order-detail-row .value {
+            font-weight: 600;
+        }
+        .order-detail-row .value.completed {
+            color: #2e7d32;
+        }
+        .order-detail-row .value.pending {
+            color: #e65100;
+        }
+
+        /* ----- NOTIFICATION PANEL (slide-in) ----- */
+        .notif-panel {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            max-width: 400px;
+            height: 100%;
+            background: var(--white);
+            z-index: 200;
+            padding: 24px 20px;
+            box-shadow: -10px 0 40px rgba(0, 0, 0, 0.08);
+            transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-y: auto;
+        }
+        .notif-panel.open {
+            right: 0;
+        }
+        .notif-panel .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .notif-panel .panel-header h2 {
+            font-size: 1.2rem;
+        }
+        .notif-panel .panel-header button {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #888;
+        }
+        .notif-item {
+            padding: 14px 0;
+            border-bottom: 1px solid #f0eef3;
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+        }
+        .notif-item i {
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin-top: 2px;
+        }
+        .notif-item .notif-content {
+            flex: 1;
+        }
+        .notif-item .notif-content .title {
+            font-weight: 600;
+        }
+        .notif-item .notif-content .time {
+            font-size: 0.7rem;
+            color: #aaa;
+            margin-top: 2px;
+        }
+
+        /* overlay kwa notif panel */
+        .panel-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.2);
+            z-index: 150;
+        }
+        .panel-overlay.active {
+            display: block;
+        }
+
+        /* ----- ANIMATIONS ----- */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(14px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* ----- RESPONSIVE fine-tune ----- */
+        @media (max-width: 400px) {
+            .dashboard-stats {
+                grid-template-columns: 1fr 1fr;
+            }
+            .hero h1 {
+                font-size: 1.4rem;
+            }
+        }
+
+        /* scrollbar nzuri */
+        .notif-panel::-webkit-scrollbar {
+            width: 4px;
+        }
+        .notif-panel::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+
+        /* profile card */
+        .profile-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-top: 16px;
+            border: 1px solid rgba(233, 30, 140, 0.05);
+            box-shadow: var(--shadow);
+        }
+        .profile-card .avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+            margin-bottom: 12px;
+        }
+        .profile-card .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 0.9rem;
+            border-bottom: 1px solid #f5f0f5;
+        }
+        .profile-card .info-row:last-child {
+            border-bottom: none;
+        }
+        .logout-btn {
+            margin-top: 16px;
+            width: 100%;
+            padding: 12px;
+            border: 1.5px solid #e91e8c;
+            background: transparent;
+            color: var(--primary);
+            border-radius: 60px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .logout-btn:hover {
+            background: #fce4f0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-wrapper">
+
+        <!-- ====== TOP NAVIGATION ====== -->
+        <nav class="top-nav">
+            <div class="logo"><i class="fas fa-crown"></i> Dvary</div>
+            <div class="nav-actions">
+                <button class="nav-icon" id="notifToggle" aria-label="Notifications">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge" id="notifBadge">0</span>
+                </button>
+                <button class="nav-icon" id="menuToggle" aria-label="Menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="#" data-section="home"><i class="fas fa-home"></i> Nyumbani</a>
+            <a href="#" data-section="products"><i class="fas fa-layer-group"></i> Magroup</a>
+            <a href="#" data-section="orders"><i class="fas fa-receipt"></i> Oda Zangu</a>
+            <a href="#" data-section="dashboard"><i class="fas fa-chart-pie"></i> Dashboard</a>
+            <a href="#" data-section="profile"><i class="fas fa-user"></i> Profile</a>
+        </div>
+
+        <!-- ====== HERO ====== -->
+        <section class="hero" id="homeSection">
+            <h1><i class="fas fa-rocket" style="margin-right:8px;"></i>Dvary Groups</h1>
+            <p>Nunua link za WhatsApp groups za premium, haraka na salama.</p>
+        </section>
+
+        <!-- ====== PRODUCTS / GROUPS ====== -->
+        <div class="section-title" id="productsSection">
+            <span><i class="fas fa-layer-group"></i> Magroup Yanayopatikana</span>
+            <span class="see-all">Tazama yote</span>
+        </div>
+        <div id="groupsList" class="groups-grid">
+            <div style="text-align:center;padding:30px 0;color:#aaa;">
+                <i class="fas fa-spinner fa-pulse" style="font-size:1.8rem;"></i>
+                <p style="margin-top:8px;">Inapakia...</p>
+            </div>
+        </div>
+
+        <!-- ====== DASHBOARD STATS ====== -->
+        <div class="section-title" id="dashboardSection" style="margin-top:32px;">
+            <span><i class="fas fa-chart-pie"></i> Dashboard Yako</span>
+        </div>
+        <div class="dashboard-stats" id="dashboardStats">
+            <div class="stat-card"><div class="number" id="totalOrders">0</div><div class="label">Jumla</div></div>
+            <div class="stat-card"><div class="number" id="completedOrders">0</div><div class="label">Zimekamilika</div></div>
+            <div class="stat-card"><div class="number" id="pendingOrders">0</div><div class="label">Zinazingatia</div></div>
+        </div>
+
+        <!-- ====== MY ORDERS ====== -->
+        <div class="orders-section" id="ordersSection">
+            <h3><i class="fas fa-receipt"></i> Oda Zangu</h3>
+            <div id="myOrdersList">
+                <div class="empty-state">
+                    <i class="fas fa-inbox"></i>
+                    <p>Huna oda bado. Nunua group leo!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ====== PROFILE ====== -->
+        <div class="section-title" id="profileSection" style="margin-top:28px;">
+            <span><i class="fas fa-user"></i> Profile Yako</span>
+        </div>
+        <div class="profile-card" id="profileCard">
+            <div class="avatar"><i class="fas fa-user"></i></div>
+            <div class="info-row"><span class="label">Jina</span><span>Mteja wa Dvary</span></div>
+            <div class="info-row"><span class="label">Barua pepe</span><span>mteja@dvary.com</span></div>
+            <div class="info-row"><span class="label">Simu</span><span>+255 700 000 000</span></div>
+            <div class="info-row"><span class="label">Hali</span><span style="color:#2e7d32;font-weight:600;">Inatumika</span></div>
+            <div class="info-row"><span class="label">Tarehe ya kujiunga</span><span>26 Aug 2026</span></div>
+            <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> &nbsp;Toka</button>
+        </div>
+
+        <!-- ====== PAYMENT MODAL ====== -->
+        <div class="modal-overlay" id="paymentModal">
+            <div class="modal-box">
+                <h3 id="modalGroupName">Kamilisha Malipo</h3>
+                <div class="sub">Unanunua link ya group</div>
+                <div class="price-display" id="modalGroupPrice">TZS 0</div>
+
+                <label style="font-weight:500;font-size:0.9rem;">Namba ya simu (Mf. 0712345678)</label>
+                <input type="tel" id="clientPhone" placeholder="0712345678" />
+
+                <label style="font-weight:500;font-size:0.9rem;">Jina lako (hiari)</label>
+                <input type="text" id="clientName" placeholder="Jina lako" />
+
+                <div class="btn-group">
+                    <button class="btn-primary" id="confirmPayBtn"><i class="fas fa-check"></i> Lipa Sasa</button>
+                    <button class="btn-secondary" id="closeModalBtn">Ghairi</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ====== ORDER DETAILS MODAL ====== -->
+        <div class="modal-overlay" id="orderDetailModal">
+            <div class="modal-box">
+                <h3><i class="fas fa-file-invoice"></i> Maelezo ya Oda</h3>
+                <div class="sub" id="detailOrderId">#DV-0000</div>
+                <div id="orderDetailContent">
+                    <div class="order-detail-row"><span class="label">Bidhaa</span><span class="value" id="detailProduct">-</span></div>
+                    <div class="order-detail-row"><span class="label">Bei</span><span class="value" id="detailPrice">-</span></div>
+                    <div class="order-detail-row"><span class="label">Hali ya Malipo</span><span class="value" id="detailPaymentStatus">-</span></div>
+                    <div class="order-detail-row"><span class="label">Hali ya Oda</span><span class="value" id="detailOrderStatus">-</span></div>
+                    <div class="order-detail-row"><span class="label">Tarehe</span><span class="value" id="detailDate">-</span></div>
+                    <div class="order-detail-row"><span class="label">Rejea</span><span class="value" id="detailRef">-</span></div>
+                </div>
+                <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;">
+                    <button class="btn-primary" id="detailOpenLink" style="flex:2;display:none;"><i class="fas fa-external-link-alt"></i> Fungua Link</button>
+                    <button class="btn-secondary" id="closeDetailModal" style="flex:1;">Funga</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ====== NOTIFICATION PANEL (slide-in) ====== -->
+        <div class="panel-overlay" id="notifOverlay"></div>
+        <div class="notif-panel" id="notifPanel">
+            <div class="panel-header">
+                <h2><i class="fas fa-bell" style="color:var(--primary);"></i> Arifa</h2>
+                <button id="closeNotifPanel"><i class="fas fa-times"></i></button>
+            </div>
+            <div id="notifList">
+                <div class="empty-state" style="padding:30px 0;">
+                    <i class="fas fa-check-circle" style="color:var(--primary);"></i>
+                    <p>Huna arifa mpya.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ====== FIREBASE + APPLICATION LOGIC ====== -->
+    <script type="module">
+        // ----- Firebase Imports -----
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import {
+            getFirestore,
+            collection,
+            getDocs,
+            doc,
+            getDoc,
+            addDoc,
+            serverTimestamp,
+            query,
+            orderBy,
+            setDoc,
+            updateDoc,
+            arrayUnion,
+            onSnapshot
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCmwASW4XXQ3O0AvsCM_r1WLlrUmGjYVxI",
+            authDomain: "dvary-9a7d0.firebaseapp.com",
+            projectId: "dvary-9a7d0",
+            storageBucket: "dvary-9a7d0.firebasestorage.app",
+            messagingSenderId: "107370806066",
+            appId: "1:107370806066:web:4c2ce1e6f7b6c32909f52b",
+            measurementId: "G-07361LFJEP"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // ----- STATE -----
+        let activeGroup = null;
+        let activeOrderId = null;
+        let allOrders = [];
+        let allNotifications = [];
+        let currentUser = 'mteja_001'; // in production, hii itokane na auth
+
+        // ----- DOM refs -----
+        const groupsList = document.getElementById('groupsList');
+        const myOrdersList = document.getElementById('myOrdersList');
+        const notifList = document.getElementById('notifList');
+        const notifBadge = document.getElementById('notifBadge');
+
+        // ----- helper: generate ref number -----
+        function generateRef() {
+            return 'DV-' + Date.now().toString().slice(-6) + Math.floor(Math.random() * 100);
+        }
+
+        // ----- 1. LOAD NOTIFICATIONS (from Firestore) -----
+        async function loadNotifications() {
+            try {
+                const q = query(collection(db, "notifications"), orderBy("createdAt", "desc"));
+                const snap = await getDocs(q);
+                allNotifications = [];
+                snap.forEach(d => {
+                    allNotifications.push({ id: d.id, ...d.data() });
+                });
+                renderNotifications();
+                updateNotifBadge();
+            } catch (e) {
+                console.error("Notif error:", e);
+            }
+        }
+
+        function renderNotifications() {
+            if (allNotifications.length === 0) {
+                notifList.innerHTML = `
+                    <div class="empty-state" style="padding:30px 0;">
+                        <i class="fas fa-check-circle" style="color:var(--primary);"></i>
+                        <p>Huna arifa mpya.</p>
+                    </div>
+                `;
+                return;
+            }
+            notifList.innerHTML = allNotifications.map(n => `
+                <div class="notif-item">
+                    <i class="fas fa-${n.icon || 'bell'}"></i>
+                    <div class="notif-content">
+                        <div class="title">${n.title || 'Taarifa'}</div>
+                        <div style="font-size:0.85rem;color:#555;">${n.message || ''}</div>
+                        <div class="time">${n.createdAt ? new Date(n.createdAt.seconds*1000).toLocaleString() : 'Sasa hivi'}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateNotifBadge() {
+            const unread = allNotifications.filter(n => !n.read).length;
+            notifBadge.textContent = unread > 0 ? unread : '0';
+            notifBadge.style.display = unread > 0 ? 'flex' : 'none';
+        }
+
+        // ----- 2. LOAD GROUPS (from Firestore) -----
+        async function loadGroups() {
+            try {
+                const snap = await getDocs(collection(db, "groups"));
+                if (snap.empty) {
+                    groupsList.innerHTML = `<div class="empty-state"><i class="fas fa-folder-open"></i><p>Hakuna magroup kwa sasa.</p></div>`;
+                    return;
+                }
+                let html = '';
+                snap.forEach(doc => {
+                    const g = doc.data();
+                    html += `
+                        <div class="group-card">
+                            <img src="${g.image || 'https://via.placeholder.com/400x170/f8e1f0/e91e8c?text=Dvary+Group'}" alt="${g.name}" class="group-img" loading="lazy">
+                            <div class="group-body">
+                                <h3>${g.name}</h3>
+                                <div class="group-desc">${g.description || 'Premium WhatsApp Group'}</div>
+                                <div class="group-price">TZS ${g.price} <small>/ link</small></div>
+                                <button class="buy-btn" data-id="${doc.id}"><i class="fas fa-shopping-cart"></i> Nunua Sasa</button>
+                            </div>
+                        </div>
+                    `;
+                });
+                groupsList.innerHTML = html;
+
+                // attach events
+                document.querySelectorAll('.buy-btn').forEach(btn => {
+                    btn.addEventListener('click', async () => {
+                        const id = btn.dataset.id;
+                        const snap = await getDoc(doc(db, "groups", id));
+                        if (snap.exists()) {
+                            activeGroup = { id: snap.id, ...snap.data() };
+                            openPaymentModal(activeGroup);
+                        }
+                    });
+                });
+            } catch (e) {
+                groupsList.innerHTML = `<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><p>Hitilafu: ${e.message}</p></div>`;
+                console.error(e);
+            }
+        }
+
+        // ----- 3. LOAD ORDERS (from Firestore) -----
+        async function loadOrders() {
+            try {
+                const q = query(collection(db, "orders"), orderBy("createdAt", "desc"));
+                const snap = await getDocs(q);
+                allOrders = [];
+                snap.forEach(d => {
+                    const data = d.data();
+                    // filter kwa user (kwa sasa tunatumia currentUser)
+                    if (data.userId === currentUser) {
+                        allOrders.push({ id: d.id, ...data });
+                    }
+                });
+                renderOrders();
+                updateDashboardStats();
+            } catch (e) {
+                console.error("Orders error:", e);
+            }
+        }
+
+        function renderOrders() {
+            if (allOrders.length === 0) {
+                myOrdersList.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-inbox"></i>
+                        <p>Huna oda bado. Nunua group leo!</p>
+                    </div>
+                `;
+                return;
+            }
+            myOrdersList.innerHTML = allOrders.map(o => `
+                <div class="order-item">
+                    <div class="order-info">
+                        <strong>${o.productName || 'Group'}</strong>
+                        <span class="order-meta">TZS ${o.amount} · ${o.orderStatus || 'Pending'}</span>
+                    </div>
+                    <div style="display:flex;gap:8px;align-items:center;">
+                        <span class="order-status ${o.orderStatus === 'Completed' ? '' : 'pending'}">${o.orderStatus || 'Pending'}</span>
+                        <button class="order-link-btn" data-orderid="${o.id}"><i class="fas fa-eye"></i></button>
+                    </div>
+                </div>
+            `).join('');
+
+            document.querySelectorAll('.order-link-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const id = btn.dataset.orderid;
+                    const order = allOrders.find(o => o.id === id);
+                    if (order) openOrderDetail(order);
+                });
+            });
+        }
+
+        function updateDashboardStats() {
+            const total = allOrders.length;
+            const completed = allOrders.filter(o => o.orderStatus === 'Completed').length;
+            const pending = allOrders.filter(o => o.orderStatus !== 'Completed').length;
+            document.getElementById('totalOrders').textContent = total;
+            document.getElementById('completedOrders').textContent = completed;
+            document.getElementById('pendingOrders').textContent = pending;
+        }
+
+        // ----- 4. PAYMENT MODAL -----
+        function openPaymentModal(group) {
+            document.getElementById('modalGroupName').textContent = group.name;
+            document.getElementById('modalGroupPrice').textContent = `TZS ${group.price}`;
+            document.getElementById('paymentModal').classList.add('active');
+            document.getElementById('clientPhone').value = '';
+            document.getElementById('clientName').value = '';
+            activeGroup = group;
+        }
+
+        document.getElementById('closeModalBtn').addEventListener('click', () => {
+            document.getElementById('paymentModal').classList.remove('active');
+        });
+
+        document.getElementById('confirmPayBtn').addEventListener('click', async () => {
+            const phone = document.getElementById('clientPhone').value.trim();
+            const name = document.getElementById('clientName').value.trim() || 'Mteja';
+
+            if (!phone || phone.length < 7) {
+                alert('Tafadhali weka namba halali ya simu.');
+                return;
+            }
+
+            if (!activeGroup) {
+                alert('Hitilafu: group haijachaguliwa.');
+                return;
+            }
+
+            // 1. Create order in Firestore
+            const orderData = {
+                userId: currentUser,
+                productId: activeGroup.id || 'unknown',
+                productName: activeGroup.name,
+                amount: activeGroup.price,
+                paymentStatus: 'Paid', // simu yetu ni "payment imetumwa"
+                orderStatus: 'Pending', // inasubiri admin approval
+                paymentReference: generateRef(),
+                purchaseLink: activeGroup.link || '#',
+                clientPhone: phone,
+                clientName: name,
+                createdAt: serverTimestamp(),
+                updatedAt: serverTimestamp()
+            };
+
+            try {
+                const docRef = await addDoc(collection(db, "orders"), orderData);
+                alert(`✅ Ombi la malipo limetumwa!\nRejea: ${orderData.paymentReference}\nOda itakaguliwa na msimamizi.`);
+
+                // 2. Add notification
+                await addDoc(collection(db, "notifications"), {
+                    userId: currentUser,
+                    title: 'Oda mpya imewekwa',
+                    message: `Umenunua ${activeGroup.name} - TZS ${activeGroup.price}. Inasubiri uthibitisho.`,
+                    icon: 'shopping-cart',
+                    read: false,
+                    createdAt: serverTimestamp()
+                });
+
+                document.getElementById('paymentModal').classList.remove('active');
+                // reload orders
+                await loadOrders();
+                await loadNotifications();
+
+                activeGroup = null;
+            } catch (e) {
+                alert('Hitilafu: ' + e.message);
+                console.error(e);
+            }
+        });
+
+        // ----- 5. ORDER DETAIL MODAL -----
+        function openOrderDetail(order) {
+            activeOrderId = order.id;
+            document.getElementById('detailOrderId').textContent = `#${order.paymentReference || order.id.slice(0,8)}`;
+            document.getElementById('detailProduct').textContent = order.productName || '-';
+            document.getElementById('detailPrice').textContent = `TZS ${order.amount || 0}`;
+            document.getElementById('detailPaymentStatus').textContent = order.paymentStatus || 'Pending';
+            document.getElementById('detailPaymentStatus').className = 'value ' + (order.paymentStatus === 'Paid' ? 'completed' : 'pending');
+            document.getElementById('detailOrderStatus').textContent = order.orderStatus || 'Pending';
+            document.getElementById('detailOrderStatus').className = 'value ' + (order.orderStatus === 'Completed' ? 'completed' : 'pending');
+            document.getElementById('detailDate').textContent = order.createdAt ? new Date(order.createdAt.seconds * 1000).toLocaleString() : '-';
+            document.getElementById('detailRef').textContent = order.paymentReference || '-';
+
+            const linkBtn = document.getElementById('detailOpenLink');
+            if (order.orderStatus === 'Completed' && order.purchaseLink) {
+                linkBtn.style.display = 'flex';
+                linkBtn.onclick = () => {
+                    window.open(order.purchaseLink, '_blank');
+                };
+            } else {
+                linkBtn.style.display = 'none';
+            }
+
+            document.getElementById('orderDetailModal').classList.add('active');
+        }
+
+        document.getElementById('closeDetailModal').addEventListener('click', () => {
+            document.getElementById('orderDetailModal').classList.remove('active');
+        });
+
+        // ----- 6. NOTIFICATION PANEL (slide-in) -----
+        const notifPanel = document.getElementById('notifPanel');
+        const notifOverlay = document.getElementById('notifOverlay');
+
+        document.getElementById('notifToggle').addEventListener('click', () => {
+            notifPanel.classList.toggle('open');
+            notifOverlay.classList.toggle('active');
+            // mark all as read
+            if (notifPanel.classList.contains('open')) {
+                allNotifications.forEach(n => n.read = true);
+                updateNotifBadge();
+                // optionally update Firestore
+                allNotifications.forEach(async (n) => {
+                    try {
+                        await updateDoc(doc(db, "notifications", n.id), { read: true });
+                    } catch (e) { /* ignore */ }
+                });
+            }
+        });
+
+        document.getElementById('closeNotifPanel').addEventListener('click', () => {
+            notifPanel.classList.remove('open');
+            notifOverlay.classList.remove('active');
+        });
+        notifOverlay.addEventListener('click', () => {
+            notifPanel.classList.remove('open');
+            notifOverlay.classList.remove('active');
+        });
+
+        // ----- 7. MOBILE MENU -----
+        const mobileMenu = document.getElementById('mobileMenu');
+        document.getElementById('menuToggle').addEventListener('click', () => {
+            mobileMenu.classList.toggle('open');
+        });
+
+        // smooth scroll kwa menu items
+        document.querySelectorAll('.mobile-menu a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                mobileMenu.classList.remove('open');
+                const section = link.dataset.section;
+                const target = document.getElementById(section + 'Section') || document.getElementById('homeSection');
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+
+        // ----- 8. LOGOUT (demo) -----
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            if (confirm('Je, una uhakika unataka kutoka?')) {
+                alert('Umefanikiwa kutoka. (Demo)');
+                // kwa production: firebase auth signOut
+            }
+        });
+
+        // ----- 9. REAL-TIME UPDATES (orders & notifications) -----
+        function listenRealtime() {
+            // orders
+            onSnapshot(query(collection(db, "orders"), orderBy("createdAt", "desc")), (snap) => {
+                allOrders = [];
+                snap.forEach(d => {
+                    const data = d.data();
+                    if (data.userId === currentUser) {
+                        allOrders.push({ id: d.id, ...data });
+                    }
+                });
+                renderOrders();
+                updateDashboardStats();
+            });
+
+            // notifications
+            onSnapshot(query(collection(db, "notifications"), orderBy("createdAt", "desc")), (snap) => {
+                allNotifications = [];
+                snap.forEach(d => {
+                    allNotifications.push({ id: d.id, ...d.data() });
+                });
+                renderNotifications();
+                updateNotifBadge();
+            });
+        }
+
+        // ----- 10. INIT -----
+        async function init() {
+            await loadGroups();
+            await loadOrders();
+            await loadNotifications();
+            listenRealtime();
+        }
+
+        init().catch(console.error);
+
+        // close modals on backdrop click
+        document.querySelectorAll('.modal-overlay').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) modal.classList.remove('active');
+            });
+        });
+
+        console.log('🚀 Dvary Groups — Premium Pink Design');
+        console.log('📦 Data inatoka Firestore realtime.');
+        console.log('👤 Current user:', currentUser);
+    </script>
+</body>
+                                                                                                 </html>
