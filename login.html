@@ -1,38 +1,416 @@
 <!DOCTYPE html>
 <html lang="sw">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5" />
     <title>Ingia - Dvary Groups</title>
+    <!-- Font Awesome 6 (Free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f4f9; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .container { background: white; padding: 25px; border-radius: 8px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); width: 100%; max-width: 350px; }
-        h2 { text-align: center; color: #333; }
-        input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-        button { width: 100%; padding: 10px; background-color: #25D366; color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; }
-        button:hover { background-color: #128C7E; }
-        p { text-align: center; margin-top: 15px; }
-        a { color: #25D366; text-decoration: none; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #e91e8c;
+            --primary-dark: #c2187b;
+            --primary-light: #f8e1f0;
+            --gradient: linear-gradient(145deg, #f06292, #ba68c8);
+            --bg-light: #fceef5;
+            --white: #ffffff;
+            --shadow: 0 20px 50px rgba(233, 30, 140, 0.15);
+            --radius: 28px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg-light);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background-image: radial-gradient(circle at 10% 30%, rgba(233, 30, 140, 0.04) 0%, transparent 50%),
+                              radial-gradient(circle at 90% 70%, rgba(186, 104, 200, 0.05) 0%, transparent 50%);
+        }
+
+        .container {
+            background: var(--white);
+            padding: 36px 30px 40px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 420px;
+            border: 1px solid rgba(233, 30, 140, 0.06);
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Brand */
+        .brand {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .brand .logo-icon {
+            font-size: 2.8rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .brand h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+        .brand p {
+            color: #888;
+            font-size: 0.9rem;
+            margin-top: 2px;
+        }
+
+        /* Welcome back message */
+        .welcome-back {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 24px;
+        }
+        .welcome-back i {
+            color: var(--primary);
+        }
+
+        /* Form fields */
+        .form-group {
+            margin-bottom: 18px;
+        }
+        .form-group label {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #444;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .form-group label i {
+            color: var(--primary);
+            margin-right: 6px;
+            width: 18px;
+        }
+        .form-group .input-wrapper {
+            position: relative;
+        }
+        .form-group .input-wrapper i {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #bbb;
+            font-size: 1rem;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px 14px 44px;
+            border: 1.5px solid #eee;
+            border-radius: 60px;
+            font-size: 0.95rem;
+            background: #f9f7fa;
+            transition: var(--transition);
+            outline: none;
+            font-family: inherit;
+        }
+        .form-group input:focus {
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(233, 30, 140, 0.06);
+        }
+        .form-group input::placeholder {
+            color: #bbb;
+        }
+
+        /* Password toggle */
+        .toggle-password {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #bbb;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: var(--transition);
+            padding: 4px;
+        }
+        .toggle-password:hover {
+            color: var(--primary);
+        }
+
+        /* Submit button */
+        .btn-submit {
+            width: 100%;
+            padding: 16px;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: 60px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 20px rgba(233, 30, 140, 0.25);
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+        .btn-submit:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 28px rgba(233, 30, 140, 0.35);
+        }
+        .btn-submit:disabled {
+            opacity: 0.7;
+            transform: none;
+            cursor: not-allowed;
+        }
+
+        /* Forgot password */
+        .forgot-password {
+            text-align: right;
+            margin-top: 4px;
+            margin-bottom: 16px;
+        }
+        .forgot-password a {
+            color: #999;
+            font-size: 0.8rem;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        .forgot-password a:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+
+        /* Footer links */
+        .footer-links {
+            text-align: center;
+            margin-top: 22px;
+            font-size: 0.9rem;
+            color: #888;
+        }
+        .footer-links a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        .footer-links a:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        /* Divider */
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 24px 0 20px;
+            color: #ddd;
+            font-size: 0.8rem;
+        }
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #eee;
+        }
+        .divider::before {
+            margin-right: 16px;
+        }
+        .divider::after {
+            margin-left: 16px;
+        }
+
+        /* Social login (demo) */
+        .social-login {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+        .social-btn {
+            flex: 1;
+            padding: 12px;
+            border: 1.5px solid #eee;
+            border-radius: 60px;
+            background: white;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #555;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .social-btn:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+        .social-btn i {
+            font-size: 1.1rem;
+        }
+        .social-btn.google i { color: #db4437; }
+        .social-btn.facebook i { color: #4267B2; }
+
+        /* Loading spinner */
+        .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Messages */
+        .message {
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            margin-top: 12px;
+            display: none;
+        }
+        .message.error {
+            display: block;
+            background: #fce4ec;
+            color: #b71c1c;
+            border-left: 4px solid #e74c3c;
+        }
+        .message.success {
+            display: block;
+            background: #e8f5e9;
+            color: #2e7d32;
+            border-left: 4px solid #4caf50;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .container { padding: 24px 18px 30px; }
+            .brand h2 { font-size: 1.3rem; }
+            .brand .logo-icon { font-size: 2.2rem; }
+            .form-group input { padding: 12px 14px 12px 38px; font-size: 0.9rem; }
+            .btn-submit { padding: 14px; font-size: 0.95rem; }
+            .social-btn { padding: 10px; font-size: 0.75rem; }
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h2>Ingia kwenye Akaunti</h2>
-        <form id="loginForm">
-            <input type="email" id="loginEmail" placeholder="Barua pepe" required>
-            <input type="password" id="loginPassword" placeholder="Nenosiri" required>
-            <button type="submit">Ingia</button>
+        <!-- Brand -->
+        <div class="brand">
+            <span class="logo-icon"><i class="fas fa-crown"></i></span>
+            <h2>Dvary Groups</h2>
+            <p>Karibu tena! Ingia kwenye akaunti yako</p>
+        </div>
+
+        <div class="welcome-back">
+            <i class="fas fa-hand-peace"></i> &nbsp; Furaha kukuona tena!
+        </div>
+
+        <!-- Login Form -->
+        <form id="loginForm" autocomplete="off">
+            <!-- Email -->
+            <div class="form-group">
+                <label><i class="fas fa-envelope"></i> Barua Pepe</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="loginEmail" placeholder="mteja@example.com" required />
+                </div>
+            </div>
+
+            <!-- Password -->
+            <div class="form-group">
+                <label><i class="fas fa-lock"></i> Nenosiri</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="loginPassword" placeholder="Weka nenosiri lako" required />
+                    <button type="button" class="toggle-password" id="togglePassword" aria-label="Onyesha nenosiri">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="forgot-password">
+                <a href="#"><i class="fas fa-key"></i> Umesahau nenosiri?</a>
+            </div>
+
+            <!-- Message area -->
+            <div id="formMessage" class="message"></div>
+
+            <!-- Submit -->
+            <button type="submit" class="btn-submit" id="submitBtn">
+                <span id="btnText">Ingia</span>
+                <span class="spinner" id="btnSpinner"></span>
+                <i class="fas fa-arrow-right" id="btnIcon"></i>
+            </button>
         </form>
-        <p>Huna akaunti? <a href="/signup.html">Jisajili hapa</a></p>
+
+        <!-- Divider -->
+        <div class="divider">au ingia kwa</div>
+
+        <!-- Social Login (demo) -->
+        <div class="social-login">
+            <button class="social-btn google" id="googleLogin">
+                <i class="fab fa-google"></i> Google
+            </button>
+            <button class="social-btn facebook" id="facebookLogin">
+                <i class="fab fa-facebook-f"></i> Facebook
+            </button>
+        </div>
+
+        <div class="footer-links">
+            Huna akaunti? <a href="/signup.html">Jisajili hapa</a>
+        </div>
     </div>
 
-    <!-- Firebase SDK na Skrini ya Kuingia -->
+    <!-- ===== FIREBASE + LOGIC ===== -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        
-        // Taarifa zako sahihi za Firebase
+        import {
+            getAuth,
+            signInWithEmailAndPassword,
+            signInWithPopup,
+            GoogleAuthProvider,
+            FacebookAuthProvider,
+            onAuthStateChanged
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import {
+            getFirestore,
+            doc,
+            getDoc,
+            setDoc,
+            serverTimestamp
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
         const firebaseConfig = {
             apiKey: "AIzaSyCmwASW4XXQ3O0AvsCM_r1WLlrUmGjYVxI",
             authDomain: "dvary-9a7d0.firebaseapp.com",
@@ -45,22 +423,166 @@
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
+        const db = getFirestore(app);
+        const googleProvider = new GoogleAuthProvider();
+        const facebookProvider = new FacebookAuthProvider();
 
-        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        // ----- DOM refs -----
+        const form = document.getElementById('loginForm');
+        const emailInput = document.getElementById('loginEmail');
+        const passwordInput = document.getElementById('loginPassword');
+        const submitBtn = document.getElementById('submitBtn');
+        const btnText = document.getElementById('btnText');
+        const btnSpinner = document.getElementById('btnSpinner');
+        const btnIcon = document.getElementById('btnIcon');
+        const formMessage = document.getElementById('formMessage');
+
+        // ----- Toggle password -----
+        document.getElementById('togglePassword').addEventListener('click', () => {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            const icon = document.querySelector('#togglePassword i');
+            icon.classList.toggle('fa-eye');
+            icon.classList.toggle('fa-eye-slash');
+        });
+
+        // ----- Show message -----
+        function showMessage(text, type = 'error') {
+            formMessage.textContent = text;
+            formMessage.className = `message ${type}`;
+            formMessage.style.display = 'block';
+        }
+
+        function hideMessage() {
+            formMessage.style.display = 'none';
+        }
+
+        // ----- Loading state -----
+        function setLoading(isLoading) {
+            if (isLoading) {
+                submitBtn.disabled = true;
+                btnText.textContent = 'Inaingiza...';
+                btnSpinner.style.display = 'inline-block';
+                btnIcon.style.display = 'none';
+            } else {
+                submitBtn.disabled = false;
+                btnText.textContent = 'Ingia';
+                btnSpinner.style.display = 'none';
+                btnIcon.style.display = 'inline-block';
+            }
+        }
+
+        // ----- Save user to Firestore (if new) -----
+        async function saveUserToFirestore(user) {
+            const userRef = doc(db, "users", user.uid);
+            const snap = await getDoc(userRef);
+            if (!snap.exists()) {
+                await setDoc(userRef, {
+                    uid: user.uid,
+                    fullName: user.displayName || 'Mteja',
+                    email: user.email,
+                    phone: user.phoneNumber || '',
+                    avatar: user.photoURL || null,
+                    createdAt: serverTimestamp(),
+                    updatedAt: serverTimestamp(),
+                    role: 'customer'
+                });
+            }
+        }
+
+        // ----- Handle successful login -----
+        async function handleLoginSuccess(user) {
+            await saveUserToFirestore(user);
+            showMessage('✅ Umeingia kwa mafanikio! Unaelekezwa...', 'success');
+            setTimeout(() => {
+                window.location.href = "/index.html";
+            }, 1500);
+        }
+
+        // ----- EMAIL/PASSWORD LOGIN -----
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
+            hideMessage();
+
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+
+            if (!email) {
+                showMessage('Tafadhali weka barua pepe.', 'error');
+                return;
+            }
+            if (!password || password.length < 6) {
+                showMessage('Tafadhali weka nenosiri lako.', 'error');
+                return;
+            }
+
+            setLoading(true);
 
             try {
-                await signInWithEmailAndPassword(auth, email, password);
-                alert("Umeingia kwa mafanikio!");
-                window.location.href = "/dashboard.html"; // Inakupeleka moja kwa moja kwenye dashboard
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                await handleLoginSuccess(userCredential.user);
             } catch (error) {
-                alert("Imeshindikana kuingia: " + error.message);
+                console.error('Login error:', error);
+                let msg = error.message;
+                if (error.code === 'auth/user-not-found') {
+                    msg = 'Akaunti hii haipo. Tafadhali jisajili kwanza.';
+                } else if (error.code === 'auth/wrong-password') {
+                    msg = 'Nenosiri si sahihi. Tafadhali jaribu tena.';
+                } else if (error.code === 'auth/invalid-email') {
+                    msg = 'Barua pepe si sahihi.';
+                } else if (error.code === 'auth/too-many-requests') {
+                    msg = 'Majaribio mengi sana. Tafadhali jaribu baadaye.';
+                }
+                showMessage('❌ ' + msg, 'error');
+                setLoading(false);
             }
         });
+
+        // ----- GOOGLE LOGIN -----
+        document.getElementById('googleLogin').addEventListener('click', async () => {
+            hideMessage();
+            setLoading(true);
+            try {
+                const result = await signInWithPopup(auth, googleProvider);
+                await handleLoginSuccess(result.user);
+            } catch (error) {
+                console.error('Google login error:', error);
+                showMessage('❌ ' + error.message, 'error');
+                setLoading(false);
+            }
+        });
+
+        // ----- FACEBOOK LOGIN -----
+        document.getElementById('facebookLogin').addEventListener('click', async () => {
+            hideMessage();
+            setLoading(true);
+            try {
+                const result = await signInWithPopup(auth, facebookProvider);
+                await handleLoginSuccess(result.user);
+            } catch (error) {
+                console.error('Facebook login error:', error);
+                showMessage('❌ ' + error.message, 'error');
+                setLoading(false);
+            }
+        });
+
+        // ----- Check if already logged in -----
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // Already logged in, redirect to index
+                window.location.href = "/index.html";
+            }
+        });
+
+        // ----- Pre-fill from URL params (for signup redirect) -----
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('email')) {
+            emailInput.value = params.get('email');
+        }
+
+        console.log('🚀 Dvary Login — Premium Pink');
+        console.log('🔐 Email/Password + Google + Facebook supported.');
     </script>
 
 </body>
 </html>
-
