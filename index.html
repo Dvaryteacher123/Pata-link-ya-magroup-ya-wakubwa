@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=no" />
+    <title>Dvary Groups - Nunua Link za WhatsApp</title>
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        /* ===== RESET & ROOT ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #e91e8c;
+            --primary-dark: #c2187b;
+            --primary-light: #f8e1f0;
+            --gradient: linear-gradient(145deg, #f06292, #ba68c8);
+            --bg-light: #fceef5;
+            --white: #ffffff;
+            --shadow: 0 8px 30px rgba(233, 30, 140, 0.10);
+            --shadow-hover: 0 12px 40px rgba(233, 30, 140, 0.18);
+            --radius: 16px;
+            --radius-lg: 24px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            --card-bg: #ffffff;
+            --text-color: #1a1a2e;
+            --text-secondary: #6b6b7b;
+            --border-color: rgba(233, 30, 140, 0.08);
+        }
+
+        /* Dark Theme */
+        [data-theme="dark"] {
+            --bg-light: #12121e;
+            --white: #1a1a2e;
+            --card-bg: #1a1a2e;
+            --text-color: #eaeaea;
+            --text-secondary: #9a9aaa;
+            --border-color: rgba(233, 30, 140, 0.15);
+            --shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+            --shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg-light);
+            color: var(--text-color);
+            padding: 0;
+            min-height: 100vh;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .app-wrapper {
+            max-width: 480px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 12px 14px 24px;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 0;
+            position: sticky;
+            top: 0;
+            z-index: 40;
+            background: var(--bg-light);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            transition: background 0.3s ease;
+        }
+        .header .logo {
+            font-size: 1.1rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .header .logo i {
+            -webkit-text-fill-color: initial;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+        .header .right {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .header .right .nav-icon,
+        .header .right .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 1rem;
+            color: var(--text-color);
+            cursor: pointer;
+            position: relative;
+            padding: 6px;
+            border-radius: 50%;
+            transition: var(--transition);
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .header .right .nav-icon:hover,
+        .header .right .theme-toggle:hover {
+            background: var(--primary-light);
+        }
+        .header .right .nav-icon .badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: #e91e8c;
+            color: white;
+            font-size: 0.5rem;
+            font-weight: 700;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--bg-light);
+        }
+        .header .right .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.8rem;
+            cursor: pointer;
+            overflow: hidden;
+            border: 2px solid var(--border-color);
+        }
+
+        /* ===== TOP NAVIGATION (MENU JUU) ===== */
+        .top-nav {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 0;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-bottom: 1px solid var(--border-color);
+            scrollbar-width: none;
+        }
+        .top-nav::-webkit-scrollbar {
+            display: none;
+        }
+        .top-nav .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 7px 14px;
+            border-radius: 30px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 500;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            background: var(--card-bg);
+            box-shadow: var(--shadow);
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .top-nav .nav-link:hover {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+        .top-nav .nav-link.active {
+            background: var(--gradient);
+            color: white;
+            box-shadow: 0 4px 14px rgba(233, 30, 140, 0.25);
+        }
+        .top-nav .nav-link.active i {
+            color: white;
+        }
+        .top-nav .nav-link .nav-badge {
+            background: #e91e8c;
+            color: white;
+            font-size: 0.5rem;
+            font-weight: 700;
+            padding: 1px 6px;
+            border-radius: 30px;
+            margin-left: 2px;
+        }
+
+        /* ===== SEARCH BAR ===== */
+        .search-container {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 10px 14px;
+            margin: 10px 0 14px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .search-container i {
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+        .search-container input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            font-size: 0.85rem;
+            outline: none;
+            color: var(--text-color);
+            font-family: var(--font);
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            background: var(--gradient);
+            padding: 18px;
+            border-radius: var(--radius-lg);
+            color: white;
+            margin-bottom: 16px;
+            box-shadow: 0 12px 35px rgba(233, 30, 140, 0.25);
+        }
+        .hero h1 {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+        .hero p {
+            opacity: 0.9;
+            font-size: 0.8rem;
+            margin-top: 2px;
+        }
+
+        /* ===== NOTIFICATION BANNER ===== */
+        .notification-banner {
+            background: #d4edda;
+            color: #155724;
+            padding: 10px 14px;
+            border-radius: var(--radius);
+            margin-bottom: 14px;
+            border: 1px solid #c3e6cb;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.85rem;
+        }
+        [data-theme="dark"] .notification-banner {
+            background: #1a3a2a;
+            color: #66bb6a;
+            border-color: #2a5a3a;
+        }
+
+        /* ===== SECTION TITLE ===== */
+        .section-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 16px 0 10px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        .section-title i {
+            color: var(--primary);
+            margin-right: 6px;
+        }
+
+        /* ===== GROUP CARDS ===== */
+        .groups-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .group-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+        .group-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+        .group-card .group-img {
+            width: 100%;
+            height: 130px;
+            object-fit: cover;
+            background: #f0e6ea;
+        }
+        .group-card .group-body {
+            padding: 12px 14px 14px;
+            display: flex;
+            flex-direction: column;
+        }
+        .group-card .group-body h3 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 2px;
+        }
+        .group-card .group-body .group-desc {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+        .group-card .group-body .group-price {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        .group-card .group-body .group-price small {
+            font-weight: 400;
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+        }
+        .group-card .buy-btn {
+            width: 100%;
+            padding: 10px;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: 60px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            box-shadow: 0 4px 14px rgba(233, 30, 140, 0.2);
+        }
+
+        /* ===== ORDERS SECTION ===== */
+        .orders-section {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 14px;
+            margin-top: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+        .order-item {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .order-item:last-child {
+            border-bottom: none;
+        }
+        .order-info strong {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-color);
+        }
+        .order-meta {
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+        }
+        .order-status {
+            font-size: 0.6rem;
+            font-weight: 600;
+            padding: 2px 10px;
+            border-radius: 30px;
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        .order-status.pending {
+            background: #fff3e0;
+            color: #e65100;
+        }
+        .order-link-btn {
+            background: var(--gradient);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-size: 0.7rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* ===== DASHBOARD STATS ===== */
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            margin: 10px 0 4px;
+        }
+        .stat-card {
+            background: var(--card-bg);
+            padding: 10px 4px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+        .stat-card .number {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        .stat-card .label {
+            font-size: 0.6rem;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+
+        /* ===== EMPTY STATE ===== */
+        .empty-state {
+            text-align: center;
+            padding: 30px 16px;
+            color: var(--text-secondary);
+        }
+        .empty-state i {
+            font-size: 2rem;
+            color: #ddd;
+            margin-bottom: 8px;
+        }
+
+        /* ===== MODAL ===== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(6px);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        .modal-box {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            max-width: 400px;
+            width: 100%;
+            padding: 22px 18px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-color);
+        }
+        .modal-box h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 2px;
+            color: var(--text-color);
+        }
+        .modal-box .sub {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            margin-bottom: 12px;
+        }
+        .modal-box .price-display {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 2px 0 12px;
+        }
+        .modal-box input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 60px;
+            font-size: 0.85rem;
+            margin: 4px 0 12px;
+            background: var(--bg-light);
+            outline: none;
+            color: var(--text-color);
+        }
+        .modal-box .btn-group {
+            display: flex;
+            gap: 8px;
+            margin-top: 4px;
+        }
+        .modal-box .btn-group button {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+        .modal-box .btn-primary {
+            background: var(--gradient);
+            color: white;
+            box-shadow: 0 4px 14px rgba(233, 30, 140, 0.2);
+        }
+        .modal-box .btn-secondary {
+            background: #f0edf3;
+            color: #444;
+        }
+        [data-theme="dark"] .modal-box .btn-secondary {
+            background: #2a2a4a;
+            color: #ccc;
+        }
+        .payment-message {
+            padding: 8px 12px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+            display: none;
+        }
+        .payment-message.error { display: block; background: #fce4ec; color: #b71c1c; }
+        .payment-message.success { display: block; background: #e8f5e9; color: #2e7d32; }
+        .payment-message.info { display: block; background: #e3f2fd; color: #0d47a1; }
+
+        .spinner {
+            display: none;
+            width: 18px;
+            height: 18px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .footer {
+            text-align: center;
+            padding: 16px 0 8px;
+            border-top: 1px solid var(--border-color);
+            margin-top: 20px;
+        }
+        .footer .footer-text {
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+        }
+        .footer .footer-text span { color: var(--primary); }
+
+        .page-section { display: block; }
+        .page-section.hidden { display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="app-wrapper">
+
+        <!-- ===== HEADER ===== -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-crown"></i> Dvary Groups
+            </div>
+            <div class="right">
+                <button class="theme-toggle" id="themeToggle" title="Badili Rangi">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="nav-icon" id="notifToggle" title="Arifa">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge" id="notifBadge">0</span>
+                </button>
+                <div class="user-avatar" id="userAvatar">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- ===== TOP NAVIGATION (MENU ZOTE ZIKO JUU) ===== -->
+        <nav class="top-nav" id="topNav">
+            <button class="nav-link active" data-page="groups" id="navGroups">
+                <i class="fas fa-store"></i> Magroup
+            </button>
+            <button class="nav-link" data-page="orders" id="navOrders">
+                <i class="fas fa-receipt"></i> Oda
+                <span class="nav-badge" id="orderBadge" style="display:none;">0</span>
+            </button>
+            <button class="nav-link" data-page="dashboard" id="navDashboard">
+                <i class="fas fa-chart-pie"></i> Dashboard
+            </button>
+            <button class="nav-link" onclick="window.location.href='chat.html'">
+                <i class="fas fa-comments"></i> Chat
+            </button>
+            <button class="nav-link" onclick="window.location.href='settings.html'">
+                <i class="fas fa-cog"></i> Mipangilio
+            </button>
+            <button class="nav-link" onclick="window.location.href='login.html'">
+                <i class="fas fa-sign-in-alt"></i> Ingia
+            </button>
+            <button class="nav-link" onclick="window.location.href='signup.html'">
+                <i class="fas fa-user-plus"></i> Jisajili
+            </button>
+        </nav>
+
+        <!-- ===== SEARCH BAR ===== -->
+        <div class="search-container">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchGroups" placeholder="🔍 Tafuta group / Search groups..." />
+        </div>
+
+        <!-- ===== HERO ===== -->
+        <section class="hero">
+            <h1>Dvary WhatsApp Groups</h1>
+            <p>Chagua group ulipendalo, fanya malipo na ujiunge papo hapo!</p>
+        </section>
+
+        <!-- ===== NOTIFICATION BANNER ===== -->
+        <div id="notificationBanner" class="notification-banner">
+            <i class="fas fa-info-circle"></i>
+            <strong id="notificationText"></strong>
+        </div>
+
+        <!-- ===== PAGE: GROUPS ===== -->
+        <div id="page-groups" class="page-section">
+            <div class="section-title">
+                <span><i class="fas fa-layer-group"></i> Magroup Yanayopatikana</span>
+            </div>
+            <div id="groupsList" class="groups-grid">
+                <div class="empty-state">
+                    <i class="fas fa-spinner fa-pulse"></i>
+                    <p>Inapakia magroup...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== PAGE: ORDERS ===== -->
+        <div id="page-orders" class="page-section hidden">
+            <div class="section-title">
+                <span><i class="fas fa-receipt"></i> Oda Zangu</span>
+                <span style="font-size:0.75rem;color:var(--text-secondary);" id="orderCount">0</span>
+            </div>
+            <div class="orders-section" style="margin-top:0;">
+                <div id="myOrdersList">
+                    <div class="empty-state"><i class="fas fa-inbox"></i><p>Huna oda bado. Nunua group leo!</p></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== PAGE: DASHBOARD ===== -->
+        <div id="page-dashboard" class="page-section hidden">
+            <div class="section-title">
+                <span><i class="fas fa-chart-pie"></i> Dashboard Yako</span>
+            </div>
+            <div class="dashboard-stats" id="dashboardStats">
+                <div class="stat-card"><div class="number" id="totalOrders">0</div><div class="label">Jumla</div></div>
+                <div class="stat-card"><div class="number" id="completedOrders">0</div><div class="label">Zimekamilika</div></div>
+                <div class="stat-card"><div class="number" id="pendingOrders">0</div><div class="label">Zinazosubiri</div></div>
+            </div>
+        </div>
+
+        <!-- ===== FOOTER ===== -->
+        <div class="footer">
+            <p class="footer-text">© 2026 <span>Dvary Groups</span> - All Rights Reserved</p>
+        </div>
+
+        <!-- ===== PAYMENT MODAL ===== -->
+        <div class="modal-overlay" id="paymentModal">
+            <div class="modal-box">
+                <h3 id="modalGroupName">Kamilisha Malipo</h3>
+                <div class="sub">Unanunua link ya group</div>
+                <div class="price-display" id="modalGroupPrice">TZS 0</div>
+                
+                <div class="payment-message" id="paymentMessage"></div>
+                
+                <p style="font-size:0.75rem;color:var(--text-secondary);margin-bottom:6px;">
+                    <i class="fas fa-phone"></i> Weka namba yako ya simu kupokea USSD Push:
+                </p>
+                <input type="tel" id="clientPhone" placeholder="Namba ya Simu (Mf. 0712345678)" />
+                
+                <div class="btn-group">
+                    <button class="btn-primary" id="confirmPayBtn">
+                        <span id="payBtnText">Lipa Sasa</span>
+                        <span class="spinner" id="payLoading"></span>
+                    </button>
+                    <button class="btn-secondary" id="closeModalBtn">Ghairi</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ===== FIREBASE + LOGIC ===== -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, getDocs, doc, getDoc, addDoc, serverTimestamp, query, orderBy, where } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCmwASW4XXQ3O0AvsCM_r1WLlrUmGjYVxI",
+            authDomain: "dvary-9a7d0.firebaseapp.com",
+            projectId: "dvary-9a7d0",
+            storageBucket: "dvary-9a7d0.firebasestorage.app",
+            messagingSenderId: "107370806066",
+            appId: "1:107370806066:web:4c2ce1e6f7b6c32909f52b",
+            measurementId: "G-07361LFJEP"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        let currentUser = null;
+        let currentUserData = null;
+        let allOrders = [];
+        let allNotifs = [];
+        let activeGroup = null;
+        let isProcessing = false;
+
+        const groupsList = document.getElementById('groupsList');
+        const myOrdersList = document.getElementById('myOrdersList');
+        const searchInput = document.getElementById('searchGroups');
+        const notificationBanner = document.getElementById('notificationBanner');
+        const notificationText = document.getElementById('notificationText');
+        const notifBadge = document.getElementById('notifBadge');
+        const userAvatar = document.getElementById('userAvatar');
+        const orderBadge = document.getElementById('orderBadge');
+        const orderCount = document.getElementById('orderCount');
+
+        let isDark = false;
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            isDark = !isDark;
+            document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+            const icon = document.getElementById('themeToggle').querySelector('i');
+            icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+        });
+
+        const pages = {
+            groups: document.getElementById('page-groups'),
+            orders: document.getElementById('page-orders'),
+            dashboard: document.getElementById('page-dashboard')
+        };
+
+        function navigateTo(page) {
+            Object.keys(pages).forEach(key => {
+                pages[key].classList.add('hidden');
+            });
+            if (pages[page]) {
+                pages[page].classList.remove('hidden');
+            }
+            document.querySelectorAll('.top-nav .nav-link[data-page]').forEach(item => {
+                item.classList.remove('active');
+                if (item.dataset.page === page) {
+                    item.classList.add('active');
+                }
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        document.querySelectorAll('.top-nav .nav-link[data-page]').forEach(item => {
+            item.addEventListener('click', () => {
+                const page = item.dataset.page;
+                if (page) navigateTo(page);
+            });
+        });
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user;
+                const snap = await getDoc(doc(db, "users", user.uid));
+                if (snap.exists()) {
+                    currentUserData = snap.data();
+                    updateUserUI();
+                }
+                loadOrders();
+                loadNotifications();
+            }
+        });
+
+        function updateUserUI() {
+            if (!currentUserData) return;
+            const name = currentUserData.fullName || 'Mteja';
+            const avatar = currentUserData.avatar;
+            if (avatar) {
+                userAvatar.innerHTML = `<img src="${avatar}" alt="Avatar" style="width:100%;height:100%;object-fit:cover;" />`;
+            } else {
+                userAvatar.innerHTML = `<span style="font-size:0.8rem;font-weight:600;">${name.charAt(0).toUpperCase()}</span>`;
+            }
+        }
+
+        async function loadNotification() {
+            try {
+                const notifDoc = await getDoc(doc(db, "settings", "notification"));
+                if (notifDoc.exists()) {
+                    notificationText.innerText = notifDoc.data().message;
+                    notificationBanner.style.display = 'flex';
+                }
+            } catch (err) { console.error(err); }
+        }
+
+        async function loadGroups() {
+            try {
+                const querySnapshot = await getDocs(collection(db, "groups"));
+                if (querySnapshot.empty) {
+                    groupsList.innerHTML = `<div class="empty-state"><i class="fas fa-folder-open"></i><p>Hakuna magroup yaliyowekwa.</p></div>`;
+                    return;
+                }
+
+                let html = '';
+                querySnapshot.forEach((docSnap) => {
+                    const group = docSnap.data();
+                    const image = group.image || 'https://via.placeholder.com/400x130/f8e1f0/e91e8c?text=Dvary+Group';
+                    html += `
+                        <div class="group-card" data-name="${(group.name || '').toLowerCase()}" data-desc="${(group.description || '').toLowerCase()}">
+                            <img src="${image}" alt="${group.name}" class="group-img" loading="lazy" />
+                            <div class="group-body">
+                                <h3>${group.name || 'Group'}</h3>
+                                <div class="group-desc">${group.description || 'Premium WhatsApp Group'}</div>
+                                <div class="group-price">TZS ${group.price || 0} <small>/ link</small></div>
+                                <button class="buy-btn" data-id="${docSnap.id}">
+                                    <i class="fas fa-shopping-cart"></i> Nunua Link
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                groupsList.innerHTML = html;
+
+                document.querySelectorAll('.buy-btn').forEach(btn => {
+                    btn.addEventListener('click', async () => {
+                        const snap = await getDoc(doc(db, "groups", btn.dataset.id));
+                        if (snap.exists()) {
+                            activeGroup = { id: snap.id, ...snap.data() };
+                            openPaymentModal(activeGroup);
+                        }
+                    });
+                });
+            } catch (error) {
+                groupsList.innerHTML = `<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><p>Hitilafu imetokea.</p></div>`;
+            }
+        }
+
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase().trim();
+            document.querySelectorAll('.group-card').forEach(card => {
+                const match = card.dataset.name.includes(term) || card.dataset.desc.includes(term);
+                card.style.display = match ? 'flex' : 'none';
+            });
+        });
+
+        async function loadOrders() {
+            if (!currentUser) return;
+            try {
+                const q = query(collection(db, "orders"), where("userId", "==", currentUser.uid), orderBy("createdAt", "desc"));
+                const snap = await getDocs(q);
+                allOrders = [];
+                snap.forEach(d => allOrders.push({ id: d.id, ...d.data() }));
+                renderOrders();
+                updateDashboardStats();
+            } catch (e) { console.error(e); }
+        }
+
+        function renderOrders() {
+            if (allOrders.length === 0) {
+                myOrdersList.innerHTML = `<div class="empty-state"><i class="fas fa-inbox"></i><p>Huna oda bado.</p></div>`;
+                orderCount.textContent = '0';
+                return;
+            }
+            orderCount.textContent = allOrders.length;
+            myOrdersList.innerHTML = allOrders.map(o => `
+                <div class="order-item">
+                    <div class="order-info">
+                        <strong>${o.productName || 'Group'}</strong>
+                        <span class="order-meta">TZS ${o.amount} · ${o.orderStatus || 'Pending'}</span>
+                    </div>
+                    <div style="display:flex;gap:6px;align-items:center;">
+                        <span class="order-status ${o.orderStatus === 'Completed' ? '' : 'pending'}">${o.orderStatus || 'Pending'}</span>
+                        <button class="order-link-btn" onclick="alert('🔗 Link: ${o.purchaseLink || 'Inasubiri uthibitisho'}')"><i class="fas fa-eye"></i></button>
+                    </div>
+                </div>
+            `).join('');
+            const pending = allOrders.filter(o => o.orderStatus !== 'Completed').length;
+            orderBadge.style.display = pending > 0 ? 'inline' : 'none';
+            orderBadge.textContent = pending;
+        }
+
+        function updateDashboardStats() {
+            document.getElementById('totalOrders').textContent = allOrders.length;
+            document.getElementById('completedOrders').textContent = allOrders.filter(o => o.orderStatus === 'Completed').length;
+            document.getElementById('pendingOrders').textContent = allOrders.filter(o => o.orderStatus !== 'Completed').length;
+        }
+
+        async function loadNotifications() {
+            if (!currentUser) return;
+            try {
+                const q = query(collection(db, "notifications"), where("userId", "in", [currentUser.uid, "all"]), orderBy("createdAt", "desc"));
+                const snap = await getDocs(q);
+                allNotifs = [];
+                snap.forEach(d => allNotifs.push({ id: d.id, ...d.data() }));
+                const unread = allNotifs.filter(n => !n.read).length;
+                notifBadge.textContent = unread;
+                notifBadge.style.display = unread > 0 ? 'flex' : 'none';
+            } catch (e) { console.error(e); }
+        }
+
+        document.getElementById('notifToggle').addEventListener('click', () => {
+            alert('🔔 Arifa zako:\n\n' + (allNotifs.map(n => `${n.title}: ${n.message}`).join('\n') || 'Huna arifa mpya.'));
+        });
+
+        function openPaymentModal(group) {
+            document.getElementById('modalGroupName').textContent = group.name;
+            document.getElementById('modalGroupPrice').textContent = `TZS ${group.price || 0}`;
+            document.getElementById('clientPhone').value = '';
+            document.getElementById('paymentMessage').className = 'payment-message';
+            document.getElementById('paymentMessage').textContent = '';
+            document.getElementById('paymentModal').classList.add('active');
+            document.getElementById('payBtnText').style.display = 'inline';
+            document.getElementById('payLoading').style.display = 'none';
+            isProcessing = false;
+        }
+
+        document.getElementById('closeModalBtn').addEventListener('click', () => {
+            document.getElementById('paymentModal').classList.remove('active');
+        });
+
+        // ===== MALIPO KUPITIA RENDER SERVER =====
+        document.getElementById('confirmPayBtn').addEventListener('click', async () => {
+            if (isProcessing) return;
+            
+            const phone = document.getElementById('clientPhone').value.trim();
+            const messageEl = document.getElementById('paymentMessage');
+            messageEl.className = 'payment-message';
+            messageEl.textContent = '';
+
+            if (!phone || phone.length < 9) {
+                messageEl.className = 'payment-message error';
+                messageEl.textContent = '❌ Tafadhali weka namba halali ya simu.';
+                return;
+            }
+
+            let formattedPhone = phone;
+            if (phone.startsWith('0') && phone.length === 10) {
+                formattedPhone = phone;
+            } else if (phone.length === 9 && !phone.startsWith('0')) {
+                formattedPhone = '0' + phone;
+            }
+
+            isProcessing = true;
+            document.getElementById('payBtnText').style.display = 'none';
+            document.getElementById('payLoading').style.display = 'inline-block';
+            messageEl.className = 'payment-message info';
+            messageEl.textContent = '⏳ Inatuma ombi la malipo...';
+
+            try {
+                // Hapa ndipo tunaunganisha moja kwa moja na Render server yako
+                const response = await fetch('https://pata-link-ya-magroup-ya-wakubwa.onrender.com/api/payment/initiate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        phone: formattedPhone,
+                        amount: activeGroup.price || 500,
+                        description: `Malipo ya group: ${activeGroup.name}`,
+                        userId: currentUser?.uid || 'guest_user',
+                        productName: activeGroup.name,
+                        productId: activeGroup.id,
+                        clientName: currentUserData?.fullName || 'Mteja wa Dvary'
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    if (currentUser) {
+                        await addDoc(collection(db, "orders"), {
+                            userId: currentUser.uid,
+                            productId: activeGroup.id,
+                            productName: activeGroup.name,
+                            amount: activeGroup.price,
+                            paymentStatus: 'Pending',
+                            orderStatus: 'Pending',
+                            paymentReference: result.data?.paymentReference || 'N/A',
+                            purchaseLink: activeGroup.link || '#',
+                            clientPhone: formattedPhone,
+                            clientName: currentUserData?.fullName || 'Mteja',
+                            createdAt: serverTimestamp(),
+                            updatedAt: serverTimestamp()
+                        });
+                    }
+
+                    messageEl.className = 'payment-message success';
+                    messageEl.innerHTML = `✅ Ombi limetumwa kwenda simu yako (${formattedPhone})!<br><small>Thibitisha malipo kwenye simu.</small>`;
+                    
+                    setTimeout(() => {
+                        document.getElementById('paymentModal').classList.remove('active');
+                        document.getElementById('payBtnText').style.display = 'inline';
+                        document.getElementById('payLoading').style.display = 'none';
+                        isProcessing = false;
+                    }, 4000);
+                } else {
+                    messageEl.className = 'payment-message error';
+                    messageEl.textContent = '❌ ' + (result.message || 'Imeshindikana. Jaribu tena.');
+                    document.getElementById('payBtnText').style.display = 'inline';
+                    document.getElementById('payLoading').style.display = 'none';
+                    isProcessing = false;
+                }
+            } catch (error) {
+                console.error(error);
+                messageEl.className = 'payment-message error';
+                messageEl.textContent = '❌ Hitilafu ya mtandao. Hakikisha server iko online.';
+                document.getElementById('payBtnText').style.display = 'inline';
+                document.getElementById('payLoading').style.display = 'none';
+                isProcessing = false;
+            }
+        });
+
+        loadNotification();
+        loadGroups();
+    </script>
+</body>
+</html>
+
