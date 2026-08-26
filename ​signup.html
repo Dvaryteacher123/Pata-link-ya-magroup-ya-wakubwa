@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5" />
+    <title>Jisajili - Dvary Groups</title>
+    <!-- Font Awesome 6 (Free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #e91e8c;
+            --primary-dark: #c2187b;
+            --primary-light: #f8e1f0;
+            --gradient: linear-gradient(145deg, #f06292, #ba68c8);
+            --bg-light: #fceef5;
+            --white: #ffffff;
+            --shadow: 0 20px 50px rgba(233, 30, 140, 0.15);
+            --radius: 28px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg-light);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background-image: radial-gradient(circle at 10% 30%, rgba(233, 30, 140, 0.04) 0%, transparent 50%),
+                              radial-gradient(circle at 90% 70%, rgba(186, 104, 200, 0.05) 0%, transparent 50%);
+        }
+
+        .container {
+            background: var(--white);
+            padding: 36px 30px 40px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 420px;
+            border: 1px solid rgba(233, 30, 140, 0.06);
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Logo / Brand */
+        .brand {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+        .brand .logo-icon {
+            font-size: 2.8rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .brand h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+        .brand p {
+            color: #888;
+            font-size: 0.9rem;
+            margin-top: 2px;
+        }
+
+        /* Profile Avatar Upload */
+        .avatar-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 22px;
+        }
+        .avatar-wrapper {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 6px 20px rgba(233, 30, 140, 0.2);
+            overflow: hidden;
+        }
+        .avatar-wrapper:hover {
+            transform: scale(1.04);
+            box-shadow: 0 8px 28px rgba(233, 30, 140, 0.3);
+        }
+        .avatar-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        .avatar-wrapper .avatar-placeholder {
+            font-size: 3.2rem;
+            color: white;
+            font-weight: 300;
+        }
+        .avatar-wrapper .upload-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            font-size: 0.6rem;
+            padding: 4px 0;
+            text-align: center;
+            backdrop-filter: blur(4px);
+            display: none;
+        }
+        .avatar-wrapper:hover .upload-overlay {
+            display: block;
+        }
+        .avatar-wrapper input[type="file"] {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+
+        .avatar-label {
+            font-size: 0.75rem;
+            color: #999;
+            margin-top: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .avatar-label i {
+            color: var(--primary);
+        }
+
+        /* Form fields */
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-group label {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #444;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .form-group label i {
+            color: var(--primary);
+            margin-right: 6px;
+            width: 18px;
+        }
+        .form-group .input-wrapper {
+            position: relative;
+        }
+        .form-group .input-wrapper i {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #bbb;
+            font-size: 1rem;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px 14px 44px;
+            border: 1.5px solid #eee;
+            border-radius: 60px;
+            font-size: 0.95rem;
+            background: #f9f7fa;
+            transition: var(--transition);
+            outline: none;
+            font-family: inherit;
+        }
+        .form-group input:focus {
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(233, 30, 140, 0.06);
+        }
+        .form-group input::placeholder {
+            color: #bbb;
+        }
+
+        /* Password toggle */
+        .toggle-password {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #bbb;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: var(--transition);
+            padding: 4px;
+        }
+        .toggle-password:hover {
+            color: var(--primary);
+        }
+
+        /* Submit button */
+        .btn-submit {
+            width: 100%;
+            padding: 16px;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: 60px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 20px rgba(233, 30, 140, 0.25);
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+        .btn-submit:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 28px rgba(233, 30, 140, 0.35);
+        }
+        .btn-submit:disabled {
+            opacity: 0.7;
+            transform: none;
+            cursor: not-allowed;
+        }
+
+        /* Footer links */
+        .footer-links {
+            text-align: center;
+            margin-top: 22px;
+            font-size: 0.9rem;
+            color: #888;
+        }
+        .footer-links a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        .footer-links a:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        /* Loading spinner */
+        .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Error / success messages */
+        .message {
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            margin-top: 12px;
+            display: none;
+        }
+        .message.error {
+            display: block;
+            background: #fce4ec;
+            color: #b71c1c;
+            border-left: 4px solid #e74c3c;
+        }
+        .message.success {
+            display: block;
+            background: #e8f5e9;
+            color: #2e7d32;
+            border-left: 4px solid #4caf50;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .container { padding: 24px 18px 30px; }
+            .brand h2 { font-size: 1.3rem; }
+            .avatar-wrapper { width: 80px; height: 80px; }
+            .avatar-wrapper .avatar-placeholder { font-size: 2.6rem; }
+            .form-group input { padding: 12px 14px 12px 38px; font-size: 0.9rem; }
+            .btn-submit { padding: 14px; font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Brand -->
+        <div class="brand">
+            <span class="logo-icon"><i class="fas fa-crown"></i></span>
+            <h2>Dvary Groups</h2>
+            <p>Jisajili na uanze kununua link</p>
+        </div>
+
+        <!-- Profile Avatar -->
+        <div class="avatar-section">
+            <div class="avatar-wrapper" id="avatarWrapper">
+                <div class="avatar-placeholder" id="avatarPlaceholder"><i class="fas fa-user"></i></div>
+                <img id="avatarPreview" style="display:none;" alt="Profile photo" />
+                <div class="upload-overlay"><i class="fas fa-camera"></i> Badilisha</div>
+                <input type="file" id="avatarInput" accept="image/*" />
+            </div>
+            <span class="avatar-label"><i class="fas fa-info-circle"></i> Bonyeza picha kubadilisha</span>
+        </div>
+
+        <!-- Form -->
+        <form id="signupForm" autocomplete="off">
+            <!-- Jina Kamili -->
+            <div class="form-group">
+                <label><i class="fas fa-user"></i> Jina Kamili</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-user-circle"></i>
+                    <input type="text" id="fullName" placeholder="Mf. John Doe" required />
+                </div>
+            </div>
+
+            <!-- Namba ya Simu -->
+            <div class="form-group">
+                <label><i class="fas fa-phone"></i> Namba ya Simu</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-phone-alt"></i>
+                    <input type="tel" id="phoneNumber" placeholder="0712345678" required />
+                </div>
+            </div>
+
+            <!-- Barua Pepe -->
+            <div class="form-group">
+                <label><i class="fas fa-envelope"></i> Barua Pepe</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="signupEmail" placeholder="mteja@example.com" required />
+                </div>
+            </div>
+
+            <!-- Nenosiri -->
+            <div class="form-group">
+                <label><i class="fas fa-lock"></i> Nenosiri</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="signupPassword" placeholder="Angalau herufi 6" required minlength="6" />
+                    <button type="button" class="toggle-password" id="togglePassword" aria-label="Onyesha nenosiri">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Message area -->
+            <div id="formMessage" class="message"></div>
+
+            <!-- Submit -->
+            <button type="submit" class="btn-submit" id="submitBtn">
+                <span id="btnText">Jisajili</span>
+                <span class="spinner" id="btnSpinner"></span>
+                <i class="fas fa-arrow-right" id="btnIcon"></i>
+            </button>
+        </form>
+
+        <div class="footer-links">
+            Una akaunti tayari? <a href="/login.html">Ingia hapa</a>
+        </div>
+    </div>
+
+    <!-- ===== FIREBASE + LOGIC ===== -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import {
+            getAuth,
+            createUserWithEmailAndPassword,
+            updateProfile
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import {
+            getFirestore,
+            doc,
+            setDoc,
+            serverTimestamp
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import {
+            getStorage,
+            ref,
+            uploadBytes,
+            getDownloadURL
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCmwASW4XXQ3O0AvsCM_r1WLlrUmGjYVxI",
+            authDomain: "dvary-9a7d0.firebaseapp.com",
+            projectId: "dvary-9a7d0",
+            storageBucket: "dvary-9a7d0.firebasestorage.app",
+            messagingSenderId: "107370806066",
+            appId: "1:107370806066:web:4c2ce1e6f7b6c32909f52b",
+            measurementId: "G-07361LFJEP"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+
+        // ----- DOM refs -----
+        const form = document.getElementById('signupForm');
+        const fullNameInput = document.getElementById('fullName');
+        const phoneInput = document.getElementById('phoneNumber');
+        const emailInput = document.getElementById('signupEmail');
+        const passwordInput = document.getElementById('signupPassword');
+        const submitBtn = document.getElementById('submitBtn');
+        const btnText = document.getElementById('btnText');
+        const btnSpinner = document.getElementById('btnSpinner');
+        const btnIcon = document.getElementById('btnIcon');
+        const formMessage = document.getElementById('formMessage');
+        const avatarInput = document.getElementById('avatarInput');
+        const avatarPreview = document.getElementById('avatarPreview');
+        const avatarPlaceholder = document.getElementById('avatarPlaceholder');
+
+        let selectedAvatarFile = null;
+        let avatarURL = null;
+
+        // ----- Avatar upload preview -----
+        avatarInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            selectedAvatarFile = file;
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                avatarPreview.src = ev.target.result;
+                avatarPreview.style.display = 'block';
+                avatarPlaceholder.style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+        });
+
+        // ----- Toggle password visibility -----
+        document.getElementById('togglePassword').addEventListener('click', () => {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            const icon = document.querySelector('#togglePassword i');
+            icon.classList.toggle('fa-eye');
+            icon.classList.toggle('fa-eye-slash');
+        });
+
+        // ----- Show message helper -----
+        function showMessage(text, type = 'error') {
+            formMessage.textContent = text;
+            formMessage.className = `message ${type}`;
+            formMessage.style.display = 'block';
+        }
+
+        function hideMessage() {
+            formMessage.style.display = 'none';
+        }
+
+        // ----- Set loading state -----
+        function setLoading(isLoading) {
+            if (isLoading) {
+                submitBtn.disabled = true;
+                btnText.textContent = 'Inasajili...';
+                btnSpinner.style.display = 'inline-block';
+                btnIcon.style.display = 'none';
+            } else {
+                submitBtn.disabled = false;
+                btnText.textContent = 'Jisajili';
+                btnSpinner.style.display = 'none';
+                btnIcon.style.display = 'inline-block';
+            }
+        }
+
+        // ----- Upload avatar to Firebase Storage -----
+        async function uploadAvatar(userId, file) {
+            if (!file) return null;
+            try {
+                const storageRef = ref(storage, `avatars/${userId}`);
+                await uploadBytes(storageRef, file);
+                const url = await getDownloadURL(storageRef);
+                return url;
+            } catch (err) {
+                console.error('Avatar upload error:', err);
+                return null;
+            }
+        }
+
+        // ----- SIGNUP FORM SUBMIT -----
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            hideMessage();
+
+            const fullName = fullNameInput.value.trim();
+            const phone = phoneInput.value.trim();
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+
+            // Validation
+            if (!fullName || fullName.length < 2) {
+                showMessage('Tafadhali weka jina lako kamili.', 'error');
+                return;
+            }
+            if (!phone || phone.length < 7) {
+                showMessage('Tafadhali weka namba halali ya simu.', 'error');
+                return;
+            }
+            if (!email) {
+                showMessage('Tafadhali weka barua pepe.', 'error');
+                return;
+            }
+            if (!password || password.length < 6) {
+                showMessage('Nenosiri lazima liwe angalau herufi 6.', 'error');
+                return;
+            }
+
+            setLoading(true);
+
+            try {
+                // 1. Create user with email & password
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+
+                // 2. Upload avatar if selected
+                let avatarUrl = null;
+                if (selectedAvatarFile) {
+                    avatarUrl = await uploadAvatar(user.uid, selectedAvatarFile);
+                }
+
+                // 3. Update profile with displayName and photoURL
+                await updateProfile(user, {
+                    displayName: fullName,
+                    photoURL: avatarUrl || null
+                });
+
+                // 4. Save additional user data to Firestore
+                await setDoc(doc(db, "users", user.uid), {
+                    uid: user.uid,
+                    fullName: fullName,
+                    phone: phone,
+                    email: email,
+                    avatar: avatarUrl || null,
+                    createdAt: serverTimestamp(),
+                    updatedAt: serverTimestamp(),
+                    role: 'customer'
+                });
+
+                // 5. Show success
+                showMessage('✅ Usajili umefanikiwa! Unaelekezwa kwenye dashboard...', 'success');
+
+                // 6. Redirect after short delay
+                setTimeout(() => {
+                    window.location.href = "/index.html";
+                }, 1800);
+
+            } catch (error) {
+                console.error('Signup error:', error);
+                let msg = error.message;
+                if (error.code === 'auth/email-already-in-use') {
+                    msg = 'Barua pepe hii tayari inatumiwa. Tafadhali ingia au tumia email nyingine.';
+                } else if (error.code === 'auth/weak-password') {
+                    msg = 'Nenosiri dhaifu. Tumia angalau herufi 6.';
+                } else if (error.code === 'auth/invalid-email') {
+                    msg = 'Barua pepe si sahihi. Tafadhali ingiza email halali.';
+                }
+                showMessage('❌ ' + msg, 'error');
+                setLoading(false);
+            }
+        });
+
+        // ----- Pre-fill from URL params (optional) -----
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('email')) {
+            emailInput.value = params.get('email');
+        }
+
+        console.log('🚀 Dvary Signup — Premium Pink');
+        console.log('📸 Avatar upload + Phone + Full Name supported.');
+    </script>
+
+</body>
+  </html>
