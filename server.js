@@ -14,21 +14,29 @@ app.use(express.static(path.join(__dirname)));
 const API_KEY = process.env.HARAKAPAY_API_KEY;
 const BASE_URL = 'https://harakapay.net';
 
-// 1. Routes za kufungua kurasa zako moja kwa moja
-app.get('/', (getReq, res) => {
+// 1. Routes za kufungua kurasa zote za tovuti yako moja kwa moja
+app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-app.get('/login', (getReq, res) => {
+app.get('/dashboard', (req, res) => {
+    res.sendFile(path.join(__dirname, 'dashboard.html'));
+});
+
+app.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname, 'login.html'));
 });
 
-app.get('/signup', (getReq, res) => {
+app.get('/signup', (req, res) => {
     res.sendFile(path.join(__dirname, 'signup.html'));
 });
 
-app.get('/admin', (getReq, res) => {
-    res.sendFile(path.join(__dirname, 'admin.html'));
+app.get('/chat', (req, res) => {
+    res.sendFile(path.join(__dirname, 'chat.html'));
+});
+
+app.get('/setting', (req, res) => {
+    res.sendFile(path.join(__dirname, 'setting.html'));
 });
 
 // 2. Endpoint ya malipo kwenda HarakaPay
@@ -71,4 +79,3 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server inafanya kazi kwenye http://localhost:${PORT}`);
 });
-
