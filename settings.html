@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=no, viewport-fit=cover" />
+    <title>Settings - Link za Wakubwa</title>
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        /* ===== RESET & ROOT ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #e91e8c;
+            --primary-dark: #c2187b;
+            --primary-light: #f8e1f0;
+            --gradient: linear-gradient(145deg, #f06292, #ba68c8);
+            --bg-light: #fceef5;
+            --white: #ffffff;
+            --shadow: 0 10px 30px rgba(233, 30, 140, 0.12);
+            --radius: 20px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            --card-bg: #ffffff;
+            --text-color: #2d2d2d;
+            --border-color: rgba(233, 30, 140, 0.06);
+            --sub-text: #888;
+            --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+        }
+
+        /* Dark Theme */
+        [data-theme="dark"] {
+            --bg-light: #1a1a2e;
+            --white: #16213e;
+            --card-bg: #1a1a2e;
+            --text-color: #eaeaea;
+            --border-color: rgba(233, 30, 140, 0.15);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            --sub-text: #aaa;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg-light);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            transition: background 0.3s ease, color 0.3s ease;
+            padding: 0;
+            margin: 0;
+        }
+
+        .app-wrapper {
+            max-width: 480px;
+            width: 100%;
+            min-height: 100vh;
+            background: var(--white);
+            transition: background 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            padding-bottom: calc(20px + var(--safe-area-bottom));
+        }
+
+        /* ===== HEADER ===== */
+        .settings-header {
+            background: var(--gradient);
+            padding: 18px 16px 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 20px rgba(233, 30, 140, 0.25);
+            position: sticky;
+            top: 0;
+            z-index: 20;
+        }
+        .settings-header .back-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            font-size: 1.2rem;
+            color: white;
+            cursor: pointer;
+            padding: 8px 10px;
+            border-radius: 12px;
+            transition: var(--transition);
+            backdrop-filter: blur(4px);
+            flex-shrink: 0;
+        }
+        .settings-header .back-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.05);
+        }
+        .settings-header .header-text {
+            flex: 1;
+        }
+        .settings-header .header-text h1 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .settings-header .header-text .subtitle {
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.8);
+            margin-top: 2px;
+        }
+        .settings-header .header-text .subtitle i {
+            margin-right: 4px;
+        }
+
+        /* ===== SETTINGS CONTENT ===== */
+        .settings-content {
+            flex: 1;
+            padding: 16px 14px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* ===== PROFILE CARD ===== */
+        .profile-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 20px 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: background 0.3s ease;
+        }
+        .profile-card .avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+            font-weight: 700;
+            flex-shrink: 0;
+            overflow: hidden;
+            border: 3px solid var(--primary-light);
+        }
+        .profile-card .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .profile-card .profile-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .profile-card .profile-info .name {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-color);
+        }
+        .profile-card .profile-info .email {
+            font-size: 0.8rem;
+            color: var(--sub-text);
+            margin-top: 2px;
+        }
+        .profile-card .profile-info .phone {
+            font-size: 0.75rem;
+            color: var(--sub-text);
+            margin-top: 1px;
+        }
+        .profile-card .edit-btn {
+            background: var(--gradient);
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .profile-card .edit-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 14px rgba(233, 30, 140, 0.3);
+        }
+
+        /* ===== SETTINGS SECTIONS ===== */
+        .settings-section {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            transition: background 0.3s ease;
+        }
+        .settings-section .section-title {
+            padding: 14px 16px 8px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--primary);
+            letter-spacing: 0.5px;
+        }
+
+        .settings-row {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            gap: 14px;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: var(--transition);
+            min-height: 52px;
+        }
+        .settings-row:last-child {
+            border-bottom: none;
+        }
+        .settings-row:hover {
+            background: var(--primary-light);
+        }
+        [data-theme="dark"] .settings-row:hover {
+            background: rgba(233, 30, 140, 0.08);
+        }
+
+        .settings-row .icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            background: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+        [data-theme="dark"] .settings-row .icon {
+            background: rgba(233, 30, 140, 0.15);
+        }
+
+        .settings-row .info {
+            flex: 1;
+            min-width: 0;
+        }
+        .settings-row .info .title {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+        .settings-row .info .sub {
+            font-size: 0.7rem;
+            color: var(--sub-text);
+            margin-top: 1px;
+        }
+        .settings-row .arrow {
+            color: var(--sub-text);
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+        .settings-row .toggle {
+            position: relative;
+            width: 44px;
+            height: 26px;
+            flex-shrink: 0;
+        }
+        .settings-row .toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .settings-row .toggle .slider {
+            position: absolute;
+            cursor: pointer;
+            inset: 0;
+            background: #ccc;
+            border-radius: 26px;
+            transition: var(--transition);
+        }
+        .settings-row .toggle .slider::before {
+            content: '';
+            position: absolute;
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: var(--transition);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .settings-row .toggle input:checked + .slider {
+            background: var(--gradient);
+        }
+        .settings-row .toggle input:checked + .slider::before {
+            transform: translateX(18px);
+        }
+
+        /* ===== VERSION ===== */
+        .version {
+            text-align: center;
+            font-size: 0.65rem;
+            color: var(--sub-text);
+            padding: 12px 0 4px;
+        }
+        .version span {
+            color: var(--primary);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 480px) {
+            .settings-header { padding: 14px 12px; }
+            .settings-header .header-text h1 { font-size: 1rem; }
+            .settings-content { padding: 12px 10px 16px; gap: 12px; }
+            .profile-card { padding: 16px 14px; gap: 12px; }
+            .profile-card .avatar { width: 50px; height: 50px; font-size: 1.4rem; }
+            .profile-card .profile-info .name { font-size: 0.95rem; }
+            .settings-row { padding: 10px 14px; min-height: 46px; gap: 12px; }
+            .settings-row .info .title { font-size: 0.85rem; }
+            .settings-row .toggle { width: 40px; height: 24px; }
+            .settings-row .toggle .slider::before { height: 18px; width: 18px; }
+            .settings-row .toggle input:checked + .slider::before { transform: translateX(16px); }
+            .settings-section .section-title { padding: 10px 14px 6px; font-size: 0.65rem; }
+        }
+
+        @media (max-width: 380px) {
+            .profile-card { flex-wrap: wrap; justify-content: center; text-align: center; }
+            .profile-card .profile-info { text-align: center; }
+            .settings-row { padding: 8px 12px; min-height: 42px; gap: 10px; }
+            .settings-row .info .title { font-size: 0.8rem; }
+            .settings-row .icon { width: 28px; height: 28px; font-size: 0.8rem; }
+        }
+
+        @media (min-width: 769px) {
+            body {
+                background: var(--bg-light);
+                padding: 20px;
+            }
+            .app-wrapper {
+                border-radius: 24px;
+                box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+                max-height: 95vh;
+                overflow-y: auto;
+            }
+            .settings-header {
+                border-radius: 24px 24px 0 0;
+            }
+        }
+
+        /* ===== MODAL ===== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        .modal-box {
+            background: var(--card-bg);
+            border-radius: 28px;
+            max-width: 400px;
+            width: 100%;
+            padding: 24px 20px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+            animation: slideUp 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+        .modal-box h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-color);
+        }
+        .modal-box .sub {
+            color: var(--sub-text);
+            font-size: 0.85rem;
+            margin-bottom: 16px;
+        }
+        .modal-box input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 60px;
+            font-size: 0.9rem;
+            margin: 6px 0 12px;
+            background: var(--bg-light);
+            color: var(--text-color);
+            outline: none;
+            transition: var(--transition);
+        }
+        .modal-box input:focus {
+            border-color: var(--primary);
+        }
+        .modal-box .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 8px;
+        }
+        .modal-box .btn-group button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .modal-box .btn-primary {
+            background: var(--gradient);
+            color: white;
+        }
+        .modal-box .btn-primary:hover {
+            transform: scale(1.02);
+        }
+        .modal-box .btn-secondary {
+            background: #f0edf3;
+            color: #444;
+        }
+        [data-theme="dark"] .modal-box .btn-secondary {
+            background: #2a2a4a;
+            color: #ccc;
+        }
+        .modal-box .btn-secondary:hover {
+            background: #e5e0e8;
+        }
+        [data-theme="dark"] .modal-box .btn-secondary:hover {
+            background: #3a3a5a;
+        }
+        .modal-box .btn-danger {
+            background: #fce4ec;
+            color: #b71c1c;
+        }
+        .modal-box .btn-danger:hover {
+            background: #f8bbd0;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Toggle container for rows without click */
+        .settings-row.no-click {
+            cursor: default;
+        }
+        .settings-row.no-click:hover {
+            background: transparent;
+        }
+        [data-theme="dark"] .settings-row.no-click:hover {
+            background: transparent;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-wrapper" id="appWrapper">
+
+        <!-- ===== HEADER ===== -->
+        <div class="settings-header">
+            <button class="back-btn" id="backBtn">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <div class="header-text">
+                <h1><i class="fas fa-cog" style="margin-right:8px;"></i> Mipangilio</h1>
+                <div class="subtitle"><i class="fas fa-sliders-h"></i> Customize your chat experience</div>
+            </div>
+        </div>
+
+        <!-- ===== SETTINGS CONTENT ===== -->
+        <div class="settings-content">
+
+            <!-- ===== PROFILE CARD ===== -->
+            <div class="profile-card" id="profileCard">
+                <div class="avatar" id="profileAvatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="profile-info">
+                    <div class="name" id="profileName">Mteja</div>
+                    <div class="email" id="profileEmail">mteja@example.com</div>
+                    <div class="phone" id="profilePhone">+255 700 000 000</div>
+                </div>
+                <button class="edit-btn" id="editProfileBtn"><i class="fas fa-pen"></i> Badilisha</button>
+            </div>
+
+            <!-- ===== ACCOUNT SECTION ===== -->
+            <div class="settings-section">
+                <div class="section-title"><i class="fas fa-user-circle"></i> Akaunti</div>
+                <div class="settings-row" id="editProfileRow">
+                    <div class="icon"><i class="fas fa-user-edit"></i></div>
+                    <div class="info">
+                        <div class="title">Badilisha Profile</div>
+                        <div class="sub">Jina, simu na picha</div>
+                    </div>
+                    <div class="arrow"><i class="fas fa-chevron-right"></i></div>
+                </div>
+                <div class="settings-row" id="changePasswordRow">
+                    <div class="icon"><i class="fas fa-lock"></i></div>
+                    <div class="info">
+                        <div class="title">Badilisha Nenosiri</div>
+                        <div class="sub">Weka nenosiri jipya</div>
+                    </div>
+                    <div class="arrow"><i class="fas fa-chevron-right"></i></div>
+                </div>
+                <div class="settings-row" id="logoutRow">
+                    <div class="icon" style="background:#fce4ec;color:#e74c3c;"><i class="fas fa-sign-out-alt"></i></div>
+                    <div class="info">
+                        <div class="title" style="color:#e74c3c;">Toka</div>
+                        <div class="sub">Ondoka kwenye akaunti yako</div>
+                    </div>
+                    <div class="arrow"><i class="fas fa-chevron-right"></i></div>
+                </div>
+            </div>
+
+            <!-- ===== CHAT SETTINGS ===== -->
+            <div class="settings-section">
+                <div class="section-title"><i class="fas fa-comment-dots"></i> Chat</div>
+                <div class="settings-row no-click">
+                    <div class="icon"><i class="fas fa-bell"></i></div>
+                    <div class="info">
+                        <div class="title">Arifa</div>
+                        <div class="sub">Onyesha arifa za ujumbe</div>
+                    </div>
+                    <div class="toggle">
+                        <input type="checkbox" id="notifToggle" checked />
+                        <span class="slider"></span>
+                    </div>
+                </div>
+                <div class="settings-row no-click">
+                    <div class="icon"><i class="fas fa-volume-up"></i></div>
+                    <div class="info">
+                        <div class="title">Sauti za Ujumbe</div>
+                        <div class="sub">Sauti inapotuma ujumbe</div>
+                    </div>
+                    <div class="toggle">
+                        <input type="checkbox" id="soundToggle" checked />
+                        <span class="slider"></span>
+                    </div>
+                </div>
+                <div class="settings-row no-click">
+                    <div class="icon"><i class="fas fa-moon"></i></div>
+                    <div class="info">
+                        <div class="title">Hali ya Giza</div>
+                        <div class="sub">Badilisha mandhari ya giza</div>
+                    </div>
+                    <div class="toggle">
+                        <input type="checkbox" id="darkModeToggle" />
+                        <span class="slider"></span>
+                    </div>
+                </div>
+                <div class="settings-row no-click">
+                    <div class="icon"><i class="fas fa-vibrate"></i></div>
+                    <div class="info">
+                        <div class="title">Vibration</div>
+                        <div class="sub">Simu itetemeke inapopokea ujumbe</div>
+                    </div>
+                    <div class="toggle">
+                        <input type="checkbox" id="vibrateToggle" checked />
+                        <span class="slider"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== PRIVACY SECTION ===== -->
+            <div class="settings-section">
+                <div class="section-title"><i class="fas fa-shield-alt"></i> Faragha</div>
+                <div class="settings-row no-click">
+                    <div class="icon"><i class="fas fa-circle" style="color:#4caf50;"></i></div>
+                    <div class="info">
+                        <div class="title">Hali ya Online</div>
+                        <div class="sub">Onyesha wengine uko online</div>
+                    </div>
+                    <div class="toggle">
+                        <input type="checkbox" id="onlineStatusToggle" checked />
+                        <span class="slider"></span>
+                    </div>
+                </div>
+                <div class="settings-row no-click">
+                    <div class="icon"><i class="fas fa-eye"></i></div>
+                    <div class="info">
+                        <div class="title">Read Receipts</div>
+                        <div class="sub">Onyesha umesoma ujumbe</div>
+                    </div>
+                    <div class="toggle">
+                        <input type="checkbox" id="readReceiptsToggle" checked />
+                        <span class="slider"></span>
+                    </div>
+                </div>
+                <div class="settings-row no-click">
+                    <div class="icon"><i class="fas fa-keyboard"></i></div>
+                    <div class="info">
+                        <div class="title">Typing Status</div>
+                        <div class="sub">Onyesha unaandika ujumbe</div>
+                    </div>
+                    <div class="toggle">
+                        <input type="checkbox" id="typingToggle" checked />
+                        <span class="slider"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== ABOUT SECTION ===== -->
+            <div class="settings-section">
+                <div class="section-title"><i class="fas fa-info-circle"></i> Kuhusu</div>
+                <div class="settings-row" id="aboutRow">
+                    <div class="icon"><i class="fas fa-info"></i></div>
+                    <div class="info">
+                        <div class="title">Kuhusu App</div>
+                        <div class="sub">Taarifa za programu</div>
+                    </div>
+                    <div class="arrow"><i class="fas fa-chevron-right"></i></div>
+                </div>
+                <div class="settings-row" id="privacyRow">
+                    <div class="icon"><i class="fas fa-lock"></i></div>
+                    <div class="info">
+                        <div class="title">Sera za Faragha</div>
+                        <div class="sub">Jinsi tunavyolinda data yako</div>
+                    </div>
+                    <div class="arrow"><i class="fas fa-chevron-right"></i></div>
+                </div>
+                <div class="settings-row" id="termsRow">
+                    <div class="icon"><i class="fas fa-file-contract"></i></div>
+                    <div class="info">
+                        <div class="title">Masharti ya Matumizi</div>
+                        <div class="sub">Sheria na masharti</div>
+                    </div>
+                    <div class="arrow"><i class="fas fa-chevron-right"></i></div>
+                </div>
+            </div>
+
+            <!-- ===== VERSION ===== -->
+            <div class="version">
+                <i class="fas fa-code"></i> Version <span>1.0.0</span> • Built with <i class="fas fa-heart" style="color:#e91e8c;"></i>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ===== EDIT PROFILE MODAL ===== -->
+    <div class="modal-overlay" id="editProfileModal">
+        <div class="modal-box">
+            <h3><i class="fas fa-user-edit"></i> Badilisha Profile</h3>
+            <div class="sub">Sasisha taarifa zako binafsi</div>
+            <input type="text" id="editName" placeholder="Jina lako" />
+            <input type="tel" id="editPhone" placeholder="Namba ya simu" />
+            <input type="url" id="editAvatar" placeholder="Link ya picha (URL)" />
+            <div class="btn-group">
+                <button class="btn-secondary" id="closeEditModal">Ghairi</button>
+                <button class="btn-primary" id="saveEditBtn"><i class="fas fa-save"></i> Hifadhi</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== CHANGE PASSWORD MODAL ===== -->
+    <div class="modal-overlay" id="changePasswordModal">
+        <div class="modal-box">
+            <h3><i class="fas fa-lock"></i> Badilisha Nenosiri</h3>
+            <div class="sub">Weka nenosiri jipya</div>
+            <input type="password" id="newPassword" placeholder="Nenosiri jipya" />
+            <input type="password" id="confirmPassword" placeholder="Thibitisha nenosiri" />
+            <div class="btn-group">
+                <button class="btn-secondary" id="closePassModal">Ghairi</button>
+                <button class="btn-primary" id="savePassBtn"><i class="fas fa-save"></i> Hifadhi</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== ABOUT MODAL ===== -->
+    <div class="modal-overlay" id="aboutModal">
+        <div class="modal-box">
+            <h3><i class="fas fa-info-circle"></i> Kuhusu Link za Wakubwa</h3>
+            <div class="sub" style="margin-bottom:12px;">Version 1.0.0</div>
+            <p style="font-size:0.9rem;color:var(--text-color);line-height:1.6;">
+                <i class="fas fa-crown" style="color:var(--primary);"></i> Link za Wakubwa ni jukwaa la kununua link za WhatsApp groups za premium.
+            </p>
+            <p style="font-size:0.85rem;color:var(--sub-text);margin-top:12px;">
+                <i class="fas fa-code"></i> Developed by: Dulla Manyama<br />
+                <i class="fas fa-phone"></i> 0724525910<br />
+                <i class="fas fa-envelope"></i> dullamanyama@gmail.com
+            </p>
+            <div class="btn-group" style="margin-top:16px;">
+                <button class="btn-primary" id="closeAboutModal">Sawa</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== FIREBASE + LOGIC ===== -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import {
+            getFirestore,
+            doc,
+            getDoc,
+            updateDoc,
+            serverTimestamp,
+            setDoc
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import {
+            getAuth,
+            onAuthStateChanged,
+            signOut,
+            updatePassword,
+            updateProfile
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCmwASW4XXQ3O0AvsCM_r1WLlrUmGjYVxI",
+            authDomain: "dvary-9a7d0.firebaseapp.com",
+            projectId: "dvary-9a7d0",
+            storageBucket: "dvary-9a7d0.firebasestorage.app",
+            messagingSenderId: "107370806066",
+            appId: "1:107370806066:web:4c2ce1e6f7b6c32909f52b",
+            measurementId: "G-07361LFJEP"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        // ===== STATE =====
+        let currentUser = null;
+        let currentUserData = null;
+        let isDark = false;
+
+        // ===== DOM REFS =====
+        const profileAvatar = document.getElementById('profileAvatar');
+        const profileName = document.getElementById('profileName');
+        const profileEmail = document.getElementById('profileEmail');
+        const profilePhone = document.getElementById('profilePhone');
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const onlineStatusToggle = document.getElementById('onlineStatusToggle');
+
+        // ===== AUTH STATE =====
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user;
+                const userRef = doc(db, "users", user.uid);
+                const snap = await getDoc(userRef);
+                if (snap.exists()) {
+                    currentUserData = snap.data();
+                    updateProfileUI();
+                } else {
+                    await setDoc(userRef, {
+                        uid: user.uid,
+                        fullName: user.displayName || 'Mteja',
+                        email: user.email,
+                        phone: user.phoneNumber || '',
+                        avatar: user.photoURL || null,
+                        createdAt: serverTimestamp(),
+                        role: 'customer',
+                        online: true,
+                        settings: {
+                            notifications: true,
+                            sound: true,
+                            darkMode: false,
+                            vibrate: true,
+                            onlineStatus: true,
+                            readReceipts: true,
+                            typing: true
+                        }
+                    });
+                    currentUserData = { fullName: user.displayName || 'Mteja', email: user.email };
+                    updateProfileUI();
+                }
+                // Load saved settings
+                loadSettings();
+            } else {
+                window.location.href = "/login.html";
+            }
+        });
+
+        // ===== UPDATE PROFILE UI =====
+        function updateProfileUI() {
+            if (!currentUserData) return;
+            const name = currentUserData.fullName || 'Mteja';
+            const email = currentUserData.email || currentUser?.email || 'mteja@example.com';
+            const phone = currentUserData.phone || '+255 700 000 000';
+            const avatar = currentUserData.avatar;
+
+            profileName.textContent = name;
+            profileEmail.textContent = email;
+            profilePhone.textContent = phone;
+
+            if (avatar) {
+                profileAvatar.innerHTML = `<img src="${avatar}" alt="Avatar" />`;
+            } else {
+                const initial = name.charAt(0).toUpperCase();
+                profileAvatar.innerHTML = `<span style="font-size:1.8rem;font-weight:600;">${initial}</span>`;
+            }
+        }
+
+        // ===== LOAD SETTINGS =====
+        function loadSettings() {
+            const settings = currentUserData?.settings || {};
+            if (settings.darkMode) {
+                darkModeToggle.checked = true;
+                document.documentElement.setAttribute('data-theme', 'dark');
+                isDark = true;
+                document.querySelector('#darkModeToggle + .slider')?.parentElement?.parentElement?.querySelector('.info .title')?.textContent = 'Hali ya Giza';
+            }
+            if (settings.notifications !== undefined) {
+                document.getElementById('notifToggle').checked = settings.notifications;
+            }
+            if (settings.sound !== undefined) {
+                document.getElementById('soundToggle').checked = settings.sound;
+            }
+            if (settings.vibrate !== undefined) {
+                document.getElementById('vibrateToggle').checked = settings.vibrate;
+            }
+            if (settings.onlineStatus !== undefined) {
+                onlineStatusToggle.checked = settings.onlineStatus;
+                updateOnlineStatus(settings.onlineStatus);
+            }
+            if (settings.readReceipts !== undefined) {
+                document.getElementById('readReceiptsToggle').checked = settings.readReceipts;
+            }
+            if (settings.typing !== undefined) {
+                document.getElementById('typingToggle').checked = settings.typing;
+            }
+        }
+
+        // ===== SAVE SETTINGS =====
+        async function saveSettings(settings) {
+            if (!currentUser) return;
+            try {
+                const userRef = doc(db, "users", currentUser.uid);
+                await updateDoc(userRef, {
+                    settings: { ...currentUserData?.settings, ...settings },
+                    updatedAt: serverTimestamp()
+                });
+                // Update local data
+                if (currentUserData) {
+                    currentUserData.settings = { ...currentUserData?.settings, ...settings };
+                }
+            } catch (e) {
+                console.error('Save settings error:', e);
+            }
+        }
+
+        // ===== UPDATE ONLINE STATUS =====
+        async function updateOnlineStatus(status) {
+            if (!currentUser) return;
+            try {
+                await updateDoc(doc(db, "users", currentUser.uid), {
+                    online: status,
+                    lastSeen: serverTimestamp()
+                });
+            } catch (e) { console.error('Online status error:', e); }
+        }
+
+        // ===== BACK BUTTON =====
+        document.getElementById('backBtn').addEventListener('click', () => {
+            window.location.href = "/index.html";
+        });
+
+        // ===== DARK MODE TOGGLE =====
+        darkModeToggle.addEventListener('change', (e) => {
+            isDark = e.target.checked;
+            document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+            const icon = document.querySelector('#darkModeToggle + .slider')?.parentElement?.parentElement?.querySelector('.icon i');
+            if (icon) {
+                icon.className = isDark ? 'fas fa-moon' : 'fas fa-moon';
+            }
+            saveSettings({ darkMode: isDark });
+        });
+
+        // ===== NOTIFICATION TOGGLES =====
+        document.getElementById('notifToggle').addEventListener('change', (e) => {
+            saveSettings({ notifications: e.target.checked });
+        });
+        document.getElementById('soundToggle').addEventListener('change', (e) => {
+            saveSettings({ sound: e.target.checked });
+        });
+        document.getElementById('vibrateToggle').addEventListener('change', (e) => {
+            saveSettings({ vibrate: e.target.checked });
+        });
+
+        // ===== PRIVACY TOGGLES =====
+        onlineStatusToggle.addEventListener('change', (e) => {
+            saveSettings({ onlineStatus: e.target.checked });
+            updateOnlineStatus(e.target.checked);
+        });
+        document.getElementById('readReceiptsToggle').addEventListener('change', (e) => {
+            saveSettings({ readReceipts: e.target.checked });
+        });
+        document.getElementById('typingToggle').addEventListener('change', (e) => {
+            saveSettings({ typing: e.target.checked });
+        });
+
+        // ===== EDIT PROFILE =====
+        document.getElementById('editProfileBtn').addEventListener('click', () => {
+            if (!currentUserData) return;
+            document.getElementById('editName').value = currentUserData.fullName || '';
+            document.getElementById('editPhone').value = currentUserData.phone || '';
+            document.getElementById('editAvatar').value = currentUserData.avatar || '';
+            document.getElementById('editProfileModal').classList.add('active');
+        });
+        document.getElementById('editProfileRow').addEventListener('click', () => {
+            document.getElementById('editProfileBtn').click();
+        });
+
+        document.getElementById('closeEditModal').addEventListener('click', () => {
+            document.getElementById('editProfileModal').classList.remove('active');
+        });
+
+        document.getElementById('saveEditBtn').addEventListener('click', async () => {
+            const name = document.getElementById('editName').value.trim();
+            const phone = document.getElementById('editPhone').value.trim();
+            const avatar = document.getElementById('editAvatar').value.trim();
+
+            if (!name) {
+                alert('Tafadhali weka jina lako.');
+                return;
+            }
+
+            try {
+                const userRef = doc(db, "users", currentUser.uid);
+                const updateData = {
+                    fullName: name,
+                    phone: phone || '',
+                    updatedAt: serverTimestamp()
+                };
+                if (avatar) {
+                    updateData.avatar = avatar;
+                }
+                await updateDoc(userRef, updateData);
+
+                // Update Firebase Auth profile
+                if (currentUser) {
+                    await updateProfile(currentUser, {
+                        displayName: name,
+                        photoURL: avatar || null
+                    });
+                }
+
+                // Update local data
+                currentUserData.fullName = name;
+                currentUserData.phone = phone || '';
+                if (avatar) currentUserData.avatar = avatar;
+                updateProfileUI();
+
+                document.getElementById('editProfileModal').classList.remove('active');
+                alert('✅ Profile imesasishwa!');
+            } catch (e) {
+                alert('Hitilafu: ' + e.message);
+            }
+        });
+
+        // ===== CHANGE PASSWORD =====
+        document.getElementById('changePasswordRow').addEventListener('click', () => {
+            document.getElementById('changePasswordModal').classList.add('active');
+        });
+
+        document.getElementById('closePassModal').addEventListener('click', () => {
+            document.getElementById('changePasswordModal').classList.remove('active');
+        });
+
+        document.getElementById('savePassBtn').addEventListener('click', async () => {
+            const newPass = document.getElementById('newPassword').value;
+            const confirmPass = document.getElementById('confirmPassword').value;
+
+            if (!newPass || newPass.length < 6) {
+                alert('Nenosiri lazima liwe angalau herufi 6.');
+                return;
+            }
+            if (newPass !== confirmPass) {
+                alert('Nenosiri hazifanani. Tafadhali jaribu tena.');
+                return;
+            }
+
+            try {
+                await updatePassword(currentUser, newPass);
+                document.getElementById('changePasswordModal').classList.remove('active');
+                document.getElementById('newPassword').value = '';
+                document.getElementById('confirmPassword').value = '';
+                alert('✅ Nenosiri limebadilishwa kikamilifu!');
+            } catch (e) {
+                alert('Hitilafu: ' + e.message);
+            }
+        });
+
+        // ===== LOGOUT =====
+        document.getElementById('logoutRow').addEventListener('click', async () => {
+            if (confirm('Je, una uhakika unataka kutoka?')) {
+                try {
+                    await updateOnlineStatus(false);
+                    await signOut(auth);
+                    window.location.href = "/login.html";
+                } catch (e) {
+                    alert('Hitilafu: ' + e.message);
+                }
+            }
+        });
+
+        // ===== ABOUT =====
+        document.getElementById('aboutRow').addEventListener('click', () => {
+            document.getElementById('aboutModal').classList.add('active');
+        });
+        document.getElementById('closeAboutModal').addEventListener('click', () => {
+            document.getElementById('aboutModal').classList.remove('active');
+        });
+
+        // ===== PRIVACY & TERMS =====
+        document.getElementById('privacyRow').addEventListener('click', () => {
+            alert('🔐 Sera za Faragha\n\nTunazingatia faragha yako. Data yako inalindwa na haitolewi kwa mtu yeyote bila idhini yako.');
+        });
+        document.getElementById('termsRow').addEventListener('click', () => {
+            alert('📄 Masharti ya Matumizi\n\nKwa kutumia app hii, unakubali kufuata sheria na masharti yetu. Tunahakikisha huduma bora kwa wateja wetu wote.');
+        });
+
+        // ===== CLOSE MODALS ON BACKDROP =====
+        document.querySelectorAll('.modal-overlay').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) modal.classList.remove('active');
+            });
+        });
+
+        console.log('⚙️ Settings Page - Link za Wakubwa');
+        console.log('👤 User: ' + (currentUserData?.fullName || 'Mteja'));
+        console.log('🔧 Settings loaded and functional.');
+    </script>
+
+</body>
+                      </html>
