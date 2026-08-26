@@ -1,0 +1,1867 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5" />
+    <title>Link za Wakubwa - Nunua Link za WhatsApp</title>
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        /* ===== RESET & ROOT ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #e91e8c;
+            --primary-dark: #c2187b;
+            --primary-light: #f8e1f0;
+            --gradient: linear-gradient(145deg, #f06292, #ba68c8);
+            --bg-light: #fceef5;
+            --white: #ffffff;
+            --shadow: 0 10px 30px rgba(233, 30, 140, 0.12);
+            --radius: 20px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            --card-bg: #ffffff;
+            --text-color: #2d2d2d;
+            --border-color: rgba(233, 30, 140, 0.06);
+            --bottom-nav-height: 70px;
+        }
+
+        /* Dark Theme */
+        [data-theme="dark"] {
+            --bg-light: #1a1a2e;
+            --white: #16213e;
+            --card-bg: #1a1a2e;
+            --text-color: #eaeaea;
+            --border-color: rgba(233, 30, 140, 0.15);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg-light);
+            color: var(--text-color);
+            padding: 16px 12px 90px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .app-wrapper {
+            max-width: 480px;
+            width: 100%;
+        }
+
+        /* ===== TOP NAVIGATION ===== */
+        .top-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--card-bg);
+            padding: 12px 18px;
+            border-radius: 50px;
+            box-shadow: var(--shadow);
+            margin-bottom: 16px;
+            position: sticky;
+            top: 8px;
+            z-index: 30;
+            backdrop-filter: blur(6px);
+            background: rgba(255, 255, 255, 0.92);
+            border: 1px solid var(--border-color);
+            transition: background 0.3s ease;
+        }
+        [data-theme="dark"] .top-nav {
+            background: rgba(22, 33, 62, 0.92);
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.1rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+        .logo i {
+            -webkit-text-fill-color: initial;
+            color: var(--primary);
+            margin-right: 4px;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-icon {
+            background: none;
+            border: none;
+            font-size: 1.1rem;
+            color: var(--text-color);
+            cursor: pointer;
+            position: relative;
+            transition: var(--transition);
+            padding: 4px;
+            border-radius: 50%;
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(233, 30, 140, 0.04);
+        }
+        .nav-icon:hover {
+            background: rgba(233, 30, 140, 0.12);
+            transform: scale(1.05);
+        }
+
+        .badge {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            background: #e91e8c;
+            color: white;
+            font-size: 0.55rem;
+            font-weight: 700;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid white;
+            box-shadow: 0 2px 8px rgba(233, 30, 140, 0.4);
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.8rem;
+            cursor: pointer;
+            overflow: hidden;
+            border: 2px solid white;
+            box-shadow: 0 2px 8px rgba(233, 30, 140, 0.15);
+            transition: var(--transition);
+        }
+        .user-avatar:hover {
+            transform: scale(1.05);
+        }
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* ===== SEARCH BAR ===== */
+        .search-container {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 12px 16px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: background 0.3s ease;
+        }
+        .search-container i {
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+        .search-container input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            font-size: 0.95rem;
+            outline: none;
+            color: var(--text-color);
+            font-family: var(--font);
+        }
+        .search-container input::placeholder {
+            color: #999;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            background: var(--gradient);
+            padding: 20px 18px;
+            border-radius: var(--radius);
+            color: white;
+            margin-bottom: 20px;
+            box-shadow: 0 12px 30px rgba(233, 30, 140, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: -40%;
+            right: -20%;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+        }
+        .hero h1 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            position: relative;
+            z-index: 2;
+        }
+        .hero p {
+            opacity: 0.9;
+            font-size: 0.85rem;
+            margin-top: 4px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ===== SECTION TITLES ===== */
+        .section-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 20px 0 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        .section-title i {
+            color: var(--primary);
+            margin-right: 8px;
+        }
+        .section-title .lang-toggle {
+            font-size: 0.7rem;
+            font-weight: 400;
+            color: var(--primary);
+            cursor: pointer;
+            background: none;
+            border: 1px solid var(--primary);
+            padding: 4px 12px;
+            border-radius: 30px;
+            transition: var(--transition);
+        }
+        .section-title .lang-toggle:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* ===== GROUP CARDS ===== */
+        .groups-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .group-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+            animation: fadeUp 0.4s ease;
+        }
+        .group-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(233, 30, 140, 0.10);
+        }
+
+        .group-img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            background: #f0e6ea;
+        }
+
+        .group-body {
+            padding: 14px 16px 16px;
+        }
+        .group-body h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 2px;
+        }
+        .group-desc {
+            font-size: 0.8rem;
+            color: #777;
+            margin-bottom: 8px;
+        }
+        [data-theme="dark"] .group-desc {
+            color: #aaa;
+        }
+        .group-price {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+        .group-price small {
+            font-weight: 400;
+            font-size: 0.7rem;
+            color: #999;
+        }
+
+        .buy-btn {
+            width: 100%;
+            padding: 12px;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: 60px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 14px rgba(233, 30, 140, 0.25);
+        }
+        .buy-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 20px rgba(233, 30, 140, 0.35);
+        }
+        .buy-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* ===== CHAT SECTION ===== */
+        .chat-section {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            transition: background 0.3s ease;
+            min-height: 350px;
+            display: flex;
+            flex-direction: column;
+        }
+        .chat-section h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            color: var(--text-color);
+        }
+        .chat-section h3 i {
+            color: var(--primary);
+        }
+
+        .chat-online {
+            font-size: 0.75rem;
+            color: #4caf50;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .chat-online i {
+            font-size: 0.6rem;
+            color: #4caf50;
+        }
+
+        .chat-messages {
+            flex: 1;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 12px;
+            padding-right: 4px;
+        }
+        .chat-messages::-webkit-scrollbar {
+            width: 4px;
+        }
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+
+        .chat-message {
+            display: flex;
+            gap: 10px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+            animation: fadeUp 0.3s ease;
+        }
+        .chat-message:last-child {
+            border-bottom: none;
+        }
+        .chat-message .msg-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.75rem;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+        .chat-message .msg-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .chat-message .msg-content {
+            flex: 1;
+        }
+        .chat-message .msg-content .msg-name {
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: var(--text-color);
+        }
+        .chat-message .msg-content .msg-text {
+            font-size: 0.85rem;
+            color: #777;
+            margin-top: 2px;
+        }
+        [data-theme="dark"] .chat-message .msg-content .msg-text {
+            color: #aaa;
+        }
+        .chat-message .msg-content .msg-time {
+            font-size: 0.6rem;
+            color: #aaa;
+            margin-top: 2px;
+        }
+        .chat-message.system {
+            background: var(--primary-light);
+            border-radius: 12px;
+            padding: 8px 14px;
+            margin: 4px 0;
+        }
+        [data-theme="dark"] .chat-message.system {
+            background: rgba(233, 30, 140, 0.15);
+        }
+
+        .chat-input-area {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-top: auto;
+            padding-top: 12px;
+            border-top: 1px solid var(--border-color);
+        }
+        .chat-input-area input {
+            flex: 1;
+            padding: 10px 16px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 60px;
+            font-size: 0.9rem;
+            background: var(--bg-light);
+            color: var(--text-color);
+            outline: none;
+            transition: var(--transition);
+        }
+        .chat-input-area input:focus {
+            border-color: var(--primary);
+        }
+        .chat-input-area .send-btn {
+            padding: 10px 16px;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: 60px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+        .chat-input-area .send-btn:hover {
+            transform: scale(1.05);
+        }
+        .chat-input-area .send-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* ===== MY ORDERS ===== */
+        .orders-section {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 16px;
+            margin-top: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            transition: background 0.3s ease;
+        }
+        .orders-section h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            color: var(--text-color);
+        }
+        .orders-section h3 i {
+            color: var(--primary);
+        }
+
+        .order-item {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: fadeUp 0.3s ease;
+        }
+        .order-item:last-child {
+            border-bottom: none;
+        }
+        .order-info strong {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--text-color);
+        }
+        .order-meta {
+            font-size: 0.7rem;
+            color: #999;
+        }
+        .order-status {
+            font-size: 0.65rem;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 30px;
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        .order-status.pending {
+            background: #fff3e0;
+            color: #e65100;
+        }
+        [data-theme="dark"] .order-status {
+            background: #1a3a2a;
+            color: #66bb6a;
+        }
+        [data-theme="dark"] .order-status.pending {
+            background: #3a2a1a;
+            color: #ffa726;
+        }
+
+        .order-link-btn {
+            background: var(--gradient);
+            color: white;
+            padding: 5px 14px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 600;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+        .order-link-btn:hover {
+            transform: scale(1.03);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 24px 10px;
+            color: #999;
+        }
+        .empty-state i {
+            font-size: 2rem;
+            color: #ddd;
+            margin-bottom: 6px;
+        }
+        [data-theme="dark"] .empty-state i {
+            color: #444;
+        }
+
+        /* ===== DASHBOARD STATS ===== */
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            margin: 12px 0 4px;
+        }
+        .stat-card {
+            background: var(--card-bg);
+            padding: 12px 6px;
+            border-radius: 14px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            transition: background 0.3s ease;
+        }
+        .stat-card .number {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        .stat-card .label {
+            font-size: 0.65rem;
+            color: #888;
+            margin-top: 2px;
+        }
+        [data-theme="dark"] .stat-card .label {
+            color: #aaa;
+        }
+
+        /* ===== MODALS ===== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(6px);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            animation: fadeIn 0.25s ease;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-box {
+            background: var(--card-bg);
+            border-radius: 28px;
+            max-width: 400px;
+            width: 100%;
+            padding: 24px 20px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+            animation: slideUp 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 1px solid var(--border-color);
+            transition: background 0.3s ease;
+        }
+        .modal-box h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: var(--text-color);
+        }
+        .modal-box .sub {
+            color: #777;
+            font-size: 0.85rem;
+            margin-bottom: 14px;
+        }
+        [data-theme="dark"] .modal-box .sub {
+            color: #aaa;
+        }
+        .modal-box .price-display {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 4px 0 14px;
+        }
+        .modal-box input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 60px;
+            font-size: 0.9rem;
+            margin: 6px 0 14px;
+            background: var(--bg-light);
+            transition: var(--transition);
+            outline: none;
+            color: var(--text-color);
+        }
+        .modal-box input:focus {
+            border-color: var(--primary);
+        }
+        .modal-box .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 6px;
+            flex-wrap: wrap;
+        }
+        .modal-box .btn-group button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            min-width: 80px;
+        }
+        .modal-box .btn-primary {
+            background: var(--gradient);
+            color: white;
+            box-shadow: 0 4px 14px rgba(233, 30, 140, 0.25);
+        }
+        .modal-box .btn-primary:hover {
+            transform: scale(1.02);
+        }
+        .modal-box .btn-secondary {
+            background: #f0edf3;
+            color: #444;
+        }
+        [data-theme="dark"] .modal-box .btn-secondary {
+            background: #2a2a4a;
+            color: #ccc;
+        }
+        .modal-box .btn-secondary:hover {
+            background: #e5e0e8;
+        }
+        [data-theme="dark"] .modal-box .btn-secondary:hover {
+            background: #3a3a5a;
+        }
+
+        .profile-detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.85rem;
+        }
+        .profile-detail-row .label {
+            color: #888;
+        }
+        .profile-detail-row .value {
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .profile-avatar-large {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 14px;
+            font-size: 2rem;
+            color: white;
+            overflow: hidden;
+        }
+        .profile-avatar-large img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* ===== NOTIFICATION PANEL ===== */
+        .notif-panel {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            max-width: 400px;
+            height: 100%;
+            background: var(--card-bg);
+            z-index: 200;
+            padding: 20px 16px;
+            box-shadow: -10px 0 40px rgba(0, 0, 0, 0.08);
+            transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-y: auto;
+            border-left: 1px solid var(--border-color);
+        }
+        .notif-panel.open {
+            right: 0;
+        }
+        .notif-panel .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .notif-panel .panel-header h2 {
+            font-size: 1.1rem;
+            color: var(--text-color);
+        }
+        .notif-panel .panel-header button {
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            color: #888;
+        }
+        .notif-item {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+        .notif-item i {
+            color: var(--primary);
+            font-size: 1.1rem;
+            margin-top: 2px;
+        }
+        .notif-item .notif-content {
+            flex: 1;
+        }
+        .notif-item .notif-content .title {
+            font-weight: 600;
+            color: var(--text-color);
+            font-size: 0.9rem;
+        }
+        .notif-item .notif-content .message {
+            font-size: 0.8rem;
+            color: #777;
+            margin-top: 2px;
+        }
+        [data-theme="dark"] .notif-item .notif-content .message {
+            color: #aaa;
+        }
+        .notif-item .notif-content .time {
+            font-size: 0.65rem;
+            color: #aaa;
+            margin-top: 2px;
+        }
+
+        .panel-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.2);
+            z-index: 150;
+        }
+        .panel-overlay.active {
+            display: block;
+        }
+
+        /* ===== BOTTOM NAVIGATION ===== */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--card-bg);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 6px 0 8px;
+            z-index: 40;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05);
+            transition: background 0.3s ease;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+        [data-theme="dark"] .bottom-nav {
+            background: #16213e;
+        }
+
+        .bottom-nav .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1px;
+            background: none;
+            border: none;
+            color: #999;
+            font-size: 0.55rem;
+            cursor: pointer;
+            padding: 4px 10px;
+            transition: var(--transition);
+            position: relative;
+            text-decoration: none;
+        }
+        .bottom-nav .nav-item i {
+            font-size: 1.3rem;
+            transition: var(--transition);
+        }
+        .bottom-nav .nav-item .nav-label {
+            font-size: 0.5rem;
+            font-weight: 500;
+        }
+        .bottom-nav .nav-item.active {
+            color: var(--primary);
+        }
+        .bottom-nav .nav-item.active i {
+            transform: translateY(-2px);
+        }
+        .bottom-nav .nav-item .nav-badge {
+            position: absolute;
+            top: -2px;
+            right: 0;
+            background: #e91e8c;
+            color: white;
+            font-size: 0.5rem;
+            font-weight: 700;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--card-bg);
+        }
+        .bottom-nav .nav-item:hover {
+            color: var(--primary);
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(14px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 400px) {
+            .dashboard-stats { grid-template-columns: 1fr 1fr; }
+            .hero h1 { font-size: 1.2rem; }
+            .hero p { font-size: 0.8rem; }
+            .top-nav { padding: 8px 12px; }
+            .logo { font-size: 0.95rem; }
+            .bottom-nav .nav-item { padding: 2px 6px; }
+            .bottom-nav .nav-item i { font-size: 1.1rem; }
+            .search-container { padding: 10px 14px; }
+            .search-container input { font-size: 0.85rem; }
+        }
+
+        .notif-panel::-webkit-scrollbar { width: 4px; }
+        .notif-panel::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+        .chat-messages::-webkit-scrollbar { width: 4px; }
+        .chat-messages::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 1.1rem;
+            cursor: pointer;
+            color: var(--text-color);
+            padding: 4px;
+            border-radius: 50%;
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+        .theme-toggle:hover {
+            background: rgba(233, 30, 140, 0.1);
+        }
+
+        .page-section {
+            display: block;
+        }
+        .page-section.hidden {
+            display: none;
+        }
+
+        .online-count {
+            font-size: 0.7rem;
+            color: #4caf50;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .online-count i {
+            font-size: 0.5rem;
+        }
+
+        /* Notification Bell Animation */
+        @keyframes bellRing {
+            0% { transform: rotate(0); }
+            25% { transform: rotate(10deg); }
+            50% { transform: rotate(-10deg); }
+            75% { transform: rotate(5deg); }
+            100% { transform: rotate(0); }
+        }
+        .bell-ring {
+            animation: bellRing 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-wrapper" id="appWrapper">
+
+        <!-- ===== TOP NAV ===== -->
+        <nav class="top-nav">
+            <div class="logo"><i class="fas fa-crown"></i> Link za Wakubwa</div>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle" title="Change Theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="nav-icon" id="notifToggle">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge" id="notifBadge">0</span>
+                </button>
+                <div class="user-avatar" id="userAvatar">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+        </nav>
+
+        <!-- ===== SEARCH BAR ===== -->
+        <div class="search-container">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchGroups" placeholder="🔍 Tafuta group / Search groups..." />
+        </div>
+
+        <!-- ===== HERO ===== -->
+        <section class="hero" id="homeSection">
+            <h1><i class="fas fa-rocket" style="margin-right:8px;"></i>Link za Wakubwa</h1>
+            <p class="hero-text">Nunua link za WhatsApp groups za premium, haraka na salama.</p>
+        </section>
+
+        <!-- ===== PAGE: GROUPS ===== -->
+        <div id="page-groups" class="page-section">
+            <div class="section-title">
+                <span><i class="fas fa-layer-group"></i> <span class="section-text">Magroup Yanayopatikana</span></span>
+                <button class="lang-toggle" id="langToggle">SW / EN</button>
+            </div>
+            <div id="groupsList" class="groups-grid">
+                <div class="empty-state"><i class="fas fa-spinner fa-pulse"></i><p>Inapakia...</p></div>
+            </div>
+        </div>
+
+        <!-- ===== PAGE: ORDERS ===== -->
+        <div id="page-orders" class="page-section hidden">
+            <div class="section-title">
+                <span><i class="fas fa-receipt"></i> <span class="section-text">Oda Zangu</span></span>
+                <span style="font-size:0.8rem;color:#999;" id="orderCount">0</span>
+            </div>
+            <div class="orders-section" style="margin-top:0;">
+                <div id="myOrdersList">
+                    <div class="empty-state"><i class="fas fa-inbox"></i><p>Huna oda bado. Nunua group leo!</p></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== PAGE: CHAT ===== -->
+        <div id="page-chat" class="page-section hidden">
+            <div class="section-title">
+                <span><i class="fas fa-comments"></i> <span class="section-text">Mazungumzo / Chat</span></span>
+                <span class="online-count" id="onlineCount"><i class="fas fa-circle"></i> <span id="onlineUsers">0</span> online</span>
+            </div>
+            <div class="chat-section">
+                <h3>
+                    <span><i class="fas fa-comment-dots"></i> Chat</span>
+                    <button class="chat-fullscreen-btn" id="chatFullscreenBtn" title="Full Screen">
+                        <i class="fas fa-expand"></i>
+                    </button>
+                </h3>
+                <div class="chat-messages" id="chatMessages">
+                    <div class="empty-state"><i class="fas fa-comment-dots"></i><p>Hakuna ujumbe bado. Anzisha mazungumzo!</p></div>
+                </div>
+                <div class="chat-input-area">
+                    <input type="text" id="chatInput" placeholder="Andika ujumbe..." />
+                    <button class="send-btn" id="sendChatBtn"><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== PAGE: DASHBOARD ===== -->
+        <div id="page-dashboard" class="page-section hidden">
+            <div class="section-title">
+                <span><i class="fas fa-chart-pie"></i> <span class="section-text">Dashboard Yako</span></span>
+            </div>
+            <div class="dashboard-stats" id="dashboardStats">
+                <div class="stat-card"><div class="number" id="totalOrders">0</div><div class="label">Jumla</div></div>
+                <div class="stat-card"><div class="number" id="completedOrders">0</div><div class="label">Zimekamilika</div></div>
+                <div class="stat-card"><div class="number" id="pendingOrders">0</div><div class="label">Zinazosubiri</div></div>
+            </div>
+        </div>
+
+        <!-- ===== CHAT FULL SCREEN OVERLAY ===== -->
+        <div class="chat-fullscreen" id="chatFullscreen">
+            <div class="chat-header">
+                <h2><i class="fas fa-comments" style="color:var(--primary);"></i> Chat</h2>
+                <div style="display:flex;align-items:center;gap:12px;">
+                    <span class="online-count"><i class="fas fa-circle"></i> <span id="fsOnlineUsers">0</span> online</span>
+                    <button class="close-fullscreen" id="closeFullscreen"><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+            <div class="chat-messages" id="fsChatMessages">
+                <div class="empty-state"><i class="fas fa-comment-dots"></i><p>Hakuna ujumbe bado.</p></div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="fsChatInput" placeholder="Andika ujumbe..." />
+                <button class="send-btn" id="fsSendChatBtn"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+
+        <!-- ===== PAYMENT MODAL ===== -->
+        <div class="modal-overlay" id="paymentModal">
+            <div class="modal-box">
+                <h3 id="modalGroupName">Kamilisha Malipo</h3>
+                <div class="sub">Unanunua link ya group</div>
+                <div class="price-display" id="modalGroupPrice">TZS 0</div>
+                <input type="tel" id="clientPhone" placeholder="Namba ya simu (Mf. 0712345678)" />
+                <input type="text" id="clientName" placeholder="Jina lako (hiari)" />
+                <div class="btn-group">
+                    <button class="btn-primary" id="confirmPayBtn"><i class="fas fa-check"></i> Lipa Sasa</button>
+                    <button class="btn-secondary" id="closeModalBtn">Ghairi</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== ORDER DETAIL MODAL ===== -->
+        <div class="modal-overlay" id="orderDetailModal">
+            <div class="modal-box">
+                <h3><i class="fas fa-file-invoice"></i> Maelezo ya Oda</h3>
+                <div class="sub" id="detailOrderId">#DV-0000</div>
+                <div id="orderDetailContent">
+                    <div class="profile-detail-row"><span class="label">Bidhaa</span><span class="value" id="detailProduct">-</span></div>
+                    <div class="profile-detail-row"><span class="label">Bei</span><span class="value" id="detailPrice">-</span></div>
+                    <div class="profile-detail-row"><span class="label">Hali ya Malipo</span><span class="value" id="detailPaymentStatus">-</span></div>
+                    <div class="profile-detail-row"><span class="label">Hali ya Oda</span><span class="value" id="detailOrderStatus">-</span></div>
+                    <div class="profile-detail-row"><span class="label">Tarehe</span><span class="value" id="detailDate">-</span></div>
+                    <div class="profile-detail-row"><span class="label">Rejea</span><span class="value" id="detailRef">-</span></div>
+                </div>
+                <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;">
+                    <button class="btn-primary" id="detailOpenLink" style="flex:2;display:none;"><i class="fas fa-external-link-alt"></i> Fungua Link</button>
+                    <button class="btn-secondary" id="closeDetailModal">Funga</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== PROFILE MODAL ===== -->
+        <div class="modal-overlay" id="profileModal">
+            <div class="modal-box">
+                <h3><i class="fas fa-user-circle"></i> Profile Yangu</h3>
+                <div class="profile-avatar-large" id="profileAvatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div id="profileContent">
+                    <div class="profile-detail-row"><span class="label">Jina</span><span class="value" id="profileName">-</span></div>
+                    <div class="profile-detail-row"><span class="label">Barua Pepe</span><span class="value" id="profileEmail">-</span></div>
+                    <div class="profile-detail-row"><span class="label">Simu</span><span class="value" id="profilePhone">-</span></div>
+                    <div class="profile-detail-row"><span class="label">Hali</span><span class="value" id="profileStatus">Inatumika</span></div>
+                    <div class="profile-detail-row"><span class="label">Tarehe ya Kujiunga</span><span class="value" id="profileDate">-</span></div>
+                    <div class="profile-detail-row"><span class="label">Jumla ya Oda</span><span class="value" id="profileTotalOrders">0</span></div>
+                </div>
+                <div class="btn-group" style="margin-top:16px;">
+                    <button class="btn-secondary" id="closeProfileModal">Funga</button>
+                    <button class="btn-primary" id="logoutProfileBtn"><i class="fas fa-sign-out-alt"></i> Toka</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== NOTIFICATION PANEL ===== -->
+        <div class="panel-overlay" id="notifOverlay"></div>
+        <div class="notif-panel" id="notifPanel">
+            <div class="panel-header">
+                <h2><i class="fas fa-bell" style="color:var(--primary);"></i> Arifa</h2>
+                <button id="closeNotifPanel"><i class="fas fa-times"></i></button>
+            </div>
+            <div id="notifList">
+                <div class="empty-state"><i class="fas fa-check-circle" style="color:var(--primary);"></i><p>Huna arifa mpya.</p></div>
+            </div>
+        </div>
+
+        <!-- ===== BOTTOM NAVIGATION ===== -->
+        <div class="bottom-nav" id="bottomNav">
+            <button class="nav-item active" data-page="groups" id="navGroups">
+                <i class="fas fa-store"></i>
+                <span class="nav-label">Magroup</span>
+            </button>
+            <button class="nav-item" data-page="chat" id="navChat">
+                <i class="fas fa-comments"></i>
+                <span class="nav-label">Chat</span>
+                <span class="nav-badge" id="chatBadge" style="display:none;">0</span>
+            </button>
+            <button class="nav-item" data-page="orders" id="navOrders">
+                <i class="fas fa-receipt"></i>
+                <span class="nav-label">Oda</span>
+                <span class="nav-badge" id="orderBadge" style="display:none;">0</span>
+            </button>
+            <button class="nav-item" data-page="dashboard" id="navDashboard">
+                <i class="fas fa-chart-pie"></i>
+                <span class="nav-label">Dashboard</span>
+            </button>
+        </div>
+
+    </div>
+
+    <!-- ===== FIREBASE + LOGIC ===== -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import {
+            getFirestore,
+            collection,
+            getDocs,
+            doc,
+            getDoc,
+            addDoc,
+            serverTimestamp,
+            query,
+            orderBy,
+            onSnapshot,
+            where
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import {
+            getAuth,
+            onAuthStateChanged,
+            signOut
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCmwASW4XXQ3O0AvsCM_r1WLlrUmGjYVxI",
+            authDomain: "dvary-9a7d0.firebaseapp.com",
+            projectId: "dvary-9a7d0",
+            storageBucket: "dvary-9a7d0.firebasestorage.app",
+            messagingSenderId: "107370806066",
+            appId: "1:107370806066:web:4c2ce1e6f7b6c32909f52b",
+            measurementId: "G-07361LFJEP"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        // ----- STATE -----
+        let currentUser = null;
+        let currentUserData = null;
+        let allOrders = [];
+        let allNotifs = [];
+        let chatMessages = [];
+        let activeGroup = null;
+        let currentPage = 'groups';
+        let onlineUsers = new Set();
+
+        // ----- DOM refs -----
+        const groupsList = document.getElementById('groupsList');
+        const myOrdersList = document.getElementById('myOrdersList');
+        const notifList = document.getElementById('notifList');
+        const notifBadge = document.getElementById('notifBadge');
+        const userAvatar = document.getElementById('userAvatar');
+        const chatMessagesContainer = document.getElementById('chatMessages');
+        const fsChatMessagesContainer = document.getElementById('fsChatMessages');
+        const chatInput = document.getElementById('chatInput');
+        const fsChatInput = document.getElementById('fsChatInput');
+        const sendChatBtn = document.getElementById('sendChatBtn');
+        const fsSendChatBtn = document.getElementById('fsSendChatBtn');
+        const orderBadge = document.getElementById('orderBadge');
+        const chatBadge = document.getElementById('chatBadge');
+        const orderCount = document.getElementById('orderCount');
+        const onlineUsersSpan = document.getElementById('onlineUsers');
+        const fsOnlineUsersSpan = document.getElementById('fsOnlineUsers');
+
+        // ----- SEARCH FUNCTIONALITY -----
+        const searchInput = document.getElementById('searchGroups');
+        let allGroups = [];
+
+        function filterGroups(searchTerm) {
+            const cards = document.querySelectorAll('.group-card');
+            const term = searchTerm.toLowerCase().trim();
+            cards.forEach(card => {
+                const name = card.querySelector('h3')?.textContent?.toLowerCase() || '';
+                const desc = card.querySelector('.group-desc')?.textContent?.toLowerCase() || '';
+                const match = name.includes(term) || desc.includes(term);
+                card.style.display = match ? 'block' : 'none';
+            });
+        }
+
+        searchInput.addEventListener('input', (e) => {
+            filterGroups(e.target.value);
+        });
+
+        // ----- PAGE NAVIGATION -----
+        const pages = {
+            groups: document.getElementById('page-groups'),
+            orders: document.getElementById('page-orders'),
+            chat: document.getElementById('page-chat'),
+            dashboard: document.getElementById('page-dashboard')
+        };
+
+        function navigateTo(page) {
+            Object.keys(pages).forEach(key => {
+                pages[key].classList.add('hidden');
+            });
+            if (pages[page]) {
+                pages[page].classList.remove('hidden');
+            }
+            currentPage = page;
+            document.querySelectorAll('.bottom-nav .nav-item').forEach(item => {
+                item.classList.remove('active');
+                if (item.dataset.page === page) {
+                    item.classList.add('active');
+                }
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        document.querySelectorAll('.bottom-nav .nav-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const page = item.dataset.page;
+                if (page) navigateTo(page);
+            });
+        });
+
+        // ----- AUTH STATE -----
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user;
+                const userRef = doc(db, "users", user.uid);
+                const snap = await getDoc(userRef);
+                if (snap.exists()) {
+                    currentUserData = snap.data();
+                    updateUserUI();
+                } else {
+                    await addDoc(collection(db, "users"), {
+                        uid: user.uid,
+                        fullName: user.displayName || 'Mteja',
+                        email: user.email,
+                        phone: user.phoneNumber || '',
+                        avatar: user.photoURL || null,
+                        createdAt: serverTimestamp(),
+                        role: 'customer',
+                        online: true
+                    });
+                    currentUserData = { fullName: user.displayName || 'Mteja', email: user.email };
+                    updateUserUI();
+                }
+                await updateOnlineStatus(true);
+                loadGroups();
+                loadOrders();
+                loadNotifications();
+                loadChatMessages();
+                listenRealtime();
+                listenOnlineUsers();
+            } else {
+                window.location.href = "/login.html";
+            }
+        });
+
+        // ----- ONLINE STATUS -----
+        async function updateOnlineStatus(status) {
+            if (!currentUser) return;
+            try {
+                await setDoc(doc(db, "users", currentUser.uid), { online: status, lastSeen: serverTimestamp() }, { merge: true });
+            } catch (e) { console.error('Online status error:', e); }
+        }
+
+        function listenOnlineUsers() {
+            onSnapshot(collection(db, "users"), (snap) => {
+                onlineUsers = new Set();
+                snap.forEach(d => {
+                    const data = d.data();
+                    if (data.online === true) {
+                        onlineUsers.add(d.id);
+                    }
+                });
+                const count = onlineUsers.size;
+                onlineUsersSpan.textContent = count;
+                fsOnlineUsersSpan.textContent = count;
+            });
+        }
+
+        // ----- UPDATE UI WITH USER DATA -----
+        function updateUserUI() {
+            if (!currentUserData) return;
+            const name = currentUserData.fullName || 'Mteja';
+            const avatar = currentUserData.avatar;
+
+            if (avatar) {
+                userAvatar.innerHTML = `<img src="${avatar}" alt="Avatar" />`;
+                document.querySelector('#profileAvatar').innerHTML = `<img src="${avatar}" alt="Avatar" />`;
+            } else {
+                const initial = name.charAt(0).toUpperCase();
+                userAvatar.innerHTML = `<span style="font-size:1rem;">${initial}</span>`;
+                document.querySelector('#profileAvatar').innerHTML = `<span style="font-size:3rem;">${initial}</span>`;
+            }
+        }
+
+        // ----- LOGOUT -----
+        document.getElementById('logoutProfileBtn').addEventListener('click', async () => {
+            await updateOnlineStatus(false);
+            await signOut(auth);
+            window.location.href = "/login.html";
+        });
+
+        // ----- PROFILE MODAL -----
+        userAvatar.addEventListener('click', () => {
+            if (!currentUserData) return;
+            document.getElementById('profileName').textContent = currentUserData.fullName || '-';
+            document.getElementById('profileEmail').textContent = currentUserData.email || '-';
+            document.getElementById('profilePhone').textContent = currentUserData.phone || '-';
+            document.getElementById('profileStatus').textContent = currentUserData.status === 'blocked' ? '🔴 Imewekwa Zuio' : '🟢 Inatumika';
+            document.getElementById('profileDate').textContent = currentUserData.createdAt ? new Date(currentUserData.createdAt.seconds * 1000).toLocaleDateString() : '-';
+            document.getElementById('profileTotalOrders').textContent = allOrders.length;
+            document.getElementById('profileModal').classList.add('active');
+        });
+
+        document.getElementById('closeProfileModal').addEventListener('click', () => {
+            document.getElementById('profileModal').classList.remove('active');
+        });
+
+        // ----- NOTIFICATION PANEL -----
+        const notifPanel = document.getElementById('notifPanel');
+        const notifOverlay = document.getElementById('notifOverlay');
+
+        document.getElementById('notifToggle').addEventListener('click', () => {
+            notifPanel.classList.toggle('open');
+            notifOverlay.classList.toggle('active');
+            // Mark all as read
+            allNotifs.forEach(n => n.read = true);
+            updateNotifBadge();
+        });
+        document.getElementById('closeNotifPanel').addEventListener('click', () => {
+            notifPanel.classList.remove('open');
+            notifOverlay.classList.remove('active');
+        });
+        notifOverlay.addEventListener('click', () => {
+            notifPanel.classList.remove('open');
+            notifOverlay.classList.remove('active');
+        });
+
+        // ----- THEME TOGGLE -----
+        let isDark = false;
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            isDark = !isDark;
+            document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+            const icon = document.getElementById('themeToggle').querySelector('i');
+            icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+        });
+
+        // ----- CHAT FULL SCREEN -----
+        document.getElementById('chatFullscreenBtn').addEventListener('click', () => {
+            document.getElementById('chatFullscreen').classList.add('active');
+            document.getElementById('fsChatMessages').innerHTML = document.getElementById('chatMessages').innerHTML;
+            document.getElementById('fsChatMessages').scrollTop = document.getElementById('fsChatMessages').scrollHeight;
+        });
+        document.getElementById('closeFullscreen').addEventListener('click', () => {
+            document.getElementById('chatFullscreen').classList.remove('active');
+        });
+
+        // ----- LOAD GROUPS -----
+        async function loadGroups() {
+            try {
+                const snap = await getDocs(collection(db, "groups"));
+                if (snap.empty) {
+                    groupsList.innerHTML = `<div class="empty-state"><i class="fas fa-folder-open"></i><p>Hakuna magroup kwa sasa.</p></div>`;
+                    return;
+                }
+                let html = '';
+                allGroups = [];
+                snap.forEach(doc => {
+                    const g = doc.data();
+                    allGroups.push({ id: doc.id, ...g });
+                    html += `
+                        <div class="group-card" data-name="${g.name.toLowerCase()}" data-desc="${(g.description || '').toLowerCase()}">
+                            <img src="${g.image || 'https://via.placeholder.com/400x140/f8e1f0/e91e8c?text=Link+za+Wakubwa'}" alt="${g.name}" class="group-img" loading="lazy" />
+                            <div class="group-body">
+                                <h3>${g.name}</h3>
+                                <div class="group-desc">${g.description || 'Premium WhatsApp Group'}</div>
+                                <div class="group-price">TZS ${g.price} <small>/ link</small></div>
+                                <button class="buy-btn" data-id="${doc.id}"><i class="fas fa-shopping-cart"></i> Nunua Sasa</button>
+                            </div>
+                        </div>
+                    `;
+                });
+                groupsList.innerHTML = html;
+
+                document.querySelectorAll('.buy-btn').forEach(btn => {
+                    btn.addEventListener('click', async () => {
+                        const id = btn.dataset.id;
+                        const snap = await getDoc(doc(db, "groups", id));
+                        if (snap.exists()) {
+                            activeGroup = { id: snap.id, ...snap.data() };
+                            openPaymentModal(activeGroup);
+                        }
+                    });
+                });
+            } catch (e) {
+                groupsList.innerHTML = `<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><p>Hitilafu: ${e.message}</p></div>`;
+                console.error(e);
+            }
+        }
+
+        // ----- LOAD ORDERS -----
+        async function loadOrders() {
+            if (!currentUser) return;
+            try {
+                const q = query(collection(db, "orders"), where("userId", "==", currentUser.uid), orderBy("createdAt", "desc"));
+                const snap = await getDocs(q);
+                allOrders = [];
+                snap.forEach(d => {
+                    allOrders.push({ id: d.id, ...d.data() });
+                });
+                renderOrders();
+                updateDashboardStats();
+                updateOrderBadge();
+            } catch (e) {
+                console.error("Orders error:", e);
+            }
+        }
+
+        function renderOrders() {
+            if (allOrders.length === 0) {
+                myOrdersList.innerHTML = `<div class="empty-state"><i class="fas fa-inbox"></i><p>Huna oda bado. Nunua group leo!</p></div>`;
+                orderCount.textContent = '0';
+                return;
+            }
+            orderCount.textContent = allOrders.length;
+            myOrdersList.innerHTML = allOrders.map(o => `
+                <div class="order-item">
+                    <div class="order-info">
+                        <strong>${o.productName || 'Group'}</strong>
+                        <span class="order-meta">TZS ${o.amount} · ${o.orderStatus || 'Pending'}</span>
+                    </div>
+                    <div style="display:flex;gap:8px;align-items:center;">
+                        <span class="order-status ${o.orderStatus === 'Completed' ? '' : 'pending'}">${o.orderStatus || 'Pending'}</span>
+                        <button class="order-link-btn" data-orderid="${o.id}"><i class="fas fa-eye"></i></button>
+                    </div>
+                </div>
+            `).join('');
+
+            document.querySelectorAll('.order-link-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const id = btn.dataset.orderid;
+                    const order = allOrders.find(o => o.id === id);
+                    if (order) openOrderDetail(order);
+                });
+            });
+        }
+
+        function updateOrderBadge() {
+            const pending = allOrders.filter(o => o.orderStatus !== 'Completed').length;
+            if (pending > 0) {
+                orderBadge.textContent = pending;
+                orderBadge.style.display = 'flex';
+            } else {
+                orderBadge.style.display = 'none';
+            }
+        }
+
+        function updateDashboardStats() {
+            const total = allOrders.length;
+            const completed = allOrders.filter(o => o.orderStatus === 'Completed').length;
+            const pending = allOrders.filter(o => o.orderStatus !== 'Completed').length;
+            document.getElementById('totalOrders').textContent = total;
+            document.getElementById('completedOrders').textContent = completed;
+            document.getElementById('pendingOrders').textContent = pending;
+        }
+
+        // ============================================================
+        // LOAD NOTIFICATIONS - ZINAONEKANA HAPA INDEX.HTML
+        // ============================================================
+        async function loadNotifications() {
+            if (!currentUser) return;
+            try {
+                const q = query(collection(db, "notifications"), where("userId", "in", [currentUser.uid, "all"]), orderBy("createdAt", "desc"));
+                const snap = await getDocs(q);
+                allNotifs = [];
+                snap.forEach(d => {
+                    allNotifs.push({ id: d.id, ...d.data() });
+                });
+                renderNotifications();
+                updateNotifBadge();
+            } catch (e) {
+                console.error("Notif error:", e);
+            }
+        }
+
+        function renderNotifications() {
+            if (allNotifs.length === 0) {
+                notifList.innerHTML = `<div class="empty-state"><i class="fas fa-check-circle" style="color:var(--primary);"></i><p>Huna arifa mpya.</p></div>`;
+                return;
+            }
+            notifList.innerHTML = allNotifs.map(n => `
+                <div class="notif-item">
+                    <i class="fas fa-${n.icon || 'bell'}"></i>
+                    <div class="notif-content">
+                        <div class="title">${n.title || 'Taarifa'}</div>
+                        <div class="message">${n.message || ''}</div>
+                        <div class="time">${n.createdAt ? new Date(n.createdAt.seconds*1000).toLocaleString() : 'Sasa hivi'}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateNotifBadge() {
+            const unread = allNotifs.filter(n => !n.read).length;
+            notifBadge.textContent = unread > 0 ? unread : '0';
+            notifBadge.style.display = unread > 0 ? 'flex' : 'none';
+            
+            // Add bell ring animation if new notifications
+            if (unread > 0) {
+                const bell = document.querySelector('#notifToggle i');
+                bell.classList.add('bell-ring');
+                setTimeout(() => bell.classList.remove('bell-ring'), 500);
+            }
+        }
+
+        // ----- CHAT MESSAGES -----
+        async function loadChatMessages() {
+            try {
+                const q = query(collection(db, "chat"), orderBy("createdAt", "asc"));
+                const snap = await getDocs(q);
+                chatMessages = [];
+                snap.forEach(d => {
+                    chatMessages.push({ id: d.id, ...d.data() });
+                });
+                renderChatMessages();
+                updateChatBadge();
+            } catch (e) {
+                console.error("Chat error:", e);
+            }
+        }
+
+        function renderChatMessages() {
+            if (chatMessages.length === 0) {
+                const empty = `<div class="empty-state"><i class="fas fa-comment-dots"></i><p>Hakuna ujumbe bado. Anzisha mazungumzo!</p></div>`;
+                chatMessagesContainer.innerHTML = empty;
+                fsChatMessagesContainer.innerHTML = empty;
+                return;
+            }
+            let html = '';
+            chatMessages.forEach(msg => {
+                const isOwn = msg.userId === currentUser?.uid;
+                const isSystem = msg.userId === 'system';
+                const name = msg.userName || 'Mteja';
+                const initial = name.charAt(0).toUpperCase();
+                const avatar = msg.userAvatar || null;
+                const msgClass = isSystem ? 'system' : '';
+                html += `
+                    <div class="chat-message ${msgClass}" style="${isOwn && !isSystem ? 'background:var(--primary-light);border-radius:12px;padding:10px 14px;' : ''}">
+                        <div class="msg-avatar">
+                            ${avatar ? `<img src="${avatar}" alt="Avatar" />` : `<span>${initial}</span>`}
+                        </div>
+                        <div class="msg-content">
+                            <div class="msg-name">${name} ${isOwn ? '(Mimi)' : ''}</div>
+                            <div class="msg-text">${msg.message}</div>
+                            <div class="msg-time">${msg.createdAt ? new Date(msg.createdAt.seconds*1000).toLocaleTimeString() : 'Sasa hivi'}</div>
+                        </div>
+                    </div>
+                `;
+            });
+            chatMessagesContainer.innerHTML = html;
+            fsChatMessagesContainer.innerHTML = html;
+            chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
+            fsChatMessagesContainer.scrollTop = fsChatMessagesContainer.scrollHeight;
+        }
+
+        function updateChatBadge() {
+            const unread = chatMessages.filter(msg => msg.userId !== currentUser?.uid && !msg.read).length;
+            if (unread > 0) {
+                chatBadge.textContent = unread;
+                chatBadge.style.display = 'flex';
+            } else {
+                chatBadge.style.display = 'none';
+            }
+        }
+
+        // ----- SEND CHAT MESSAGE -----
+        function sendChatMessage() {
+            const message = chatInput.value.trim();
+            if (!message || !currentUser) return;
+            sendMessageToFirestore(message);
+            chatInput.value = '';
+        }
+
+        function sendFsChatMessage() {
+            const message = fsChatInput.value.trim();
+            if (!message || !currentUser) return;
+            sendMessageToFirestore(message);
+            fsChatInput.value = '';
+        }
+
+        async function sendMessageToFirestore(message) {
+            try {
+                await addDoc(collection(db, "chat"), {
+                    userId: currentUser.uid,
+                    userName: currentUserData?.fullName || 'Mteja',
+                    userAvatar: currentUserData?.avatar || null,
+                    message: message,
+                    read: false,
+                    createdAt: serverTimestamp()
+                });
+            } catch (e) {
+                alert('Hitilafu: ' + e.message);
+            }
+        }
+
+        sendChatBtn.addEventListener('click', sendChatMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendChatMessage();
+        });
+        fsSendChatBtn.addEventListener('click', sendFsChatMessage);
+        fsChatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendFsChatMessage();
+        });
+
+        // ----- PAYMENT MODAL -----
+        function openPaymentModal(group) {
+            document.getElementById('modalGroupName').textContent = group.name;
+            document.getElementById('modalGroupPrice').textContent = `TZS ${group.price}`;
+            document.getElementById('paymentModal').classList.add('active');
+            document.getElementById('clientPhone').value = currentUserData?.phone || '';
+            document.getElementById('clientName').value = currentUserData?.fullName || '';
+            activeGroup = group;
+        }
+
+        document.getElementById('closeModalBtn').addEventListener('click', () => {
+            document.getElementById('paymentModal').classList.remove('active');
+        });
+
+        document.getElementById('confirmPayBtn').addEventListener('click', async () => {
+            const phone = document.getElementById('clientPhone').value.trim();
+            const name = document.getElementById('clientName').value.trim() || 'Mteja';
+
+            if (!phone || phone.length < 7) {
+                alert('Tafadhali weka namba halali ya simu.');
+                return;
+            }
+
+            if (!activeGroup || !currentUser) {
+                alert('Hitilafu: group haijachaguliwa au haujaingia.');
+                return;
+            }
+
+            const orderData = {
+                userId: currentUser.uid,
+                productId: activeGroup.id || 'unknown',
+                productName: activeGroup.name,
+                amount: activeGroup.price,
+                paymentStatus: 'Paid',
+                orderStatus: 'Pending',
+                paymentReference: 'DV-' + Date.now().toString().slice(-6) + Math.floor(Math.random() * 100),
+                purchaseLink: activeGroup.link || '#',
+                clientPhone: phone,
+                clientName: name,
+                createdAt: serverTimestamp(),
+                updatedAt: serverTimestamp()
+            };
+
+            try {
+                await addDoc(collection(db, "orders"), orderData);
+
+                await addDoc(collection(db, "notifications"), {
+                    userId: currentUser.uid,
+                    title: '✅ Oda imewekwa!',
+                    message: `Umenunua ${activeGroup.name} - TZS ${activeGroup.price}. Inasubiri uthibitisho.`,
+                    icon: 'shopping-cart',
+                    read: false,
+                    createdAt: serverTimestamp()
+                });
+
+                await addDoc(collection(db, "chat"), {
+                    userId: 'system',
+                    userName: 'Mfumo',
+                    userAvatar: null,
+                    message: `🛒 ${currentUserData?.fullName || 'Mteja'} amenunua ${activeGroup.name} - TZS ${activeGroup.price}`,
+                    read: false,
+                    createdAt: serverTimestamp()
+                });
+
+                alert('✅ Ombi la malipo limetumwa! Oda itakaguliwa na msimamizi.');
+                document.getElementById('paymentModal').classList.remove('active');
+                activeGroup = null;
+            } catch (e) {
+                alert('Hitilafu: ' + e.message);
+                console.error(e);
+            }
+        });
+
+        // ----- ORDER DETAIL MODAL -----
+        function openOrderDetail(order) {
+            document.getElementById('detailOrderId').textContent = `#${order.paymentReference || order.id.slice(0,8)}`;
+            document.getElementById('detailProduct').textContent = order.productName || '-';
+            document.getElementById('detailPrice').textContent = `TZS ${order.amount || 0}`;
+            document.getElementById('detailPaymentStatus').textContent = order.paymentStatus || 'Pending';
+            document.getElementById('detailPaymentStatus').className = 'value ' + (order.paymentStatus === 'Paid' ? 'completed' : 'pending');
+            document.getElementById('detailOrderStatus').textContent = order.orderStatus || 'Pending';
+            document.getElementById('detailOrderStatus').className = 'value ' + (order.orderStatus === 'Completed' ? 'completed' : 'pending');
+            document.getElementById('detailDate').textContent = order.createdAt ? new Date(order.createdAt.seconds * 1000).toLocaleString() : '-';
+            document.getElementById('detailRef').textContent = order.paymentReference || '-';
+
+            const linkBtn = document.getElementById('detailOpenLink');
+            if (order.orderStatus === 'Completed' && order.purchaseLink && order.purchaseLink !== '#') {
+                linkBtn.style.display = 'flex';
+                linkBtn.onclick = () => {
+                    window.open(order.purchaseLink, '_blank');
+                };
+            } else {
+                linkBtn.style.display = 'none';
+            }
+
+            document.getElementById('orderDetailModal').classList.add('active');
+        }
+
+        document.getElementById('closeDetailModal').addEventListener('click', () => {
+            document.getElementById('orderDetailModal').classList.remove('active');
+        });
+
+        // Close modals on backdrop click
+        document.querySelectorAll('.modal-overlay').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) modal.classList.remove('active');
+            });
+        });
+
+        // ----- REALTIME LISTENERS -----
+        function listenRealtime() {
+            if (!currentUser) return;
+
+            onSnapshot(query(collection(db, "orders"), where("userId", "==", currentUser.uid), orderBy("createdAt", "desc")), (snap) => {
+                allOrders = [];
+                snap.forEach(d => {
+                    allOrders.push({ id: d.id, ...d.data() });
+                });
+                renderOrders();
+                updateDashboardStats();
+                updateOrderBadge();
+            });
+
+            // NOTIFICATIONS - ZINAONEKANA HAPA INDEX.HTML
+            onSnapshot(query(collection(db, "notifications"), where("userId", "in", [currentUser.uid, "all"]), orderBy("createdAt", "desc")), (snap) => {
+                allNotifs = [];
+                snap.forEach(d => {
+                    allNotifs.push({ id: d.id, ...d.data() });
+                });
+                renderNotifications();
+                updateNotifBadge();
+            });
+
+            onSnapshot(query(collection(db, "chat"), orderBy("createdAt", "asc")), (snap) => {
+                chatMessages = [];
+                snap.forEach(d => {
+                    chatMessages.push({ id: d.id, ...d.data() });
+                });
+                renderChatMessages();
+                updateChatBadge();
+                if (currentPage === 'chat') {
+                    setTimeout(() => {
+                        chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
+                        fsChatMessagesContainer.scrollTop = fsChatMessagesContainer.scrollHeight;
+                    }, 100);
+                }
+            });
+        }
+
+        console.log('🚀 Link za Wakubwa — Premium Pink + Notifications on Index');
+        console.log('📦 Connected to Firestore realtime.');
+        console.log('🔔 Notifications visible in panel on index.html');
+        console.log('💬 Chat system active with online users.');
+    </script>
+</body>
+  </html>
