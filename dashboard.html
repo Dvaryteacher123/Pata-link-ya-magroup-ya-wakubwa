@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Dvary Groups</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f9; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); }
+        h2, h3 { color: #333; }
+        .form-group { margin-bottom: 15px; }
+        input, textarea { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        button { padding: 10px 15px; background-color: #25D366; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 15px; }
+        button:hover { background-color: #128C7E; }
+        .logout-btn { background-color: #ff4d4d; float: right; }
+        .logout-btn:hover { background-color: #cc0000; }
+        hr { margin: 30px 0; border: 0; border-top: 1px solid #ddd; }
+        .offer-box { background: #e6ffed; padding: 10px; border-left: 4px solid #25D366; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <button class="logout-btn" id="logoutBtn">Toka (Logout)</button>
+        <h2>Dashboard ya Muuzaji</h2>
+        <p id="userEmailDisplay" style="color: #666;"></p>
+
+        <hr>
+
+        <!-- SEHEMU YA KUWEKA NOTIFICATION / OFFER -->
+        <h3>Weka Tangazo au Offer Maalum</h3>
+        <div class="offer-box">
+            <p>Hapa unaweza kuweka ujumbe mfupi utakaotokea kwa wateja kwenye ukurasa wa mbele (index.html).</p>
+        </div>
+        <div class="form-group">
+            <label>Ujumbe wa Offer / Notification:</label>
+            <textarea id="offerText" placeholder="Mf. Punguzo la 20% kwenye magroup yote wiki hii!"></textarea>
+        </div>
+        <button id="saveOfferBtn">Hifadhi Offer</button>
+
+        <hr>
+
+        <!-- SEHEMU YA KUWEKA LINK ZA MAGROUP (PRODUCTS) -->
+        <h3>Ongeza Link Mpya ya Group</h3>
+        <form id="groupForm">
+            <div class="form-group">
+                <label>Jina la Group:</label>
+                <input type="text" id="groupName" placeholder="Mf. Wajasiriamali Dar es Salaam" required>
+            </div>
+            <div class="form-group">
+                <label>Bei (TZS):</label>
+                <input type="number" id="groupPrice" placeholder="Mf. 2000" required>
+            </div>
+            <div class="form-group">
+                <label>Link ya Picha (Image URL):</label>
+                <input type="url" id="groupImage" placeholder="Mf. https://example.com/picha.jpg" required>
+            </div>
+            <div class="form-group">
+                <label>Link ya WhatsApp:</label>
+                <input type="url" id="groupLink" placeholder="Mf. https://chat.whatsapp.com/xxxxx" required>
+            </div>
+            <button type="submit">Weka Group kwenye Mfumo</button>
+        </form>
+    </div>
+
+    <!-- Firebase SDK na Skrini ya Dashboard Logic -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, collection, addDoc, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // Taarifa zako sahihi za Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyCmwASW4XXQ3O0AvsCM_r1WLlrUmGjYVxI",
+            authDomain: "dvary-9a7d0.firebaseapp.com",
+            projectId: "dvary-9a7d0",
+            storageBucket: "dvary-9a7d0.firebasestorage.app",
+            messagingSenderId: "107370806066",
+            appId: "1:107370806066:web:4c2ce1e6f7b6c32909f52b",
+            measurementId: "G-07361LFJEP"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Linda ukurasa: Hakikisha mtumiaji amelog in
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                document.getElementById('userEmailDisplay').innerText = `Umeingia kama: ${user.email}`;
+            } else {
+                window.location.href = "/login.html";
+            }
+        });
+
+        // Kitufe cha Kutoka (Logout)
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+            await signOut(auth);
+            window.location.href = "/login.html";
+        });
+
+        // Kuokoa Offer / Notification kwenye Firestore
+        document.getElementById('saveOfferBtn').addEventListener('click', async () => {
+            const offerText = document.getElementById('offerText').value;
+            if (!offerText) {
+                alert("Tafadhali jaza ujumbe wa offer.");
+                return;
+            }
+
+            try {
+                await setDoc(doc(db, "settings", "notification"), {
+                    message: offerText,
+                    updatedAt: new Date().toISOString()
+                });
+                alert("Offer imehifadhiwa kikamilifu!");
+            } catch (error) {
+                alert("Imeshindikana kuhifadhi: " + error.message);
+            }
+        });
+
+        // Kuongeza Group / Product mpya kwenye Firestore
+        document.getElementById('groupForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('groupName').value;
+            const price = Number(document.getElementById('groupPrice').value);
+            const image = document.getElementById('groupImage').value;
+            const link = document.getElementById('groupLink').value;
+            const user = auth.currentUser;
+
+            try {
+                await addDoc(collection(db, "groups"), {
+                    name: name,
+                    price: price,
+                    image: image,
+                    link: link,
+                    createdBy: user.uid,
+                    createdAt: new Date().toISOString()
+                });
+                alert("Link ya group imewekwa kwa mafanikio!");
+                document.getElementById('groupForm').reset();
+            } catch (error) {
+                alert("Hitilafu imetokea: " + error.message);
+            }
+        });
+    </script>
+
+</body>
+</html>
+
