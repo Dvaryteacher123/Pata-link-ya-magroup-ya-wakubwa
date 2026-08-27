@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=no" />
+    <title>Link za Wakubwa - Nunua Link za WhatsApp</title>
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        /* ===== RESET & ROOT ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #e91e8c;
+            --primary-dark: #c2187b;
+            --primary-light: #f8e1f0;
+            --gradient: linear-gradient(145deg, #f06292, #ba68c8);
+            --gradient-primary: linear-gradient(135deg, #e91e8c, #9c27b0);
+            --bg-light: #f8f4f9;
+            --white: #ffffff;
+            --shadow: 0 8px 30px rgba(233, 30, 140, 0.10);
+            --shadow-hover: 0 12px 40px rgba(233, 30, 140, 0.18);
+            --radius: 16px;
+            --radius-lg: 24px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            --card-bg: #ffffff;
+            --text-color: #1a1a2e;
+            --text-secondary: #6b6b7b;
+            --border-color: rgba(233, 30, 140, 0.08);
+        }
+
+        [data-theme="dark"] {
+            --bg-light: #12121e;
+            --white: #1a1a2e;
+            --card-bg: #1a1a2e;
+            --text-color: #eaeaea;
+            --text-secondary: #9a9aaa;
+            --border-color: rgba(233, 30, 140, 0.15);
+            --shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+            --shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg-light);
+            color: var(--text-color);
+            min-height: 100vh;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .app-wrapper {
+            max-width: 480px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 12px 14px 24px;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 0 10px;
+            position: sticky;
+            top: 0;
+            z-index: 40;
+            background: var(--bg-light);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+        .header .logo {
+            font-size: 1.1rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .header .logo i {
+            -webkit-text-fill-color: initial;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+        .header .right {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .header .right button {
+            background: none;
+            border: none;
+            font-size: 1.05rem;
+            color: var(--text-color);
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+        .header .right button:hover {
+            background: var(--primary-light);
+        }
+        .header .right .badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: #e91e8c;
+            color: white;
+            font-size: 0.5rem;
+            font-weight: 700;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--bg-light);
+        }
+        .header .right .notif-btn {
+            position: relative;
+        }
+
+        /* ===== TOP NAVIGATION - MENU JUU ===== */
+        .top-nav {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 0 12px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-bottom: 1px solid var(--border-color);
+            transition: border-color 0.3s ease;
+            scrollbar-width: none;
+        }
+        .top-nav::-webkit-scrollbar {
+            display: none;
+        }
+        .top-nav .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 7px 14px;
+            border-radius: 30px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.72rem;
+            font-weight: 500;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            background: var(--card-bg);
+            box-shadow: var(--shadow);
+            white-space: nowrap;
+            flex-shrink: 0;
+            font-family: var(--font);
+        }
+        .top-nav .nav-link i {
+            font-size: 0.85rem;
+        }
+        .top-nav .nav-link:hover {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+        .top-nav .nav-link.active {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: 0 4px 14px rgba(233, 30, 140, 0.25);
+        }
+        .top-nav .nav-link .nav-badge {
+            background: #e91e8c;
+            color: white;
+            font-size: 0.5rem;
+            font-weight: 700;
+            padding: 1px 6px;
+            border-radius: 30px;
+            margin-left: 2px;
+        }
+
+        /* ===== SEARCH BAR ===== */
+        .search-container {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 10px 14px;
+            margin: 10px 0 14px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+        .search-container i {
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+        .search-container input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            font-size: 0.85rem;
+            outline: none;
+            color: var(--text-color);
+            font-family: var(--font);
+        }
+        .search-container input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            background: var(--gradient-primary);
+            padding: 18px 18px;
+            border-radius: var(--radius-lg);
+            color: white;
+            margin-bottom: 16px;
+            box-shadow: 0 12px 35px rgba(233, 30, 140, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -30%;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 50%;
+        }
+        .hero .hero-icon {
+            font-size: 1.5rem;
+            margin-bottom: 2px;
+            display: block;
+        }
+        .hero h1 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            position: relative;
+            z-index: 2;
+        }
+        .hero p {
+            opacity: 0.9;
+            font-size: 0.8rem;
+            margin-top: 2px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ===== SECTION TITLE ===== */
+        .section-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 16px 0 10px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        .section-title i {
+            color: var(--primary);
+            margin-right: 6px;
+        }
+        .section-title .lang-toggle {
+            font-size: 0.65rem;
+            font-weight: 500;
+            color: var(--primary);
+            cursor: pointer;
+            background: none;
+            border: 1.5px solid var(--primary);
+            padding: 3px 12px;
+            border-radius: 30px;
+            transition: var(--transition);
+        }
+        .section-title .lang-toggle:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* ===== GROUP CARDS ===== */
+        .groups-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .group-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+            animation: fadeUp 0.4s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        .group-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .group-card .group-img {
+            width: 100%;
+            height: 130px;
+            object-fit: cover;
+            background: #f0e6ea;
+        }
+
+        .group-card .group-body {
+            padding: 12px 14px 14px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .group-card .group-body .group-info {
+            flex: 1;
+        }
+        .group-card .group-body h3 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 2px;
+        }
+        .group-card .group-body .group-desc {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+        .group-card .group-body .group-price {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        .group-card .group-body .group-price small {
+            font-weight: 400;
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+        }
+
+        .group-card .buy-btn {
+            width: 100%;
+            padding: 10px;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            border-radius: 60px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            box-shadow: 0 4px 14px rgba(233, 30, 140, 0.2);
+            margin-top: 2px;
+        }
+        .group-card .buy-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 20px rgba(233, 30, 140, 0.3);
+        }
+        .group-card .buy-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .group-card .buy-btn i {
+            font-size: 0.85rem;
+        }
+
+        /* ===== EMPTY STATE ===== */
+        .empty-state {
+            text-align: center;
+            padding: 30px 16px;
+            color: var(--text-secondary);
+        }
+        .empty-state i {
+            font-size: 2rem;
+            color: #ddd;
+            margin-bottom: 8px;
+        }
+        [data-theme="dark"] .empty-state i {
+            color: #444;
+        }
+        .empty-state p {
+            font-size: 0.85rem;
+        }
+
+        /* ===== ORDERS SECTION ===== */
+        .orders-section {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 14px;
+            margin-top: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            transition: background 0.3s ease;
+        }
+        .orders-section h3 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+        .orders-section h3 i {
+            color: var(--primary);
+        }
+
+        .order-item {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: fadeUp 0.3s ease;
+        }
+        .order-item:last-child {
+            border-bottom: none;
+        }
+        .order-info strong {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-color);
+        }
+        .order-meta {
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+        }
+        .order-status {
+            font-size: 0.6rem;
+            font-weight: 600;
+            padding: 2px 10px;
+            border-radius: 30px;
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        .order-status.pending {
+            background: #fff3e0;
+            color: #e65100;
+        }
+        [data-theme="dark"] .order-status {
+            background: #1a3a2a;
+            color: #66bb6a;
+        }
+        [data-theme="dark"] .order-status.pending {
+            background: #3a2a1a;
+            color: #ffa726;
+        }
+
+        .order-link-btn {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-size: 0.7rem;
+            font-weight: 600;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+        .order-link-btn:hover {
+            transform: scale(1.03);
+        }
+
+        /* ===== DASHBOARD STATS ===== */
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            margin: 10px 0 4px;
+        }
+        .stat-card {
+            background: var(--card-bg);
+            padding: 10px 4px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            transition: background 0.3s ease;
+        }
+        .stat-card .number {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        .stat-card .label {
+            font-size: 0.6rem;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+
+        /* ===== PAGE SECTIONS ===== */
+        .page-section {
+            display: block;
+        }
+        .page-section.hidden {
+            display: none;
+        }
+
+        /* ===== MODAL ===== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(6px);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            animation: fadeIn 0.25s ease;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-box {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            max-width: 400px;
+            width: 100%;
+            padding: 22px 18px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+            animation: slideUp 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 1px solid var(--border-color);
+            transition: background 0.3s ease;
+        }
+        .modal-box h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 2px;
+            color: var(--text-color);
+        }
+        .modal-box .sub {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            margin-bottom: 12px;
+        }
+        .modal-box .price-display {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 2px 0 12px;
+        }
+        .modal-box input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 60px;
+            font-size: 0.85rem;
+            margin: 4px 0 12px;
+            background: var(--bg-light);
+            transition: var(--transition);
+            outline: none;
+            color: var(--text-color);
+        }
+        .modal-box input:focus {
+            border-color: var(--primary);
+        }
+        .modal-box .btn-group {
+            display: flex;
+            gap: 8px;
+            margin-top: 4px;
+            flex-wrap: wrap;
+        }
+        .modal-box .btn-group button {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: var(--transition);
+            min-width: 70px;
+        }
+        .modal-box .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: 0 4px 14px rgba(233, 30, 140, 0.2);
+        }
+        .modal-box .btn-primary:hover {
+            transform: scale(1.02);
+        }
+        .modal-box .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .modal-box .btn-secondary {
+            background: #f0edf3;
+            color: #444;
+        }
+        [data-theme="dark"] .modal-box .btn-secondary {
+            background: #2a2a4a;
+            color: #ccc;
+        }
+        .modal-box .btn-secondary:hover {
+            background: #e5e0e8;
+        }
+
+        .modal-box .payment-message {
+            padding: 8px 12px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+            display: none;
+        }
+        .modal-box .payment-message.error {
+            display: block;
+            background: #fce4ec;
+            color: #b71c1c;
+        }
+        .modal-box .payment-message.success {
+            display: block;
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        .modal-box .payment-message.info {
+            display: block;
+            background: #e3f2fd;
+            color: #0d47a1;
+        }
+
+        .spinner {
+            display: none;
+            width: 18px;
+            height: 18px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            text-align: center;
+            padding: 16px 0 8px;
+            border-top: 1px solid var(--border-color);
+            margin-top: 20px;
+        }
+        .footer .footer-text {
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+        }
+        .footer .footer-text span {
+            color: var(--primary);
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 400px) {
+            .hero h1 { font-size: 1.1rem; }
+            .hero { padding: 14px 14px; }
+            .hero .hero-icon { font-size: 1.3rem; }
+            .header .logo { font-size: 0.95rem; }
+            .search-container { padding: 8px 12px; }
+            .search-container input { font-size: 0.8rem; }
+            .group-card .group-img { height: 110px; }
+            .top-nav .nav-link { padding: 5px 10px; font-size: 0.62rem; }
+            .top-nav .nav-link i { font-size: 0.75rem; }
+            .modal-box { padding: 18px 14px; }
+        }
+
+        @media (min-width: 481px) {
+            .top-nav .nav-link { font-size: 0.8rem; padding: 8px 18px; }
+        }
+
+        /* Notification Button with Badge */
+        .notif-btn .badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: #e91e8c;
+            color: white;
+            font-size: 0.5rem;
+            font-weight: 700;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--bg-light);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-wrapper">
+
+        <!-- ===== HEADER ===== -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-crown"></i> Link za Wakubwa
+            </div>
+            <div class="right">
+                <button class="theme-toggle" id="themeToggle" title="Change Theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="notif-btn" id="notifToggle" title="Notifications">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge" id="notifBadge">0</span>
+                </button>
+                <div class="user-avatar" id="userAvatar" onclick="toggleProfileMenu()" style="width:32px;height:32px;border-radius:50%;background:var(--gradient-primary);display:flex;align-items:center;justify-content:center;color:white;font-weight:600;font-size:0.8rem;cursor:pointer;overflow:hidden;border:2px solid var(--border-color);">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- ===== TOP NAVIGATION - MENU JUU ===== -->
+        <nav class="top-nav" id="topNav">
+            <button class="nav-link active" data-page="groups" id="navGroups">
+                <i class="fas fa-store"></i> Magroup
+            </button>
+            <button class="nav-link" data-page="orders" id="navOrders">
+                <i class="fas fa-receipt"></i> Oda
+                <span class="nav-badge" id="orderBadge" style="display:none;">0</span>
+            </button>
+            <button class="nav-link" data-page="dashboard" id="navDashboard">
+                <i class="fas fa-chart-pie"></i> Dashboard
+            </button>
+            <button class="nav-link" onclick="window.location.href='chat.html'">
+                <i class="fas fa-comments"></i> Chat
+                <span class="nav-badge" id="chatBadge" style="display:none;">0</span>
+            </button>
+            <button class="nav-link" onclick="window.location.href='settings.html'">
+                <i class="fas fa-cog"></i> Mipangilio
+            </button>
+            <button class="nav-link" id="logoutBtn" onclick="handleLogout()" style="color:#e74c3c;">
+                <i class="fas fa-sign-out-alt"></i> Toka
+            </button>
+        </nav>
+
+        <!-- ===== SEARCH BAR ===== -->
+        <div class="search-container">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchGroups" placeholder="🔍 Tafuta group / Search groups..." />
+        </div>
+
+        <!-- ===== HERO ===== -->
+        <section class="hero">
+            <span class="hero-icon"><i class="fas fa-rocket"></i></span>
+            <h1>Link za Wakubwa</h1>
+            <p>Nunua link za WhatsApp groups za premium, haraka na salama.</p>
+        </section>
+
+        <!-- ===== PAGE: GROUPS ===== -->
+        <div id="page-groups" class="page-section">
+            <div class="section-title">
+                <span><i class="fas fa-layer-group"></i> Magroup Yanayopatikana</span>
+                <button class="lang-toggle" id="langToggle">SW / EN</button>
+            </div>
+            <div id="groupsList" class="groups-grid">
+                <div class="empty-state">
+                    <i class="fas fa-spinner fa-pulse"></i>
+                    <p>Inapakia magroup...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== PAGE: ORDERS ===== -->
+        <div id="page-orders" class="page-section hidden">
+            <div class="section-title">
+                <span><i class="fas fa-receipt"></i> Oda Zangu</span>
+                <span style="font-size:0.75rem;color:var(--text-secondary);" id="orderCount">0</span>
+            </div>
+            <div class="orders-section" style="margin-top:0;">
+                <div id="myOrdersList">
+                    <div class="empty-state"><i class="fas fa-inbox"></i><p>Huna oda bado. Nunua group leo!</p></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== PAGE: DASHBOARD ===== -->
+        <div id="page-dashboard" class="page-section hidden">
+            <div class="section-title">
+                <span><i class="fas fa-chart-pie"></i> Dashboard Yako</span>
+            </div>
+            <div class="dashboard-stats" id="dashboardStats">
+                <div class="stat-card"><div class="number" id="totalOrders">0</div><div class="label">Jumla</div></div>
+                <div class="stat-card"><div class="number" id="completedOrders">0</div><div class="label">Zimekamilika</div></div>
+                <div class="stat-card"><div class="number" id="pendingOrders">0</div><div class="label">Zinazosubiri</div></div>
+            </div>
+        </div>
+
+        <!-- ===== FOOTER ===== -->
+        <div class="footer">
+            <p class="footer-text">© 2026 <span>Link za Wakubwa</span> - All Rights Reserved</p>
+        </div>
+
+        <!-- ===== PAYMENT MODAL ===== -->
+        <div class="modal-overlay" id="paymentModal">
+            <div class="modal-box">
+                <h3 id="modalGroupName">Kamilisha Malipo</h3>
+                <div class="sub">Unanunua link ya group</div>
+                <div class="price-display" id="modalGroupPrice">TZS 0</div>
+                
+                <div class="payment-message" id="paymentMessage"></div>
+                
+                <p style="font-size:0.75rem;color:var(--text-secondary);margin-bottom:6px;">
+                    <i class="fas fa-phone"></i> Weka namba yako ya simu kupokea USSD Push:
+                </p>
+                <input type="tel" id="clientPhone" placeholder="Namba ya Simu (Mf. 0712345678)" />
+                
+                <div class="btn-group">
+                    <button class="btn-primary" id="confirmPayBtn">
+                        <span id="payBtnText">Lipa Sasa</span>
+                        <span class="spinner" id="payLoading"></span>
+                    </button>
+                    <button class="btn-secondary" id="closeModalBtn">Ghairi</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== NOTIFICATION PANEL (simple alert) ===== -->
+        <!-- Notifications will show as alert -->
+
+    </div>
+
+    <!-- ===== FIREBASE + LOGIC ===== -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { 
+            getFirestore, 
+            collection, 
+            getDocs, 
+            doc, 
+            getDoc, 
+            addDoc, 
+            serverTimestamp,
+            query,
+            orderBy,
+            onSnapshot,
+            where,
+            setDoc
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import {
+            getAuth,
+            onAuthStateChanged,
+            signOut
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        // ===== FIREBASE CONFIG =====
+        const firebaseConfig = {
+            apiKey: "AIzaSyCmwASW4XXQ3O0AvsCM_r1WLlrUmGjYVxI",
+            authDomain: "dvary-9a7d0.firebaseapp.com",
+            projectId: "dvary-9a7d0",
+            storageBucket: "dvary-9a7d0.firebasestorage.app",
+            messagingSenderId: "107370806066",
+            appId: "1:107370806066:web:4c2ce1e6f7b6c32909f52b",
+            measurementId: "G-07361LFJEP"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        // ===== STATE =====
+        let currentUser = null;
+        let currentUserData = null;
+        let allOrders = [];
+        let allNotifs = [];
+        let activeGroup = null;
+        let isProcessing = false;
+        let currentPage = 'groups';
+
+        // ===== DOM REFS =====
+        const groupsList = document.getElementById('groupsList');
+        const myOrdersList = document.getElementById('myOrdersList');
+        const searchInput = document.getElementById('searchGroups');
+        const notifBadge = document.getElementById('notifBadge');
+        const userAvatar = document.getElementById('userAvatar');
+        const orderBadge = document.getElementById('orderBadge');
+        const orderCount = document.getElementById('orderCount');
+
+        // ===== THEME TOGGLE =====
+        let isDark = false;
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            isDark = !isDark;
+            document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+            const icon = document.getElementById('themeToggle').querySelector('i');
+            icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+        });
+
+        // ===== LOGOUT FUNCTION =====
+        window.handleLogout = async function() {
+            if (confirm('Je, una uhakika unataka kutoka kwenye akaunti yako?')) {
+                try {
+                    await signOut(auth);
+                    window.location.href = '/login.html';
+                } catch (e) {
+                    alert('Hitilafu: ' + e.message);
+                }
+            }
+        };
+
+        // ===== PAGE NAVIGATION =====
+        const pages = {
+            groups: document.getElementById('page-groups'),
+            orders: document.getElementById('page-orders'),
+            dashboard: document.getElementById('page-dashboard')
+        };
+
+        function navigateTo(page) {
+            Object.keys(pages).forEach(key => {
+                pages[key].classList.add('hidden');
+            });
+            if (pages[page]) {
+                pages[page].classList.remove('hidden');
+            }
+            currentPage = page;
+            document.querySelectorAll('.top-nav .nav-link[data-page]').forEach(item => {
+                item.classList.remove('active');
+                if (item.dataset.page === page) {
+                    item.classList.add('active');
+                }
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        document.querySelectorAll('.top-nav .nav-link[data-page]').forEach(item => {
+            item.addEventListener('click', () => {
+                const page = item.dataset.page;
+                if (page) navigateTo(page);
+            });
+        });
+
+        // ===== AUTH STATE =====
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user;
+                const userRef = doc(db, "users", user.uid);
+                const snap = await getDoc(userRef);
+                if (snap.exists()) {
+                    currentUserData = snap.data();
+                    updateUserUI();
+                } else {
+                    await setDoc(userRef, {
+                        uid: user.uid,
+                        fullName: user.displayName || 'Mteja',
+                        email: user.email,
+                        phone: user.phoneNumber || '',
+                        avatar: user.photoURL || null,
+                        createdAt: serverTimestamp(),
+                        role: 'customer',
+                        online: true
+                    });
+                    currentUserData = { fullName: user.displayName || 'Mteja', email: user.email };
+                    updateUserUI();
+                }
+                await updateOnlineStatus(true);
+                loadOrders();
+                loadNotifications();
+                listenRealtime();
+            } else {
+                // Not logged in - show guest mode                userAvatar.innerHTML = '<i class="fas fa-user"></i>';
+            }
+        });
+
+        // ===== UPDATE USER UI =====
+        function updateUserUI() {
+            if (!currentUserData) return;
+            const name = currentUserData.fullName || 'Mteja';
+            const avatar = currentUserData.avatar;
+            if (avatar) {
+                userAvatar.innerHTML = `<img src="${avatar}" alt="Avatar" style="width:100%;height:100%;object-fit:cover;" />`;
+            } else {
+                const initial = name.charAt(0).toUpperCase();
+                userAvatar.innerHTML = `<span style="font-size:0.8rem;font-weight:600;">${initial}</span>`;
+            }
+        }
+
+        // ===== ONLINE STATUS =====
+        async function updateOnlineStatus(status) {
+            if (!currentUser) return;
+            try {
+                await setDoc(doc(db, "users", currentUser.uid), { online: status, lastSeen: serverTimestamp() }, { merge: true });
+            } catch (e) { console.error('Online status error:', e); }
+        }
+
+        // ===== LOAD GROUPS =====
+        async function loadGroups() {
+            try {
+                const querySnapshot = await getDocs(collection(db, "groups"));
+                
+                if (querySnapshot.empty) {
+                    groupsList.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-folder-open"></i>
+                            <p>Hakuna magroup yaliyowekwa kwa sasa.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                let html = '';
+                querySnapshot.forEach((docSnap) => {
+                    const group = docSnap.data();
+                    const image = group.image || 'https://via.placeholder.com/400x130/f8e1f0/e91e8c?text=Link+za+Wakubwa';
+                    
+                    html += `
+                        <div class="group-card" data-name="${(group.name || '').toLowerCase()}" data-desc="${(group.description || '').toLowerCase()}">
+                            <img src="${image}" alt="${group.name}" class="group-img" loading="lazy" />
+                            <div class="group-body">
+                                <div class="group-info">
+                                    <h3>${group.name || 'Group'}</h3>
+                                    <div class="group-desc">${group.description || 'Premium WhatsApp Group'}</div>
+                                    <div class="group-price">TZS ${group.price || 0} <small>/ link</small></div>
+                                </div>
+                                <button class="buy-btn" data-id="${docSnap.id}">
+                                    <i class="fas fa-shopping-cart"></i> Nunua Link
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                groupsList.innerHTML = html;
+
+                document.querySelectorAll('.buy-btn').forEach(btn => {
+                    btn.addEventListener('click', async () => {
+                        const id = btn.dataset.id;
+                        const snap = await getDoc(doc(db, "groups", id));
+                        if (snap.exists()) {
+                            activeGroup = { id: snap.id, ...snap.data() };
+                            openPaymentModal(activeGroup);
+                        }
+                    });
+                });
+
+                if (searchInput.value.trim()) {
+                    filterGroups(searchInput.value);
+                }
+
+            } catch (error) {
+                groupsList.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>Hitilafu imetokea wakati wa kupakia magroup.</p>
+                    </div>
+                `;
+                console.error(error);
+            }
+        }
+
+        // ===== SEARCH =====
+        function filterGroups(searchTerm) {
+            const cards = document.querySelectorAll('.group-card');
+            const term = searchTerm.toLowerCase().trim();
+            let hasVisible = false;
+            
+            cards.forEach(card => {
+                const name = card.dataset.name || '';
+                const desc = card.dataset.desc || '';
+                const match = name.includes(term) || desc.includes(term);
+                card.style.display = match ? 'flex' : 'none';
+                if (match) hasVisible = true;
+            });
+
+            const existingEmpty = document.querySelector('.groups-grid .empty-state:last-child');
+            if (!hasVisible && !document.querySelector('.groups-grid .empty-state')) {
+                const grid = document.querySelector('.groups-grid');
+                const empty = document.createElement('div');
+                empty.className = 'empty-state';
+                empty.innerHTML = `
+                    <i class="fas fa-search"></i>
+                    <p>Hakuna group inayofanana na "<strong>${searchTerm}</strong>"</p>
+                `;
+                grid.appendChild(empty);
+            } else if (hasVisible) {
+                if (existingEmpty && !existingEmpty.querySelector('.fa-spinner')) {
+                    existingEmpty.remove();
+                }
+            }
+        }
+
+        searchInput.addEventListener('input', (e) => {
+            filterGroups(e.target.value);
+        });
+
+        // ===== LOAD ORDERS =====
+        async function loadOrders() {
+            if (!currentUser) {
+                // Guest mode - show nothing or placeholder
+                myOrdersList.innerHTML = `<div class="empty-state"><i class="fas fa-lock"></i><p>Ingia kwanza kuona oda zako.</p></div>`;
+                return;
+            }
+            try {
+                const q = query(collection(db, "orders"), where("userId", "==", currentUser.uid), orderBy("createdAt", "desc"));
+                const snap = await getDocs(q);
+                allOrders = [];
+                snap.forEach(d => {
+                    allOrders.push({ id: d.id, ...d.data() });
+                });
+                renderOrders();
+                updateDashboardStats();
+                updateOrderBadge();
+            } catch (e) {
+                console.error("Orders error:", e);
+            }
+        }
+
+        function renderOrders() {
+            if (allOrders.length === 0) {
+                myOrdersList.innerHTML = `<div class="empty-state"><i class="fas fa-inbox"></i><p>Huna oda bado. Nunua group leo!</p></div>`;
+                orderCount.textContent = '0';
+                return;
+            }
+            orderCount.textContent = allOrders.length;
+            myOrdersList.innerHTML = allOrders.map(o => `
+                <div class="order-item">
+                    <div class="order-info">
+                        <strong>${o.productName || 'Group'}</strong>
+                        <span class="order-meta">TZS ${o.amount} · ${o.orderStatus || 'Pending'}</span>
+                    </div>
+                    <div style="display:flex;gap:6px;align-items:center;">
+                        <span class="order-status ${o.orderStatus === 'Completed' ? '' : 'pending'}">${o.orderStatus || 'Pending'}</span>
+                        <button class="order-link-btn" data-orderid="${o.id}"><i class="fas fa-eye"></i></button>
+                    </div>
+                </div>
+            `).join('');
+            document.querySelectorAll('.order-link-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const id = btn.dataset.orderid;
+                    const order = allOrders.find(o => o.id === id);
+                    if (order) alert('🔗 Link: ' + (order.purchaseLink || 'Inasubiri uthibitisho...'));
+                });
+            });
+        }
+
+        function updateOrderBadge() {
+            const pending = allOrders.filter(o => o.orderStatus !== 'Completed').length;
+            if (pending > 0) {
+                orderBadge.style.display = 'inline';
+                orderBadge.textContent = pending;
+            } else {
+                orderBadge.style.display = 'none';
+            }
+        }
+
+        function updateDashboardStats() {
+            document.getElementById('totalOrders').textContent = allOrders.length;
+            document.getElementById('completedOrders').textContent = allOrders.filter(o => o.orderStatus === 'Completed').length;
+            document.getElementById('pendingOrders').textContent = allOrders.filter(o => o.orderStatus !== 'Completed').length;
+        }
+
+        // ===== LOAD NOTIFICATIONS =====
+        async function loadNotifications() {
+            if (!currentUser) return;
+            try {
+                const q = query(collection(db, "notifications"), where("userId", "in", [currentUser.uid, "all"]), orderBy("createdAt", "desc"));
+                const snap = await getDocs(q);
+                allNotifs = [];
+                snap.forEach(d => {
+                    allNotifs.push({ id: d.id, ...d.data() });
+                });
+                updateNotifBadge();
+            } catch (e) {
+                console.error("Notif error:", e);
+            }
+        }
+
+        function updateNotifBadge() {
+            const unread = allNotifs.filter(n => !n.read).length;
+            notifBadge.textContent = unread > 0 ? unread : '0';
+            notifBadge.style.display = unread > 0 ? 'flex' : 'none';
+        }
+
+        // ===== NOTIFICATION PANEL =====
+        document.getElementById('notifToggle').addEventListener('click', () => {
+            if (allNotifs.length === 0) {
+                alert('🔔 Huna arifa mpya.');
+                return;
+            }
+            const notifs = allNotifs.map(n => `📌 ${n.title}: ${n.message}`).join('\n\n');
+            alert('🔔 Arifa zako:\n\n' + notifs);
+        });
+
+        // ===== PAYMENT MODAL =====
+        function openPaymentModal(group) {
+            document.getElementById('modalGroupName').textContent = group.name || 'Group';
+            document.getElementById('modalGroupPrice').textContent = `TZS ${group.price || 0}`;
+            document.getElementById('clientPhone').value = '';
+            document.getElementById('paymentMessage').className = 'payment-message';
+            document.getElementById('paymentMessage').textContent = '';
+            document.getElementById('paymentModal').classList.add('active');
+            document.getElementById('payBtnText').style.display = 'inline';
+            document.getElementById('payLoading').style.display = 'none';
+            isProcessing = false;
+            activeGroup = group;
+        }
+
+        document.getElementById('closeModalBtn').addEventListener('click', () => {
+            document.getElementById('paymentModal').classList.remove('active');
+        });
+
+        document.getElementById('paymentModal').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) {
+                document.getElementById('paymentModal').classList.remove('active');
+            }
+        });
+
+        // ===== CONFIRM PAYMENT =====
+        document.getElementById('confirmPayBtn').addEventListener('click', async () => {
+            if (isProcessing) return;
+            
+            const phone = document.getElementById('clientPhone').value.trim();
+            const messageEl = document.getElementById('paymentMessage');
+            
+            messageEl.className = 'payment-message';
+            messageEl.textContent = '';
+
+            if (!phone || phone.length < 7) {
+                messageEl.className = 'payment-message error';
+                messageEl.textContent = '❌ Tafadhali weka namba halali ya simu.';
+                return;
+            }
+
+            let formattedPhone = phone;
+            if (phone.startsWith('0') && phone.length === 10) {
+                formattedPhone = phone;
+            } else if (phone.startsWith('255') && phone.length === 12) {
+                formattedPhone = '0' + phone.substring(3);
+            } else if (phone.startsWith('+255')) {
+                formattedPhone = '0' + phone.substring(4);
+            } else if (phone.length === 9 && !phone.startsWith('0')) {
+                formattedPhone = '0' + phone;
+            }
+
+            if (!formattedPhone.startsWith('0') || formattedPhone.length !== 10) {
+                messageEl.className = 'payment-message error';
+                messageEl.textContent = '❌ Namba ya simu si sahihi. Tumia 0712345678.';
+                return;
+            }
+
+            if (!activeGroup) {
+                messageEl.className = 'payment-message error';
+                messageEl.textContent = '❌ Hitilafu: Group haijachaguliwa.';
+                return;
+            }
+
+            isProcessing = true;
+            document.getElementById('payBtnText').style.display = 'none';
+            document.getElementById('payLoading').style.display = 'inline-block';
+
+            messageEl.className = 'payment-message info';
+            messageEl.textContent = '⏳ Inatuma ombi la malipo...';
+
+            try {
+                const response = await fetch('/api/payment/initiate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        phone: formattedPhone,
+                        amount: activeGroup.price || 1000,
+                        description: `Malipo ya group: ${activeGroup.name}`,
+                        userId: currentUser?.uid || 'guest_user',
+                        productName: activeGroup.name,
+                        productId: activeGroup.id,
+                        clientName: currentUserData?.fullName || 'Mteja wa Dvary'
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    // Save order to Firestore
+                    if (currentUser) {
+                        await addDoc(collection(db, "orders"), {
+                            userId: currentUser.uid,
+                            productId: activeGroup.id || 'unknown',
+                            productName: activeGroup.name,
+                            amount: activeGroup.price,
+                            paymentStatus: 'Pending',
+                            orderStatus: 'Pending',
+                            paymentReference: result.data?.paymentReference || 'N/A',
+                            purchaseLink: activeGroup.link || '#',
+                            clientPhone: formattedPhone,
+                            clientName: currentUserData?.fullName || 'Mteja',
+                            createdAt: serverTimestamp(),
+                            updatedAt: serverTimestamp()
+                        });
+                    }
+
+                    messageEl.className = 'payment-message success';
+                    messageEl.innerHTML = `
+                        ✅ Ombi la malipo limetumwa kwa simu yako (${formattedPhone})!
+                        <br><small>Order ID: ${result.data?.paymentReference || 'N/A'}</small>
+                        <br><small>Thibitisha kwenye simu yako kukamilisha malipo.</small>
+                    `;
+                    
+                    setTimeout(() => {
+                        document.getElementById('paymentModal').classList.remove('active');
+                        document.getElementById('payBtnText').style.display = 'inline';
+                        document.getElementById('payLoading').style.display = 'none';
+                        isProcessing = false;
+                    }, 5000);
+                    
+                } else {
+                    messageEl.className = 'payment-message error';
+                    messageEl.textContent = '❌ ' + (result.message || 'Malipo yameshindikana. Jaribu tena.');
+                    
+                    document.getElementById('payBtnText').style.display = 'inline';
+                    document.getElementById('payLoading').style.display = 'none';
+                    isProcessing = false;
+                }
+
+            } catch (error) {
+                console.error('Payment error:', error);
+                messageEl.className = 'payment-message error';
+                messageEl.textContent = '❌ Hitilafu ya mtandao. Hakikisha server iko online.';
+                
+                document.getElementById('payBtnText').style.display = 'inline';
+                document.getElementById('payLoading').style.display = 'none';
+                isProcessing = false;
+            }
+        });
+
+        // ===== LANGUAGE TOGGLE =====
+        let lang = 'sw';
+        document.getElementById('langToggle').addEventListener('click', () => {
+            lang = lang === 'sw' ? 'en' : 'sw';
+            document.getElementById('langToggle').textContent = lang === 'sw' ? 'SW / EN' : 'EN / SW';
+            // Update hero text
+            const heroP = document.querySelector('.hero p');
+            if (lang === 'sw') {
+                heroP.textContent = 'Nunua link za WhatsApp groups za premium, haraka na salama.';
+            } else {
+                heroP.textContent = 'Buy premium WhatsApp group links, fast and secure.';
+            }
+        });
+
+        // ===== REALTIME LISTENERS =====
+        function listenRealtime() {
+            if (!currentUser) return;
+
+            onSnapshot(query(collection(db, "orders"), where("userId", "==", currentUser.uid), orderBy("createdAt", "desc")), (snap) => {
+                allOrders = [];
+                snap.forEach(d => {
+                    allOrders.push({ id: d.id, ...d.data() });
+                });
+                renderOrders();
+                updateDashboardStats();
+                updateOrderBadge();
+            });
+
+            onSnapshot(query(collection(db, "notifications"), where("userId", "in", [currentUser.uid, "all"]), orderBy("createdAt", "desc")), (snap) => {
+                allNotifs = [];
+                snap.forEach(d => {
+                    allNotifs.push({ id: d.id, ...d.data() });
+                });
+                updateNotifBadge();
+            });
+        }
+
+        // ===== INIT =====
+        loadGroups();
+
+        console.log('🚀 Link za Wakubwa - Premium Design with Top Navigation & Logout');
+        console.log('📦 Connected to Firestore');
+        console.log('📱 Menu bar at top with all links');
+        console.log('🚪 Logout button in navigation');
+        console.log('💳 Payment API: /api/payment/initiate');
+    </script>
+
+</body>
+              </html>
